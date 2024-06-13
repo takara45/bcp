@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="content">
+            <h1>平常時における防災・減災への取組み</h1>
+            <form action="/step2" method="post">
+                <!-- 建物関連 対象 -->
+                <div class="form-section">
+                    <h2>建物関連</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_building">
+                            <label><input type="checkbox" name="target_building[]" value="躯体(柱、壁、床)">躯体(柱、壁、床)</label>
+                            <div id="measures_躯体(柱、壁、床)" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_building[]" value="天井">天井</label>
+                            <div id="measures_天井" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_building[]" value="窓">窓</label>
+                            <div id="measures_窓" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_building[]" value="ドア">ドア</label>
+                            <div id="measures_ドア" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 什器・コンピュータ 対象 -->
+                <div class="form-section">
+                    <h2>什器・コンピュータ</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_furniture">
+                            <label><input type="checkbox" name="target_furniture[]" value="事務所の什器">事務所の什器</label>
+                            <div id="measures_事務所の什器" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="食堂の什器">食堂の什器</label>
+                            <div id="measures_食堂の什器" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="風呂場の什器">風呂場の什器</label>
+                            <div id="measures_風呂場の什器" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="ロビー・集会所・会議室の什器">ロビー・集会所・会議室の什器</label>
+                            <div id="measures_ロビー・集会所・会議室の什器" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="利用者居室の什器">利用者居室の什器</label>
+                            <div id="measures_利用者居室の什器" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="ノートパソコン">ノートパソコン</label>
+                            <div id="measures_ノートパソコン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="デスクトップパソコン">デスクトップパソコン</label>
+                            <div id="measures_デスクトップパソコン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="ディスプレイ">ディスプレイ</label>
+                            <div id="measures_ディスプレイ" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="タブレット(iPad)">タブレット(iPad)</label>
+                            <div id="measures_タブレット(iPad)" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="タブレット(Android)">タブレット(Android)</label>
+                            <div id="measures_タブレット(Android)" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="携帯電話">携帯電話</label>
+                            <div id="measures_携帯電話" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="スマートフォン">スマートフォン</label>
+                            <div id="measures_スマートフォン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="固定電話">固定電話</label>
+                            <div id="measures_固定電話" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="衛星電話">衛星電話</label>
+                            <div id="measures_衛星電話" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_furniture[]" value="金庫">金庫</label>
+                            <div id="measures_金庫" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 建物外部の施設 対象 -->
+                <div class="form-section">
+                    <h2>建物外部の施設</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_external">
+                            <label><input type="checkbox" name="target_external[]" value="受水槽">受水槽</label>
+                            <div id="measures_受水槽" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_external[]" value="ＬＰガス">ＬＰガス</label>
+                            <div id="measures_ＬＰガス" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_external[]" value="燃油タンク">燃油タンク</label>
+                            <div id="measures_燃油タンク" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_external[]" value="太陽光発電">太陽光発電</label>
+                            <div id="measures_太陽光発電" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_external[]" value="蓄電装置">蓄電装置</label>
+                            <div id="measures_蓄電装置" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 水害対策関連 対象 -->
+                <div class="form-section">
+                    <h2>水害対策関連</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_flood">
+                            <label><input type="checkbox" name="target_flood[]" value="出入口">出入口</label>
+                            <div id="measures_出入口" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_flood[]" value="施設周辺">施設周辺</label>
+                            <div id="measures_施設周辺" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_flood[]" value="逆流防止">逆流防止</label>
+                            <div id="measures_逆流防止" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_flood[]" value="屋外重要設備">屋外重要設備</label>
+                            <div id="measures_屋外重要設備" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- インフラ 対象 -->
+                <div class="form-section">
+                    <h2>インフラ</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_infrastructure">
+                            <label><input type="checkbox" name="target_infrastructure[]" value="電気">電気</label>
+                            <div id="measures_電気" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_infrastructure[]" value="ガス">ガス</label>
+                            <div id="measures_ガス" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_infrastructure[]" value="水道">水道</label>
+                            <div id="measures_水道" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_infrastructure[]" value="通信手段">通信手段</label>
+                            <div id="measures_通信手段" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_infrastructure[]" value="情報機器">情報機器</label>
+                            <div id="measures_情報機器" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_infrastructure[]" value="照明機器">照明機器</label>
+                            <div id="measures_照明機器" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 防災備品 対象 -->
+                <div class="form-section">
+                    <h2>防災備品</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_emergency">
+                            <label><input type="checkbox" name="target_emergency[]" value="冷暖房">冷暖房</label>
+                            <div id="measures_冷暖房" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="水害対策">水害対策</label>
+                            <div id="measures_水害対策" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="避難用具">避難用具</label>
+                            <div id="measures_避難用具" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="職員衣服">職員衣服</label>
+                            <div id="measures_職員衣服" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="交通手段">交通手段</label>
+                            <div id="measures_交通手段" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="現金">現金</label>
+                            <div id="measures_現金" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="衛生">衛生</label>
+                            <div id="measures_衛生" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="トイレ">トイレ</label>
+                            <div id="measures_トイレ" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_emergency[]" value="睡眠">睡眠</label>
+                            <div id="measures_睡眠" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 飲料、食品 対象 -->
+                <div class="form-section">
+                    <h2>飲料、食品</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_food">
+                            <label><input type="checkbox" name="target_food[]" value="飲料">飲料</label>
+                            <div id="measures_飲料" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_food[]" value="食品">食品</label>
+                            <div id="measures_食品" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_food[]" value="衛生用品">衛生用品</label>
+                            <div id="measures_衛生用品" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_food[]" value="厨房関連">厨房関連</label>
+                            <div id="measures_厨房関連" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 医薬品、衛生用品、日用品 対象 -->
+                <div class="form-section">
+                    <h2>医薬品、衛生用品、日用品</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_medical">
+                            <label><input type="checkbox" name="target_medical[]" value="消毒剤薬">消毒剤薬</label>
+                            <div id="measures_消毒剤薬" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_medical[]" value="脱脂綿、絆創膏">脱脂綿、絆創膏</label>
+                            <div id="measures_脱脂綿、絆創膏" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_medical[]" value="包帯、三角巾">包帯、三角巾</label>
+                            <div id="measures_包帯、三角巾" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_medical[]" value="ウェットティッシュ">ウェットティッシュ</label>
+                            <div id="measures_ウェットティッシュ" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 対策本部の防災備品 対象 -->
+                <div class="form-section">
+                    <h2>対策本部の防災備品</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_headquarters">
+                            <label><input type="checkbox" name="target_headquarters[]" value="ホワイトボード">ホワイトボード</label>
+                            <div id="measures_ホワイトボード" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="マーカー(黒、赤)">マーカー(黒、赤)</label>
+                            <div id="measures_マーカー(黒、赤)" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="黒板消し">黒板消し</label>
+                            <div id="measures_黒板消し" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="ＢＣＰマニュアル">ＢＣＰマニュアル</label>
+                            <div id="measures_ＢＣＰマニュアル" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="持ち出しファイル">持ち出しファイル</label>
+                            <div id="measures_持ち出しファイル" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="記録用紙">記録用紙</label>
+                            <div id="measures_記録用紙" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="筆記用具">筆記用具</label>
+                            <div id="measures_筆記用具" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="模造紙">模造紙</label>
+                            <div id="measures_模造紙" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="付箋紙">付箋紙</label>
+                            <div id="measures_付箋紙" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="養生テープ">養生テープ</label>
+                            <div id="measures_養生テープ" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="ガムテープ">ガムテープ</label>
+                            <div id="measures_ガムテープ" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="サインペン">サインペン</label>
+                            <div id="measures_サインペン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="施設レイアウト図">施設レイアウト図</label>
+                            <div id="measures_施設レイアウト図" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="周辺地域地図">周辺地域地図</label>
+                            <div id="measures_周辺地域地図" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="推進体制図">推進体制図</label>
+                            <div id="measures_推進体制図" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_headquarters[]" value="連絡先リスト">連絡先リスト</label>
+                            <div id="measures_連絡先リスト" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 感染防止 対象 -->
+                <div class="form-section">
+                    <h2>感染防止</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_prevention">
+                            <label><input type="checkbox" name="target_prevention[]" value="マスク（不織布製マスク）">マスク（不織布製マスク）</label>
+                            <div id="measures_マスク（不織布製マスク）" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="サージカルマスク">サージカルマスク</label>
+                            <div id="measures_サージカルマスク" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="体温計（非接触型体温計）">体温計（非接触型体温計）</label>
+                            <div id="measures_体温計（非接触型体温計）" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="ゴム手袋（使い捨て）">ゴム手袋（使い捨て）</label>
+                            <div id="measures_ゴム手袋（使い捨て）" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="フェイスシールド">フェイスシールド</label>
+                            <div id="measures_フェイスシールド" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="ゴーグル">ゴーグル</label>
+                            <div id="measures_ゴーグル" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="使い捨て袖付きエプロン">使い捨て袖付きエプロン</label>
+                            <div id="measures_使い捨て袖付きエプロン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="ガウン">ガウン</label>
+                            <div id="measures_ガウン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="キャップ">キャップ</label>
+                            <div id="measures_キャップ" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="次亜塩素酸ナトリウム液">次亜塩素酸ナトリウム液</label>
+                            <div id="measures_次亜塩素酸ナトリウム液" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="消毒用アルコール">消毒用アルコール</label>
+                            <div id="measures_消毒用アルコール" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="ガーゼ・コットン">ガーゼ・コットン</label>
+                            <div id="measures_ガーゼ・コットン" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="トイレットペーパー">トイレットペーパー</label>
+                            <div id="measures_トイレットペーパー" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="ティッシュペーパー">ティッシュペーパー</label>
+                            <div id="measures_ティッシュペーパー" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="保湿ティッシュ">保湿ティッシュ</label>
+                            <div id="measures_保湿ティッシュ" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="石鹸・液体せっけん">石鹸・液体せっけん</label>
+                            <div id="measures_石鹸・液体せっけん" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_prevention[]" value="紙おむつ">紙おむつ</label>
+                            <div id="measures_紙おむつ" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 車両 対象 -->
+                <div class="form-section">
+                    <h2>車両</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_vehicle">
+                            <label><input type="checkbox" name="target_vehicle[]" value="自動車">自動車</label>
+                            <div id="measures_自動車" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_vehicle[]" value="バイク">バイク</label>
+                            <div id="measures_バイク" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_vehicle[]" value="自転車">自転車</label>
+                            <div id="measures_自転車" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_vehicle[]" value="電動自転車">電動自転車</label>
+                            <div id="measures_電動自転車" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_vehicle[]" value="電気スクーター">電気スクーター</label>
+                            <div id="measures_電気スクーター" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="submit" value="Step3へ" class="submit-button">
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const measureOptions = {
+                '躯体(柱、壁、床)': ['柱の補強', 'Ｘ型補強', 'コンクリート欠損', 'コンクリートひび', 'コンクリート脱落', 'コンクリート風化', '地震に特化した物品バール'],
+                '天井': ['天井の石膏ボードの落下防止'],
+                '窓': ['廊下・出入口のガラス飛散防止フィルムの貼付け', 'ガラスの落下・はずれ・ゆるみ・変形'],
+                'ドア': ['ドアのはずれ・ゆるみ・変形'],
+                '事務所の什器': ['キャビネットは転倒防止のため壁に固定する', 'キャビネットは転倒防止のため突っ張り棒で固定する', '落下の危険性がないようにする'],
+                '食堂の什器': ['壁を補強して転倒防止のため壁に固定する', 'ガラス飛散防止フィルムの貼付け', '壁を補強して転倒防止のため突っ張り棒で固定する'],
+                '風呂場の什器': ['大型入浴機器を固定する', '棚を壁に固定する'],
+                'ロビー・集会所・会議室の什器': ['床に固定する', '壁に固定する', '突っ張り棒で固定する'],
+                '利用者居室の什器': ['家具を壁に固定する', '突っ張り棒で固定する'],
+                'ノートパソコン': ['机に固定する(ノート)', '重要なデータはバックアップをとり保管する(ノート)', '破損や電源が入らないなど異常はないか確認する(ノート)'],
+                'デスクトップパソコン': ['机に固定する(デスク)', '重要なデータはバックアップをとり保管する(デスク)', '破損や電源が入らないなど異常はないか確認する(デスク)'],
+                'ディスプレイ': ['机に固定する(ディスプレイ)', '重要なデータはバックアップをとり保管する(ディスプレイ)', '破損や電源が入らないなど異常はないか確認する(ディスプレイ)'],
+                'タブレット(iPad)': ['重要なデータはバックアップをとり保管する(iPad)', '破損や電源が入らないなど異常はないか確認する(iPad)'],
+                'タブレット(Android)': ['重要なデータはバックアップをとり保管する(Android)', '破損や電源が入らないなど異常はないか確認する(Android)'],
+                '携帯電話': ['重要なデータはバックアップをとり保管する(携帯)', '破損や電源が入らないなど異常はないか確認する(携帯)'],
+                'スマートフォン': ['重要なデータはバックアップをとり保管する(スマホ)', '破損や電源が入らないなど異常はないか確認する(スマホ)'],
+                '固定電話': ['机に固定する(固定電話)'],
+                '衛星電話': ['破損や電源が入らないなど異常はないか確認する(衛星)'],
+                '金庫': ['飛び出し防止・転倒防止のため床に固定する', '飛び出し防止・転倒防止のため壁に固定する'],
+                '受水槽': ['倒壊の可能性有無、防護壁の設置'],
+                'ＬＰガス': ['ＬＰガスボンベの固定の強化'],
+                '燃油タンク': ['地面への固定アンカーの腐食の有無、金具交換'],
+                '太陽光発電': ['太陽光発電装置の固定の強化'],
+                '蓄電装置': ['蓄電装置の固定の強化'],
+                '出入口': ['建物入口に止水板があるか', '建物入り口に防水扉があるか', '建物入り口に支障となる物品等がおいてないか'],
+                '施設周辺': ['避難等に支障となるものはないか'],
+                '逆流防止': ['側溝や排水溝が機能するか', '風呂やトイレ等の排水溝からの逆流防止ができているか'],
+                '屋外重要設備': ['受電・変電設備の浸水対策', '受水槽の浸水対策', 'LPガスの浸水対策', '蓄電装置の浸水対策'],
+                '電気': ['発電機(LPガス)', '発電機燃料(LPガス)', '発電機オイル', '電源リール', 'テーブルタップ'],
+                'ガス': ['LPガス', '五徳', '着火ライター'],
+                '水道': ['ポリタンク'],
+                '通信手段': ['ラジオ', 'トランシーバー', '携帯電話充電器', 'モバイルバッテリー'],
+                '情報機器': ['パソコン', 'プリンター', 'データバックアップ・ハードディスク', 'ヘッドライト'],
+                '照明機器': ['懐中電灯', '投光器', 'ランタン', '乾電池', 'ろうそく', 'マッチ', 'ライター'],
+                '冷暖房': ['石油ストーブ', '灯油', 'カイロ', '湯たんぽ', '保冷剤', '扇風機'],
+                '水害対策': ['土のう', 'ゴムボート'],
+                '避難用具': ['ヘルメット、懐中電灯', '防災頭巾', 'メガホン、拡声器', '担架', 'リヤカー', '車椅子', '携帯用酸素吸入器', '救助工具セット', '大形テント', 'ブルーシート', 'ロープ', 'ガムテープ'],
+                '職員衣服': ['軍手', '雨合羽', '防寒具'],
+                '交通手段': ['バイク', '自転車'],
+                '現金': ['現金'],
+                '衛生': ['紙おむつ', '尿パッド', 'ドライシャンプー', '歯ブラシ', '石けん', 'タオル', '肌着', '生理用品', 'ビニール袋'],
+                'トイレ': ['簡易トイレ', '仮設トイレ', 'トイレットペーパー'],
+                '睡眠': ['段ボールベッド', '毛布', '寝袋'],
+                '飲料': ['飲料水(２リットル/本)', 'ジュース類(果物、野菜)', 'お茶'],
+                '食品': ['保存食(アルファ化米)', '米(無洗米)', 'レトルト粥', '缶詰', '経管栄養食', '高カロリー食', 'インスタント食品', '栄養ドリンク'],
+                '衛生用品': ['紙コップ、紙皿', '割り箸、使い捨てスプーン', 'ペーパーナプキン、ティッシュペーパー', 'ペーパータオル、ウェットティッシュ', 'ポリ袋、ゴミ袋、ラップ、ブルーシート、ポリタンク（５L）'],
+                '厨房関連': ['カセットコンロ、カセットボンベ', 'ホットプレート', '屋外用コンロ（かまど）', 'ナベ、調理器具'],
+                '消毒剤薬': [],
+                '脱脂綿、絆創膏': [],
+                '包帯、三角巾': [],
+                'ウェットティッシュ': [],
+                'ホワイトボード': [],
+                'マーカー(黒、赤)': [],
+                '黒板消し': [],
+                'ＢＣＰマニュアル': [],
+                '持ち出しファイル': [],
+                '記録用紙': [],
+                '筆記用具': [],
+                '模造紙': [],
+                '付箋紙': [],
+                '養生テープ': [],
+                'ガムテープ': [],
+                'サインペン': [],
+                '施設レイアウト図': [],
+                '周辺地域地図': [],
+                '推進体制図': [],
+                '連絡先リスト': [],
+                'マスク（不織布製マスク）': [],
+                'サージカルマスク': [],
+                '体温計（非接触型体温計）': [],
+                'ゴム手袋（使い捨て）': [],
+                'フェイスシールド': [],
+                'ゴーグル': [],
+                '使い捨て袖付きエプロン': [],
+                'ガウン': [],
+                'キャップ': [],
+                '次亜塩素酸ナトリウム液': [],
+                '消毒用アルコール': [],
+                'ガーゼ・コットン': [],
+                'トイレットペーパー': [],
+                'ティッシュペーパー': [],
+                '保湿ティッシュ': [],
+                '石鹸・液体せっけん': [],
+                '紙おむつ': [],
+                '自動車': [],
+                'バイク': [],
+                '自転車': [],
+                '電動自転車': [],
+                '電気スクーター': []
+            };
+
+            function showMeasureOptions(target, measuresContainerId) {
+                const measuresContainer = document.getElementById(measuresContainerId);
+                measuresContainer.innerHTML = '';
+                if (target.checked) {
+                    const option = target.value;
+                    if (measureOptions[option].length > 0) {
+                        measureOptions[option].forEach(measure => {
+                            const measureGroup = document.createElement('div');
+                            measureGroup.className = 'input-group';
+
+                            const measureLabel = document.createElement('label');
+                            measureLabel.innerHTML = `<input type="checkbox" name="measure_target_${target.value}[]" value="${measure}"> ${measure}`;
+                            measureGroup.appendChild(measureLabel);
+
+                            const currentStatusDiv = document.createElement('div');
+                            currentStatusDiv.className = 'hidden';
+                            currentStatusDiv.innerHTML = `
+                                <label for="current_status_${measure}">現状：</label>
+                                <textarea id="current_status_${measure}" name="current_status_${measure}" class="form-control"></textarea>
+                            `;
+                            measureGroup.appendChild(currentStatusDiv);
+
+                            measureLabel.querySelector('input').addEventListener('change', function() {
+                                if (this.checked) {
+                                    currentStatusDiv.classList.remove('hidden');
+                                } else {
+                                    currentStatusDiv.classList.add('hidden');
+                                }
+                            });
+
+                            measuresContainer.appendChild(measureGroup);
+                        });
+                        measuresContainer.classList.remove('hidden');
+                    } else {
+                        const measureGroup = document.createElement('div');
+                        measureGroup.className = 'input-group';
+                        const currentStatusDiv = document.createElement('div');
+                        currentStatusDiv.innerHTML = `
+                            <label for="current_status_${target.value}">現状：</label>
+                            <textarea id="current_status_${target.value}" name="current_status_${target.value}" class="form-control"></textarea>
+                        `;
+                        measureGroup.appendChild(currentStatusDiv);
+                        measuresContainer.appendChild(measureGroup);
+                        measuresContainer.classList.remove('hidden');
+                    }
+                } else {
+                    measuresContainer.classList.add('hidden');
+                }
+            }
+
+            document.querySelectorAll('#target_building input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_furniture input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_external input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_flood input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_infrastructure input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_emergency input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_food input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_medical input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_headquarters input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_prevention input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+
+            document.querySelectorAll('#target_vehicle input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

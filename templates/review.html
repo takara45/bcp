@@ -1,0 +1,51 @@
+<!-- review.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>確認画面</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="content">
+            <h1>確認画面</h1>
+            <form action="/generate_pdf" method="post">
+                <div class="form-group">
+                    <label>施設名:</label>
+                    <p>{{ session['place'] }}</p>
+                </div>
+                <div class="form-group">
+                    <label>施設の種類:</label>
+                    <p>{{ session['kind'] }}</p>
+                </div>
+                <div class="form-group">
+                    <label>BCP策定の目的1:</label>
+                    <p>{{ session['purpose_1'] }}</p>
+                </div>
+                <div class="form-group">
+                    <label>目的2:</label>
+                    <p>{{ session['purpose_2'] }}</p>
+                </div>
+                <div class="form-group">
+                    <label>写真:</label>
+                    <img src="{{ url_for('static', filename=session['pic']) }}" alt="Uploaded Image" width="200">
+                </div>
+                <div class="form-group">
+                    <label>主体:</label>
+                    <p>{{ session['entity'] }}</p>
+                </div>
+                <div class="form-group">
+                    <label>責任者:</label>
+                    <p>{{ session['responsibility'] }}</p>
+                </div>
+                <input type="submit" value="PDFを生成" class="submit-button">
+            </form>
+            <a href="/step1">Step1へ戻る</a><br>
+            <a href="/step2">Step2へ戻る</a><br>
+            <a href="/step3">Step3へ戻る</a><br>
+        </div>
+    </div>
+</body>
+</html>

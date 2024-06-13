@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 1</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="content">
+            <h1> 総論 </h1>
+            <form action="/step1" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="location">所在地:</label>
+                    <input type="text" id="location" name="location" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="environment">立地環境:</label>
+                    <input type="text" id="environment" name="environment" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="facility_type">施設区分:</label>
+                    <input type="text" id="facility_type" name="facility_type" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="residents_number">入所者数:</label>
+                    <input type="number" id="residents_number" name="residents_number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="residents_status">入所者の状況:</label>
+                    <input type="text" id="residents_status" name="residents_status" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="staff_number">職員数:</label>
+                    <input type="number" id="staff_number" name="staff_number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="site_area">敷地面積:</label>
+                    <input type="text" id="site_area" name="site_area" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="floor_area">延べ床面積:</label>
+                    <input type="text" id="floor_area" name="floor_area" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="floors">階数:</label>
+                    <input type="number" id="floors" name="floors" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="rooms">部屋数:</label>
+                    <input type="number" id="rooms" name="rooms" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="philosophy">企業理念・経営方針:</label>
+                    <textarea id="philosophy" name="philosophy" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="purpose_1">BCP策定の目的1:</label>
+                    <textarea id="purpose_1" name="purpose_1" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="purpose_2">BCP策定の目的2:</label>
+                    <textarea id="purpose_2" name="purpose_2" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="purpose_3">BCP策定の目的3:</label>
+                    <textarea id="purpose_3" name="purpose_3" class="form-control" required></textarea>
+                </div>
+                <div id="members-container">
+                    <div class="form-group member">
+                        <h3>メンバー 1</h3>
+                        <label for="role_1">主な役割:</label>
+                        <input type="text" id="role_1" name="roles[]" class="form-control">
+                        <label for="department_1">部署・役職:</label>
+                        <input type="text" id="department_1" name="departments[]" class="form-control">
+                        <label for="name_1">氏名:</label>
+                        <input type="text" id="name_1" name="names[]" class="form-control">
+                        <label for="note_1">補足:</label>
+                        <input type="text" id="note_1" name="notes[]" class="form-control">
+                    </div>
+                </div>
+                <button type="button" onclick="addMember()">メンバーを追加</button><br><br>
+                
+                <div class="form-group">
+                    <label for="org_chart">組織図:</label>
+                    <input type="file" id="org_chart" name="org_chart" accept=".jpeg, .jpg, .png, .pdf"><br><br>
+                </div>
+
+
+                <!-- 優先する事業 第1選択肢 -->
+                <div class="form-group">
+                    <label for="priority_business">優先する事業:</label>
+                    <div class="checkbox-group" id="priority_business">
+                        <label><input type="checkbox" name="priority_business[]" value="入所">入所</label>
+                        <label><input type="checkbox" name="priority_business[]" value="短期入所(ショートステイ)">短期入所(ショートステイ)</label>
+                        <label><input type="checkbox" name="priority_business[]" value="通所(デイサービス)">通所(デイサービス)</label>
+                        <label><input type="checkbox" name="priority_business[]" value="訪問(与薬、食事)">訪問(与薬、食事)</label>
+                        <label><input type="checkbox" name="priority_business[]" value="訪問(入浴)">訪問(入浴)</label>
+                        <label><input type="checkbox" name="priority_business[]" value="居宅支援(ケアマネージャー)">居宅支援(ケアマネージャー)</label>
+                    </div>
+                </div>
+
+                <!-- 優先業務 第2選択肢 -->
+                <div class="form-group" id="secondary_options" style="display:none;">
+                    <label for="priority_tasks">優先業務:</label>
+                    <div class="checkbox-group" id="priority_tasks">
+                        <!-- 動的に生成されるオプション -->
+                    </div>
+                </div>
+
+                <!-- 優先される物品 第3選択肢 -->
+                <div class="form-group" id="tertiary_options" style="display:none;">
+                    <label for="priority_items">優先される物品:</label>
+                    <div class="checkbox-group" id="priority_items">
+                        <!-- 動的に生成されるオプション -->
+                    </div>
+                </div>
+                
+                <input type="submit" value="Step2へ" class="submit-button">
+            </form>
+        </div>
+    </div>
+    <script>
+        function addMember() {
+            var container = document.getElementById("members-container");
+            var memberCount = container.children.length + 1;
+            var memberHTML = `
+                <div class="form-group member">
+                    <h3>メンバー ${memberCount}</h3>
+                    <label for="role_${memberCount}">主な役割:</label>
+                    <input type="text" id="role_${memberCount}" name="roles[]" class="form-control">
+                    <label for="department_${memberCount}">部署・役職:</label>
+                    <input type="text" id="department_${memberCount}" name="departments[]" class="form-control">
+                    <label for="name_${memberCount}">氏名:</label>
+                    <input type="text" id="name_${memberCount}" name="names[]" class="form-control">
+                    <label for="note_${memberCount}">補足:</label>
+                    <input type="text" id="note_${memberCount}" name="notes[]" class="form-control">
+                </div>`;
+            container.insertAdjacentHTML("beforeend", memberHTML);
+        }
+
+
+        function showSecondaryOptions() {
+            var primary = document.getElementById("priority_business");
+            var secondary = document.getElementById("secondary_options");
+            var tertiary = document.getElementById("tertiary_options");
+            var priorityTasks = document.getElementById("priority_tasks");
+            var priorityItems = document.getElementById("priority_items");
+            var selectedOptions = Array.from(primary.querySelectorAll('input:checked')).map(input => input.value);
+
+            // Clear previous options
+            priorityTasks.innerHTML = '';
+            priorityItems.innerHTML = '';
+
+            // Define options for each primary option
+            const secondaryOptions = {
+                '入所': ['与薬介助(入所)', '食事介助(入所)', '排泄介助(入所)', '清拭(入所)', '入浴介助(入所)', '吸引(入所)', '見守り(入所)', '移動介助(入所)'],
+                '短期入所(ショートステイ)': ['与薬介助(短期入所)', '食事介助(短期入所)', '排泄介助(短期入所)', '清拭(短期入所)', '入浴介助(短期入所)', '吸引(短期入所)', '見守り(短期入所)', '移動介助(短期入所)'],
+                '通所(デイサービス)': ['与薬介助(通所)', '食事介助(通所)', '排泄介助(通所)', '清拭(通所)', '入浴介助(通所)', '吸引(通所)', '見守り(通所)', '移動介助(通所)'],
+                '訪問(与薬、食事)': ['与薬介助(訪問)', '食事介助(訪問)', '排泄介助(訪問)', '清拭(訪問)', '吸引(訪問)', '見守り(訪問)', '移動介助(訪問)'],
+                '訪問(入浴)': ['入浴介助(訪問)'],
+                '居宅支援(ケアマネージャー)': ['ケアプランの作成(居宅支援)', '利用者とサービス事業者の間の調整(居宅支援)']
+            };
+
+            const tertiaryOptions = {
+                '入所': ['医薬品(入所)', '非常食(入所)', 'オムツ(入所)', 'パッド(入所)', '発電機(入所)', 'カセットコンロ(入所)', '在宅酸素(入所)', '吸引器(入所)', '衛生物品(入所)', '車椅子(入所)'],
+                '短期入所(ショートステイ)': ['医薬品(短期入所)', '非常食(短期入所)', 'オムツ(短期入所)', 'パッド(短期入所)', '発電機(短期入所)', 'カセットコンロ(短期入所)', '在宅酸素(短期入所)', '吸引器(短期入所)', '衛生物品(短期入所)', '車椅子(短期入所)'],
+                '通所(デイサービス)': ['医薬品(通所)', '非常食(通所)', 'オムツ(通所)', 'パッド(通所)', '発電機(通所)', 'カセットコンロ(通所)', '在宅酸素(通所)', '吸引器(通所)', '衛生物品(通所)', '車椅子(通所)'],
+                '訪問(与薬、食事)': ['医薬品(訪問)', '非常食(訪問)', 'オムツ(訪問)', 'パッド(訪問)', '発電機(訪問)', 'カセットコンロ(訪問)', '在宅酸素(訪問)', '吸引器(訪問)', '衛生物品(訪問)', '車椅子(訪問)'],
+                '訪問(入浴)': ['入浴資機材(訪問)'],
+                '居宅支援(ケアマネージャー)': ['ＰＣ(居宅支援)']
+            };
+
+            // Populate secondary options
+            selectedOptions.forEach(option => {
+                if (secondaryOptions[option]) {
+                    secondaryOptions[option].forEach(subOption => {
+                        let opt = document.createElement('label');
+                        opt.innerHTML = `<input type="checkbox" name="priority_tasks[]" value="${subOption}">${subOption}`;
+                        priorityTasks.appendChild(opt);
+                    });
+                }
+                if (tertiaryOptions[option]) {
+                    tertiaryOptions[option].forEach(subOption => {
+                        let opt = document.createElement('label');
+                        opt.innerHTML = `<input type="checkbox" name="priority_items[]" value="${subOption}">${subOption}`;
+                        priorityItems.appendChild(opt);
+                    });
+                }
+            });
+
+            // Show secondary and tertiary options
+            secondary.style.display = 'block';
+            tertiary.style.display = 'block';
+        }
+
+        document.querySelectorAll('#priority_business input[type="checkbox"]').forEach((checkbox) => {
+            checkbox.addEventListener('change', showSecondaryOptions);
+        });
+    </script>
+</body>
+</html>
+
+

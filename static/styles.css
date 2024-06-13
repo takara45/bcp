@@ -1,0 +1,161 @@
+/* ベーススタイル */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #eef2f7;
+  color: #333;
+  text-align: center;
+  height: 100%; /* 画面全体の高さを確保 */
+  overflow-x: hidden; /* 横スクロールを防止 */
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px; /* 上下の余白を追加 */
+}
+
+.content {
+  max-width: 700px;
+  width: 100%;
+  padding: 30px;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-sizing: border-box; /* パディングとボーダーの幅を含む */
+  overflow-y: auto; /* 縦方向のスクロールを許可 */
+  transition: all 0.3s ease;
+}
+
+.content:hover {
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: #2a2a2a;
+  font-size: 2.8em;
+  margin-bottom: 20px;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+.start-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+}
+
+/* スマートフォンやタブレット用のメディアクエリ */
+@media (max-width: 768px) {
+  .content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2.2em;
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* 入力ボックスの幅を調整 */
+  background-color: #fafafa;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+  transform: translateY(-3px);
+}
+
+.checkbox-group label {
+  font-weight: normal;
+  color: #666;
+}
+
+.hidden {
+  display: none;
+}
+
+.checkbox-group, .input-group {
+  margin-bottom: 15px;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.input-group input, .input-group textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.hidden {
+  display: none;
+}
+.form-section {
+  margin-bottom: 30px;
+}
+.form-section h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  text-align: left;
+}
+.form-group {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+}

@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>main API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>main</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from flask import Flask, render_template, request, send_file, session, redirect, url_for
+from fpdf import FPDF
+from flask_session import Session  # セッション管理用
+import os
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+app.config[&#34;SESSION_PERMANENT&#34;] = False
+app.config[&#34;SESSION_TYPE&#34;] = &#34;filesystem&#34;
+app.config[&#39;UPLOAD_FOLDER&#39;] = &#39;uploads&#39;
+Session(app)
+
+def allowed_file(filename):
+    return &#39;.&#39; in filename and \
+           filename.rsplit(&#39;.&#39;, 1)[1].lower() in [&#39;jpg&#39;, &#39;jpeg&#39;, &#39;png&#39;, &#39;pdf&#39;]
+
+@app.route(&#39;/&#39;)
+def home():
+    session.clear()  # 新しいセッションを開始
+    return render_template(&#39;home.html&#39;)  # &#39;home.html&#39;をレンダリング
+
+@app.route(&#39;/step1&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def step1():
+    if request.method == &#39;POST&#39;:
+        session[&#39;location&#39;] = request.form[&#39;location&#39;]
+        session[&#39;environment&#39;] = request.form[&#39;environment&#39;]
+        session[&#39;facility_type&#39;] = request.form[&#39;facility_type&#39;]
+        session[&#39;residents_number&#39;] = request.form[&#39;residents_number&#39;]
+        session[&#39;residents_status&#39;] = request.form[&#39;residents_status&#39;]
+        session[&#39;staff_number&#39;] = request.form[&#39;staff_number&#39;]
+        session[&#39;site_area&#39;] = request.form[&#39;site_area&#39;]
+        session[&#39;floor_area&#39;] = request.form[&#39;floor_area&#39;]
+        session[&#39;floors&#39;] = request.form[&#39;floors&#39;]
+        session[&#39;rooms&#39;] = request.form[&#39;rooms&#39;]
+        session[&#39;philosophy&#39;] = request.form[&#39;philosophy&#39;]
+        session[&#39;purpose_1&#39;] = request.form[&#39;purpose_1&#39;]
+        session[&#39;purpose_2&#39;] = request.form[&#39;purpose_2&#39;]
+        session[&#39;purpose_3&#39;] = request.form[&#39;purpose_3&#39;]
+        session[&#39;roles&#39;] = request.form.getlist(&#39;roles[]&#39;)
+        session[&#39;departments&#39;] = request.form.getlist(&#39;departments[]&#39;)
+        session[&#39;names&#39;] = request.form.getlist(&#39;names[]&#39;)
+        session[&#39;notes&#39;] = request.form.getlist(&#39;notes[]&#39;)
+        # 組織図の取得
+        if &#39;org_chart&#39; in request.files:
+            file = request.files[&#39;org_chart&#39;]
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(app.config[&#39;UPLOAD_FOLDER&#39;], filename)
+                file.save(filepath)
+                session[&#39;org_chart&#39;] = filepath  # ファイルのパスをセッションに保存
+        session[&#39;priority_business&#39;] = request.form.getlist(&#39;priority_business[]&#39;)
+        session[&#39;priority_tasks&#39;] = request.form.getlist(&#39;priority_tasks[]&#39;)
+        session[&#39;priority_items&#39;] = request.form.getlist(&#39;priority_items[]&#39;)
+        return redirect(url_for(&#39;step2&#39;))
+    return render_template(&#39;step1.html&#39;) 
+
+@app.route(&#39;/step2&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def step2():
+    if request.method == &#39;POST&#39;:
+        target_building = request.form.getlist(&#39;target_building[]&#39;)
+        measure_building = []
+        current_status_building = {}
+
+        for target in target_building:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_building.extend(measures)
+            for measure in measures:
+                current_status_building[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_building&#39;] = target_building
+        session[&#39;measure_building&#39;] = measure_building
+        session[&#39;current_status_building&#39;] = current_status_building
+
+        target_furniture = request.form.getlist(&#39;target_furniture[]&#39;)
+        measure_furniture = []
+        current_status_furniture = {}
+
+        for target in target_furniture:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_furniture.extend(measures)
+            for measure in measures:
+                current_status_furniture[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_furniture&#39;] = target_furniture
+        session[&#39;measure_furniture&#39;] = measure_furniture
+        session[&#39;current_status_furniture&#39;] = current_status_furniture
+
+        target_external = request.form.getlist(&#39;target_external[]&#39;)
+        measure_external = []
+        current_status_external = {}
+
+        for target in target_external:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_external.extend(measures)
+            for measure in measures:
+                current_status_external[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_external&#39;] = target_external
+        session[&#39;measure_external&#39;] = measure_external
+        session[&#39;current_status_external&#39;] = current_status_external
+
+        target_flood = request.form.getlist(&#39;target_flood[]&#39;)
+        measure_flood = []
+        current_status_flood = {}
+
+        for target in target_flood:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_flood.extend(measures)
+            for measure in measures:
+                current_status_flood[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_flood&#39;] = target_flood
+        session[&#39;measure_flood&#39;] = measure_flood
+        session[&#39;current_status_flood&#39;] = current_status_flood
+
+        target_infrastructure = request.form.getlist(&#39;target_infrastructure[]&#39;)
+        measure_infrastructure = []
+        current_status_infrastructure = {}
+
+        for target in target_infrastructure:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_infrastructure.extend(measures)
+            for measure in measures:
+                current_status_infrastructure[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_infrastructure&#39;] = target_infrastructure
+        session[&#39;measure_infrastructure&#39;] = measure_infrastructure
+        session[&#39;current_status_infrastructure&#39;] = current_status_infrastructure
+
+        target_emergency = request.form.getlist(&#39;target_emergency[]&#39;)
+        measure_emergency = []
+        current_status_emergency = {}
+
+        for target in target_emergency:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_emergency.extend(measures)
+            for measure in measures:
+                current_status_emergency[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_emergency&#39;] = target_emergency
+        session[&#39;measure_emergency&#39;] = measure_emergency
+        session[&#39;current_status_emergency&#39;] = current_status_emergency
+
+        target_food = request.form.getlist(&#39;target_food[]&#39;)
+        measure_food = []
+        current_status_food = {}
+
+        for target in target_food:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_food.extend(measures)
+            for measure in measures:
+                current_status_food[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_food&#39;] = target_food
+        session[&#39;measure_food&#39;] = measure_food
+        session[&#39;current_status_food&#39;] = current_status_food
+
+        target_medical = request.form.getlist(&#39;target_medical[]&#39;)
+        current_status_medical = {}
+
+        for target in target_medical:
+            current_status_medical[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_medical&#39;] = target_medical
+        session[&#39;current_status_medical&#39;] = current_status_medical
+    
+        target_headquarters = request.form.getlist(&#39;target_headquarters[]&#39;)
+        current_status_headquarters = {}
+
+        for target in target_headquarters:
+            current_status_headquarters[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_headquarters&#39;] = target_headquarters
+        session[&#39;current_status_headquarters&#39;] = current_status_headquarters
+
+        target_prevention = request.form.getlist(&#39;target_prevention[]&#39;)
+        current_status_prevention = {}
+
+        for target in target_prevention:
+            current_status_prevention[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_prevention&#39;] = target_prevention
+        session[&#39;current_status_prevention&#39;] = current_status_prevention
+
+        target_vehicle = request.form.getlist(&#39;target_vehicle[]&#39;)
+        current_status_vehicle = {}
+
+        for target in target_vehicle:
+            current_status_vehicle[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_vehicle&#39;] = target_vehicle
+        session[&#39;current_status_vehicle&#39;] = current_status_vehicle
+
+        return redirect(url_for(&#39;step3&#39;))
+    return render_template(&#39;step2.html&#39;)
+
+@app.route(&#39;/step3&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def step3():
+    if request.method == &#39;POST&#39;:
+        # フォームデータをセッションに保存
+        session[&#39;entity&#39;] = request.form[&#39;entity&#39;]
+        session[&#39;responsibility&#39;] = request.form[&#39;responsibility&#39;]
+        # PDF生成のルートへリダイレクト
+        return redirect(url_for(&#39;generate_pdf&#39;))
+    return render_template(&#39;step3.html&#39;)
+
+@app.route(&#39;/generate_pdf&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def generate_pdf():
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font(&#39;IPAexGothic&#39;, &#39;&#39;, &#39;ipaexg.ttf&#39;, uni=True)
+    
+    # 題名を追加
+    pdf.set_font(&#39;IPAexGothic&#39;, &#39;&#39;, 24)  # フォントサイズを大きく設定
+    pdf.cell(0, 20, &#39;介護BCP&#39;, ln=True, align=&#39;C&#39;)  # 題名を中央揃えで追加
+    pdf.set_font(&#39;IPAexGothic&#39;, &#39;&#39;, 14)
+
+    # セッションからデータを取得してPDFに追加
+    location = session.get(&#39;location&#39;, &#39;不明&#39;)
+    environment = session.get(&#39;environment&#39;, &#39;不明&#39;)
+    facility_type = session.get(&#39;facility_type&#39;, &#39;不明&#39;)
+    residents_number = session.get(&#39;residents_number&#39;, &#39;不明&#39;)
+    residents_status = session.get(&#39;residents_status&#39;, &#39;不明&#39;)
+    staff_number = session.get(&#39;staff_number&#39;, &#39;不明&#39;)
+    site_area = session.get(&#39;site_area&#39;, &#39;不明&#39;)
+    floor_area = session.get(&#39;floor_area&#39;, &#39;不明&#39;)
+    floors = session.get(&#39;floors&#39;, &#39;不明&#39;)
+    rooms = session.get(&#39;rooms&#39;, &#39;不明&#39;)
+    philosophy = session.get(&#39;philosophy&#39;, &#39;不明&#39;)
+    purpose_1 = session.get(&#39;purpose_1&#39;, &#39;不明&#39;)
+    purpose_2 = session.get(&#39;purpose_2&#39;, &#39;不明&#39;)
+    purpose_3 = session.get(&#39;purpose_3&#39;, &#39;不明&#39;)
+    org_chart_path = session.get(&#39;org_chart&#39;, &#39;不明&#39;)
+    priority_business = session.get(&#39;priority_business&#39;, [])
+    priority_tasks = session.get(&#39;priority_tasks&#39;, [])
+    priority_items = session.get(&#39;priority_items&#39;, [])
+    target_building = session.get(&#39;target_building&#39;, [])
+    measure_building = session.get(&#39;measure_building&#39;, [])
+    current_status_building = session.get(&#39;current_status_building&#39;, {})
+    target_furniture = session.get(&#39;target_furniture&#39;, [])
+    measure_furniture = session.get(&#39;measure_furniture&#39;, [])
+    current_status_furniture = session.get(&#39;current_status_furniture&#39;, {})
+    target_external = session.get(&#39;target_external&#39;, [])
+    measure_external = session.get(&#39;measure_external&#39;, [])
+    current_status_external = session.get(&#39;current_status_external&#39;, {})
+    target_flood = session.get(&#39;target_flood&#39;, [])
+    measure_flood = session.get(&#39;measure_flood&#39;, [])
+    current_status_flood = session.get(&#39;current_status_flood&#39;, {})
+    target_infrastructure = session.get(&#39;target_infrastructure&#39;, [])
+    measure_infrastructure = session.get(&#39;measure_infrastructure&#39;, [])
+    current_status_infrastructure = session.get(&#39;current_status_infrastructure&#39;, {})
+    target_emergency = session.get(&#39;target_emergency&#39;, [])
+    measure_emergency = session.get(&#39;measure_emergency&#39;, [])
+    current_status_emergency = session.get(&#39;current_status_emergency&#39;, {})
+    target_food = session.get(&#39;target_food&#39;, [])
+    measure_food = session.get(&#39;measure_food&#39;, [])
+    current_status_food = session.get(&#39;current_status_food&#39;, {})
+    target_medical = session.get(&#39;target_medical&#39;, [])
+    current_status_medical = session.get(&#39;current_status_medical&#39;, {})
+    target_headquarters = session.get(&#39;target_headquarters&#39;, [])
+    current_status_headquarters = session.get(&#39;current_status_headquarters&#39;, {})
+    target_prevention = session.get(&#39;target_prevention&#39;, [])
+    current_status_prevention = session.get(&#39;current_status_prevention&#39;, {})
+    target_vehicle = session.get(&#39;target_vehicle&#39;, [])
+    current_status_vehicle = session.get(&#39;current_status_vehicle&#39;, {})
+    entity = session.get(&#39;entity&#39;, &#39;不明&#39;)
+    responsibility = session.get(&#39;responsibility&#39;, &#39;不明&#39;)
+
+    pdf.cell(0, 10, &#39;当施設の概要&#39;, 0, 1, &#39;L&#39;)  
+    pdf.cell(40, 10, &#39;所在地&#39;, 1)
+    pdf.cell(150, 10, location, 1, 1)
+    pdf.cell(40, 10, &#39;立地環境&#39;, 1)
+    pdf.cell(150, 10, environment, 1, 1)
+    pdf.cell(40, 10, &#39;施設区分&#39;, 1)
+    pdf.cell(150, 10, facility_type, 1, 1)
+    pdf.cell(40, 10, &#39;入所者数&#39;, 1)
+    pdf.cell(150, 10, residents_number, 1, 1)
+    pdf.cell(40, 10, &#39;入所者の状況&#39;, 1)
+    pdf.cell(150, 10, residents_status, 1, 1)
+    pdf.cell(40, 10, &#39;職員数&#39;, 1)
+    pdf.cell(150, 10, staff_number, 1, 1)
+    pdf.cell(40, 10, &#39;敷地面積&#39;, 1)
+    pdf.cell(150, 10, site_area, 1, 1)
+    pdf.cell(40, 10, &#39;延べ床面積&#39;, 1)
+    pdf.cell(150, 10, floor_area, 1, 1)
+    pdf.cell(40, 10, &#39;階数&#39;, 1)
+    pdf.cell(150, 10, floors, 1, 1)
+    pdf.cell(40, 10, &#39;部屋数&#39;, 1)
+    pdf.cell(150, 10, rooms, 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(60, 40, &#39;企業理念・経営方針&#39;, 1)
+    pdf.multi_cell(130, 40, philosophy, 1)
+    pdf.cell(60, 20, &#39;BCP策定の目的1&#39;, 1)
+    pdf.multi_cell(130, 20, purpose_1, 1)
+    pdf.cell(60, 20, &#39;BCP策定の目的2&#39;, 1)
+    pdf.multi_cell(130, 20, purpose_2, 1)
+    pdf.cell(60, 20, &#39;BCP策定の目的3&#39;, 1)
+    pdf.multi_cell(130, 20, purpose_3, 1)
+    pdf.ln(60)
+
+    # メンバー情報をテーブル形式で追加
+    pdf.set_fill_color(220, 220, 220)
+    pdf.cell(0, 10, &#39;推進体制&#39;, 0, 1, &#39;L&#39;)
+    pdf.cell(40, 10, &#39;主な役割&#39;, 1)
+    pdf.cell(40, 10, &#39;部署・役職&#39;, 1)
+    pdf.cell(40, 10, &#39;氏名&#39;, 1)
+    pdf.cell(70, 10, &#39;補足&#39;, 1, 1)
+    
+    roles = session.get(&#39;roles&#39;, [])
+    departments = session.get(&#39;departments&#39;, [])
+    names = session.get(&#39;names&#39;, [])
+    notes = session.get(&#39;notes&#39;, [])
+    
+    for role, department, name, note in zip(roles, departments, names, notes):
+        pdf.cell(40, 10, role, 1)
+        pdf.cell(40, 10, department, 1)
+        pdf.cell(40, 10, name, 1)
+        pdf.cell(70, 10, note, 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;施設の組織図&#39;, 0, 1, &#39;L&#39;)
+    if org_chart_path != &#39;不明&#39;:
+        current_y = pdf.get_y()  # 現在のY座標を取得
+        pdf.image(org_chart_path, x=10, y=current_y + 10, w=150)  # 画像を挿入
+        pdf.ln(200)  # 画像の高さ分だけ下にスペースを追加
+
+    pdf.ln(10)
+    pdf.cell(0, 10, &#39;優先する事業&#39;, 0, 1, &#39;L&#39;)
+    start_x = pdf.get_x()
+    start_y = pdf.get_y()
+    for business in priority_business:
+        pdf.cell(0, 10, business, 0, 1, &#39;L&#39;)
+    end_y = pdf.get_y()
+    pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先する事業を囲む黒い枠を追加
+    pdf.ln(10)
+    
+    pdf.cell(0, 10, &#39;優先業務&#39;, 0, 1, &#39;L&#39;)
+    start_x = pdf.get_x()
+    start_y = pdf.get_y()
+    for task in priority_tasks:
+        pdf.cell(0, 10, task, 0, 1, &#39;L&#39;)
+    end_y = pdf.get_y()
+    pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先業務を囲む黒い枠を追加
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;優先される物品&#39;, 0, 1, &#39;L&#39;)
+    start_x = pdf.get_x()
+    start_y = pdf.get_y()
+    for item in priority_items:
+        pdf.cell(0, 10, item, 0, 1, &#39;L&#39;)
+    end_y = pdf.get_y()
+    pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先される物品を囲む黒い枠を追加
+    pdf.ln(10)
+
+    measure_target_mapping = {
+        &#39;躯体(柱、壁、床)&#39;: [&#39;柱の補強&#39;, &#39;Ｘ型補強&#39;, &#39;コンクリート欠損&#39;, &#39;コンクリートひび&#39;, &#39;コンクリート脱落&#39;, &#39;コンクリート風化&#39;, &#39;地震に特化した物品バール&#39;],
+        &#39;天井&#39;: [&#39;天井の石膏ボードの落下防止&#39;],
+        &#39;窓&#39;: [&#39;廊下・出入口のガラス飛散防止フィルムの貼付け&#39;, &#39;ガラスの落下・はずれ・ゆるみ・変形&#39;],
+        &#39;ドア&#39;: [&#39;ドアのはずれ・ゆるみ・変形&#39;],
+        &#39;事務所の什器&#39;: [&#39;キャビネットは転倒防止のため壁に固定する&#39;, &#39;キャビネットは転倒防止のため突っ張り棒で固定する&#39;, &#39;落下の危険性がないようにする&#39;],
+        &#39;食堂の什器&#39;: [&#39;壁を補強して転倒防止のため壁に固定する&#39;, &#39;ガラス飛散防止フィルムの貼付け&#39;, &#39;壁を補強して転倒防止のため突っ張り棒で固定する&#39;],
+        &#39;風呂場の什器&#39;: [&#39;大型入浴機器を固定する&#39;, &#39;棚を壁に固定する&#39;],
+        &#39;ロビー・集会所・会議室の什器&#39;: [&#39;床に固定する&#39;, &#39;壁に固定する&#39;, &#39;突っ張り棒で固定する&#39;],
+        &#39;利用者居室の什器&#39;: [&#39;家具を壁に固定する&#39;, &#39;突っ張り棒で固定する&#39;],
+        &#39;ノートパソコン&#39;: [&#39;机に固定する(ノート)&#39;, &#39;重要なデータはバックアップをとり保管する(ノート)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(ノート)&#39;],
+        &#39;デスクトップパソコン&#39;: [&#39;机に固定する(デスク)&#39;, &#39;重要なデータはバックアップをとり保管する(デスク)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(デスク)&#39;],
+        &#39;ディスプレイ&#39;: [&#39;机に固定する(ディスプレイ)&#39;, &#39;重要なデータはバックアップをとり保管する(ディスプレイ)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(ディスプレイ)&#39;],
+        &#39;タブレット(iPad)&#39;: [&#39;重要なデータはバックアップをとり保管する(iPad)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(iPad)&#39;],
+        &#39;タブレット(Android)&#39;: [&#39;重要なデータはバックアップをとり保管する(Android)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(Android)&#39;],
+        &#39;携帯電話&#39;: [&#39;重要なデータはバックアップをとり保管する(携帯)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(携帯)&#39;],
+        &#39;スマートフォン&#39;: [&#39;重要なデータはバックアップをとり保管する(スマホ)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(スマホ)&#39;],
+        &#39;固定電話&#39;: [&#39;机に固定する(固定電話)&#39;],
+        &#39;衛星電話&#39;: [&#39;破損や電源が入らないなど異常はないか確認する(衛星)&#39;],
+        &#39;金庫&#39;: [&#39;飛び出し防止・転倒防止のため床に固定する&#39;, &#39;飛び出し防止・転倒防止のため壁に固定する&#39;],
+        &#39;受水槽&#39;: [&#39;倒壊の可能性有無、防護壁の設置&#39;],
+        &#39;ＬＰガス&#39;: [&#39;ＬＰガスボンベの固定の強化&#39;],
+        &#39;燃油タンク&#39;: [&#39;地面への固定アンカーの腐食の有無、金具交換&#39;],
+        &#39;太陽光発電&#39;: [&#39;太陽光発電装置の固定の強化&#39;],
+        &#39;蓄電装置&#39;: [&#39;蓄電装置の固定の強化&#39;],
+        &#39;出入口&#39;: [&#39;建物入口に止水板があるか&#39;, &#39;建物入り口に防水扉があるか&#39;, &#39;建物入り口に支障となる物品等がおいてないか&#39;],
+        &#39;施設周辺&#39;: [&#39;避難等に支障となるものはないか&#39;],
+        &#39;逆流防止&#39;: [&#39;側溝や排水溝が機能するか&#39;, &#39;風呂やトイレ等の排水溝からの逆流防止ができているか&#39;],
+        &#39;屋外重要設備&#39;: [&#39;受電・変電設備の浸水対策&#39;, &#39;受水槽の浸水対策&#39;, &#39;LPガスの浸水対策&#39;, &#39;蓄電装置の浸水対策&#39;],
+        &#39;電気&#39;: [&#39;発電機(LPガス)&#39;, &#39;発電機燃料(LPガス)&#39;, &#39;発電機オイル&#39;, &#39;電源リール&#39;, &#39;テーブルタップ&#39;],
+        &#39;ガス&#39;: [&#39;LPガス&#39;, &#39;五徳&#39;, &#39;着火ライター&#39;],
+        &#39;水道&#39;: [&#39;ポリタンク&#39;],
+        &#39;通信手段&#39;: [&#39;ラジオ&#39;, &#39;トランシーバー&#39;, &#39;携帯電話充電器&#39;, &#39;モバイルバッテリー&#39;],
+        &#39;情報機器&#39;: [&#39;パソコン&#39;, &#39;プリンター&#39;, &#39;データバックアップ・ハードディスク&#39;, &#39;ヘッドライト&#39;],
+        &#39;照明機器&#39;: [&#39;懐中電灯&#39;, &#39;投光器&#39;, &#39;ランタン&#39;, &#39;乾電池&#39;, &#39;ろうそく&#39;, &#39;マッチ&#39;, &#39;ライター&#39;],
+        &#39;冷暖房&#39;: [&#39;石油ストーブ&#39;, &#39;灯油&#39;, &#39;カイロ&#39;, &#39;湯たんぽ&#39;, &#39;保冷剤&#39;, &#39;扇風機&#39;],
+        &#39;水害対策&#39;: [&#39;土のう&#39;, &#39;ゴムボート&#39;],
+        &#39;避難用具&#39;: [&#39;ヘルメット、懐中電灯&#39;, &#39;防災頭巾&#39;, &#39;メガホン、拡声器&#39;, &#39;担架&#39;, &#39;リヤカー&#39;, &#39;車椅子&#39;, &#39;携帯用酸素吸入器&#39;, &#39;救助工具セット&#39;, &#39;大形テント&#39;, &#39;ブルーシート&#39;, &#39;ロープ&#39;, &#39;ガムテープ&#39;],
+        &#39;職員衣服&#39;: [&#39;軍手&#39;, &#39;雨合羽&#39;, &#39;防寒具&#39;],
+        &#39;交通手段&#39;: [&#39;バイク&#39;, &#39;自転車&#39;],
+        &#39;現金&#39;: [&#39;現金&#39;],
+        &#39;衛生&#39;: [&#39;紙おむつ&#39;, &#39;尿パッド&#39;, &#39;ドライシャンプー&#39;, &#39;歯ブラシ&#39;, &#39;石けん&#39;, &#39;タオル&#39;, &#39;肌着&#39;, &#39;生理用品&#39;, &#39;ビニール袋&#39;],
+        &#39;トイレ&#39;: [&#39;簡易トイレ&#39;, &#39;仮設トイレ&#39;, &#39;トイレットペーパー&#39;],
+        &#39;睡眠&#39;: [&#39;段ボールベッド&#39;, &#39;毛布&#39;, &#39;寝袋&#39;],
+        &#39;飲料&#39;: [&#39;飲料水(２リットル/本)&#39;, &#39;ジュース類(果物、野菜)&#39;, &#39;お茶&#39;],
+        &#39;食品&#39;: [&#39;保存食(アルファ化米)&#39;, &#39;米(無洗米)&#39;, &#39;レトルト粥&#39;, &#39;缶詰&#39;, &#39;経管栄養食&#39;, &#39;高カロリー食&#39;, &#39;インスタント食品&#39;, &#39;栄養ドリンク&#39;],
+        &#39;衛生用品&#39;: [&#39;紙コップ、紙皿&#39;, &#39;割り箸、使い捨てスプーン&#39;, &#39;ペーパーナプキン、ティッシュペーパー&#39;, &#39;ペーパータオル、ウェットティッシュ&#39;, &#39;ポリ袋、ゴミ袋、ラップ、ブルーシート、ポリタンク（５L）&#39;],
+        &#39;厨房関連&#39;: [&#39;カセットコンロ、カセットボンベ&#39;, &#39;ホットプレート&#39;, &#39;屋外用コンロ（かまど）&#39;, &#39;ナベ、調理器具&#39;],
+        &#39;消毒剤薬&#39;: [],
+        &#39;脱脂綿、絆創膏 &#39;: [],
+        &#39;包帯、三角巾 &#39;: [],
+        &#39;ウェットティッシュ&#39;: [],
+        &#39;ホワイトボード&#39;: [],
+        &#39;マーカー(黒、赤)&#39;: [],
+        &#39;黒板消し&#39;: [],
+        &#39;ＢＣＰマニュアル&#39;: [],
+        &#39;持ち出しファイル&#39;: [],
+        &#39;記録用紙&#39;: [],
+        &#39;筆記用具&#39;: [],
+        &#39;模造紙&#39;: [],
+        &#39;付箋紙&#39;: [],
+        &#39;養生テープ&#39;: [],
+        &#39;ガムテープ&#39;: [],
+        &#39;サインペン&#39;: [],
+        &#39;施設レイアウト図&#39;: [],
+        &#39;周辺地域地図&#39;: [],
+        &#39;推進体制図&#39;: [],
+        &#39;連絡先リスト&#39;: [],
+        &#39;マスク（不織布製マスク）&#39;: [],
+        &#39;サージカルマスク&#39;: [],
+        &#39;体温計（非接触型体温計）&#39;: [],
+        &#39;ゴム手袋（使い捨て）&#39;: [],
+        &#39;フェイスシールド&#39;: [],
+        &#39;ゴーグル&#39;: [],
+        &#39;使い捨て袖付きエプロン&#39;: [],
+        &#39;ガウン&#39;: [],
+        &#39;キャップ&#39;: [],
+        &#39;次亜塩素酸ナトリウム液&#39;: [],
+        &#39;消毒用アルコール&#39;: [],
+        &#39;ガーゼ・コットン&#39;: [],
+        &#39;トイレットペーパー&#39;: [],
+        &#39;ティッシュペーパー&#39;: [],
+        &#39;保湿ティッシュ&#39;: [],
+        &#39;石鹸・液体せっけん&#39;: [],
+        &#39;紙おむつ&#39;: [],
+        &#39;自動車&#39;: [],
+        &#39;バイク&#39;: [],
+        &#39;自転車&#39;: [],
+        &#39;電動自転車&#39;: [],
+        &#39;電気スクーター&#39;: []
+        }
+
+
+    pdf.cell(0, 10, &#39;建物関連&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+    
+    for measure in measure_building:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_building.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;什器・コンピュータ&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+    
+    for measure in measure_furniture:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_furniture.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;建物外部の施設&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+    
+    for measure in measure_external:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_external.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;水害対策関連&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_flood:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_flood.get(measure, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+
+    pdf.cell(0, 10, &#39;インフラ&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_infrastructure:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_infrastructure.get(measure, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;防災備品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_emergency:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_emergency.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;飲料、食品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_food:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_food.get(measure, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;医薬品、衛生用品、日用品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_medical:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_medical.get(target, &#39;不明&#39;), 1, 1)
+    pdf.ln(10) 
+
+    pdf.cell(0, 10, &#39;対策本部の防災備品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_headquarters:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_headquarters.get(target, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;感染防止&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_prevention:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_prevention.get(target, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;車両&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_vehicle:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_vehicle.get(target, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)    
+    entity = session.get(&#39;entity&#39;, &#39;不明&#39;)
+    responsibility = session.get(&#39;responsibility&#39;, &#39;不明&#39;)
+    pdf.cell(200, 10, txt=f&#34;主体: {entity}&#34;, ln=True)
+    pdf.cell(200, 10, txt=f&#34;責任者: {responsibility}&#34;, ln=True)
+
+    pdf_file = &#39;output.pdf&#39;
+    pdf.output(pdf_file)
+    return send_file(pdf_file)
+
+if __name__ == &#34;__main__&#34;:
+    if not os.path.exists(app.config[&#39;UPLOAD_FOLDER&#39;]):
+        os.makedirs(app.config[&#39;UPLOAD_FOLDER&#39;])
+    app.run(debug=True)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="main.allowed_file"><code class="name flex">
+<span>def <span class="ident">allowed_file</span></span>(<span>filename)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def allowed_file(filename):
+    return &#39;.&#39; in filename and \
+           filename.rsplit(&#39;.&#39;, 1)[1].lower() in [&#39;jpg&#39;, &#39;jpeg&#39;, &#39;png&#39;, &#39;pdf&#39;]</code></pre>
+</details>
+</dd>
+<dt id="main.generate_pdf"><code class="name flex">
+<span>def <span class="ident">generate_pdf</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/generate_pdf&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def generate_pdf():
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font(&#39;IPAexGothic&#39;, &#39;&#39;, &#39;ipaexg.ttf&#39;, uni=True)
+    
+    # 題名を追加
+    pdf.set_font(&#39;IPAexGothic&#39;, &#39;&#39;, 24)  # フォントサイズを大きく設定
+    pdf.cell(0, 20, &#39;介護BCP&#39;, ln=True, align=&#39;C&#39;)  # 題名を中央揃えで追加
+    pdf.set_font(&#39;IPAexGothic&#39;, &#39;&#39;, 14)
+
+    # セッションからデータを取得してPDFに追加
+    location = session.get(&#39;location&#39;, &#39;不明&#39;)
+    environment = session.get(&#39;environment&#39;, &#39;不明&#39;)
+    facility_type = session.get(&#39;facility_type&#39;, &#39;不明&#39;)
+    residents_number = session.get(&#39;residents_number&#39;, &#39;不明&#39;)
+    residents_status = session.get(&#39;residents_status&#39;, &#39;不明&#39;)
+    staff_number = session.get(&#39;staff_number&#39;, &#39;不明&#39;)
+    site_area = session.get(&#39;site_area&#39;, &#39;不明&#39;)
+    floor_area = session.get(&#39;floor_area&#39;, &#39;不明&#39;)
+    floors = session.get(&#39;floors&#39;, &#39;不明&#39;)
+    rooms = session.get(&#39;rooms&#39;, &#39;不明&#39;)
+    philosophy = session.get(&#39;philosophy&#39;, &#39;不明&#39;)
+    purpose_1 = session.get(&#39;purpose_1&#39;, &#39;不明&#39;)
+    purpose_2 = session.get(&#39;purpose_2&#39;, &#39;不明&#39;)
+    purpose_3 = session.get(&#39;purpose_3&#39;, &#39;不明&#39;)
+    org_chart_path = session.get(&#39;org_chart&#39;, &#39;不明&#39;)
+    priority_business = session.get(&#39;priority_business&#39;, [])
+    priority_tasks = session.get(&#39;priority_tasks&#39;, [])
+    priority_items = session.get(&#39;priority_items&#39;, [])
+    target_building = session.get(&#39;target_building&#39;, [])
+    measure_building = session.get(&#39;measure_building&#39;, [])
+    current_status_building = session.get(&#39;current_status_building&#39;, {})
+    target_furniture = session.get(&#39;target_furniture&#39;, [])
+    measure_furniture = session.get(&#39;measure_furniture&#39;, [])
+    current_status_furniture = session.get(&#39;current_status_furniture&#39;, {})
+    target_external = session.get(&#39;target_external&#39;, [])
+    measure_external = session.get(&#39;measure_external&#39;, [])
+    current_status_external = session.get(&#39;current_status_external&#39;, {})
+    target_flood = session.get(&#39;target_flood&#39;, [])
+    measure_flood = session.get(&#39;measure_flood&#39;, [])
+    current_status_flood = session.get(&#39;current_status_flood&#39;, {})
+    target_infrastructure = session.get(&#39;target_infrastructure&#39;, [])
+    measure_infrastructure = session.get(&#39;measure_infrastructure&#39;, [])
+    current_status_infrastructure = session.get(&#39;current_status_infrastructure&#39;, {})
+    target_emergency = session.get(&#39;target_emergency&#39;, [])
+    measure_emergency = session.get(&#39;measure_emergency&#39;, [])
+    current_status_emergency = session.get(&#39;current_status_emergency&#39;, {})
+    target_food = session.get(&#39;target_food&#39;, [])
+    measure_food = session.get(&#39;measure_food&#39;, [])
+    current_status_food = session.get(&#39;current_status_food&#39;, {})
+    target_medical = session.get(&#39;target_medical&#39;, [])
+    current_status_medical = session.get(&#39;current_status_medical&#39;, {})
+    target_headquarters = session.get(&#39;target_headquarters&#39;, [])
+    current_status_headquarters = session.get(&#39;current_status_headquarters&#39;, {})
+    target_prevention = session.get(&#39;target_prevention&#39;, [])
+    current_status_prevention = session.get(&#39;current_status_prevention&#39;, {})
+    target_vehicle = session.get(&#39;target_vehicle&#39;, [])
+    current_status_vehicle = session.get(&#39;current_status_vehicle&#39;, {})
+    entity = session.get(&#39;entity&#39;, &#39;不明&#39;)
+    responsibility = session.get(&#39;responsibility&#39;, &#39;不明&#39;)
+
+    pdf.cell(0, 10, &#39;当施設の概要&#39;, 0, 1, &#39;L&#39;)  
+    pdf.cell(40, 10, &#39;所在地&#39;, 1)
+    pdf.cell(150, 10, location, 1, 1)
+    pdf.cell(40, 10, &#39;立地環境&#39;, 1)
+    pdf.cell(150, 10, environment, 1, 1)
+    pdf.cell(40, 10, &#39;施設区分&#39;, 1)
+    pdf.cell(150, 10, facility_type, 1, 1)
+    pdf.cell(40, 10, &#39;入所者数&#39;, 1)
+    pdf.cell(150, 10, residents_number, 1, 1)
+    pdf.cell(40, 10, &#39;入所者の状況&#39;, 1)
+    pdf.cell(150, 10, residents_status, 1, 1)
+    pdf.cell(40, 10, &#39;職員数&#39;, 1)
+    pdf.cell(150, 10, staff_number, 1, 1)
+    pdf.cell(40, 10, &#39;敷地面積&#39;, 1)
+    pdf.cell(150, 10, site_area, 1, 1)
+    pdf.cell(40, 10, &#39;延べ床面積&#39;, 1)
+    pdf.cell(150, 10, floor_area, 1, 1)
+    pdf.cell(40, 10, &#39;階数&#39;, 1)
+    pdf.cell(150, 10, floors, 1, 1)
+    pdf.cell(40, 10, &#39;部屋数&#39;, 1)
+    pdf.cell(150, 10, rooms, 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(60, 40, &#39;企業理念・経営方針&#39;, 1)
+    pdf.multi_cell(130, 40, philosophy, 1)
+    pdf.cell(60, 20, &#39;BCP策定の目的1&#39;, 1)
+    pdf.multi_cell(130, 20, purpose_1, 1)
+    pdf.cell(60, 20, &#39;BCP策定の目的2&#39;, 1)
+    pdf.multi_cell(130, 20, purpose_2, 1)
+    pdf.cell(60, 20, &#39;BCP策定の目的3&#39;, 1)
+    pdf.multi_cell(130, 20, purpose_3, 1)
+    pdf.ln(60)
+
+    # メンバー情報をテーブル形式で追加
+    pdf.set_fill_color(220, 220, 220)
+    pdf.cell(0, 10, &#39;推進体制&#39;, 0, 1, &#39;L&#39;)
+    pdf.cell(40, 10, &#39;主な役割&#39;, 1)
+    pdf.cell(40, 10, &#39;部署・役職&#39;, 1)
+    pdf.cell(40, 10, &#39;氏名&#39;, 1)
+    pdf.cell(70, 10, &#39;補足&#39;, 1, 1)
+    
+    roles = session.get(&#39;roles&#39;, [])
+    departments = session.get(&#39;departments&#39;, [])
+    names = session.get(&#39;names&#39;, [])
+    notes = session.get(&#39;notes&#39;, [])
+    
+    for role, department, name, note in zip(roles, departments, names, notes):
+        pdf.cell(40, 10, role, 1)
+        pdf.cell(40, 10, department, 1)
+        pdf.cell(40, 10, name, 1)
+        pdf.cell(70, 10, note, 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;施設の組織図&#39;, 0, 1, &#39;L&#39;)
+    if org_chart_path != &#39;不明&#39;:
+        current_y = pdf.get_y()  # 現在のY座標を取得
+        pdf.image(org_chart_path, x=10, y=current_y + 10, w=150)  # 画像を挿入
+        pdf.ln(200)  # 画像の高さ分だけ下にスペースを追加
+
+    pdf.ln(10)
+    pdf.cell(0, 10, &#39;優先する事業&#39;, 0, 1, &#39;L&#39;)
+    start_x = pdf.get_x()
+    start_y = pdf.get_y()
+    for business in priority_business:
+        pdf.cell(0, 10, business, 0, 1, &#39;L&#39;)
+    end_y = pdf.get_y()
+    pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先する事業を囲む黒い枠を追加
+    pdf.ln(10)
+    
+    pdf.cell(0, 10, &#39;優先業務&#39;, 0, 1, &#39;L&#39;)
+    start_x = pdf.get_x()
+    start_y = pdf.get_y()
+    for task in priority_tasks:
+        pdf.cell(0, 10, task, 0, 1, &#39;L&#39;)
+    end_y = pdf.get_y()
+    pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先業務を囲む黒い枠を追加
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;優先される物品&#39;, 0, 1, &#39;L&#39;)
+    start_x = pdf.get_x()
+    start_y = pdf.get_y()
+    for item in priority_items:
+        pdf.cell(0, 10, item, 0, 1, &#39;L&#39;)
+    end_y = pdf.get_y()
+    pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先される物品を囲む黒い枠を追加
+    pdf.ln(10)
+
+    measure_target_mapping = {
+        &#39;躯体(柱、壁、床)&#39;: [&#39;柱の補強&#39;, &#39;Ｘ型補強&#39;, &#39;コンクリート欠損&#39;, &#39;コンクリートひび&#39;, &#39;コンクリート脱落&#39;, &#39;コンクリート風化&#39;, &#39;地震に特化した物品バール&#39;],
+        &#39;天井&#39;: [&#39;天井の石膏ボードの落下防止&#39;],
+        &#39;窓&#39;: [&#39;廊下・出入口のガラス飛散防止フィルムの貼付け&#39;, &#39;ガラスの落下・はずれ・ゆるみ・変形&#39;],
+        &#39;ドア&#39;: [&#39;ドアのはずれ・ゆるみ・変形&#39;],
+        &#39;事務所の什器&#39;: [&#39;キャビネットは転倒防止のため壁に固定する&#39;, &#39;キャビネットは転倒防止のため突っ張り棒で固定する&#39;, &#39;落下の危険性がないようにする&#39;],
+        &#39;食堂の什器&#39;: [&#39;壁を補強して転倒防止のため壁に固定する&#39;, &#39;ガラス飛散防止フィルムの貼付け&#39;, &#39;壁を補強して転倒防止のため突っ張り棒で固定する&#39;],
+        &#39;風呂場の什器&#39;: [&#39;大型入浴機器を固定する&#39;, &#39;棚を壁に固定する&#39;],
+        &#39;ロビー・集会所・会議室の什器&#39;: [&#39;床に固定する&#39;, &#39;壁に固定する&#39;, &#39;突っ張り棒で固定する&#39;],
+        &#39;利用者居室の什器&#39;: [&#39;家具を壁に固定する&#39;, &#39;突っ張り棒で固定する&#39;],
+        &#39;ノートパソコン&#39;: [&#39;机に固定する(ノート)&#39;, &#39;重要なデータはバックアップをとり保管する(ノート)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(ノート)&#39;],
+        &#39;デスクトップパソコン&#39;: [&#39;机に固定する(デスク)&#39;, &#39;重要なデータはバックアップをとり保管する(デスク)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(デスク)&#39;],
+        &#39;ディスプレイ&#39;: [&#39;机に固定する(ディスプレイ)&#39;, &#39;重要なデータはバックアップをとり保管する(ディスプレイ)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(ディスプレイ)&#39;],
+        &#39;タブレット(iPad)&#39;: [&#39;重要なデータはバックアップをとり保管する(iPad)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(iPad)&#39;],
+        &#39;タブレット(Android)&#39;: [&#39;重要なデータはバックアップをとり保管する(Android)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(Android)&#39;],
+        &#39;携帯電話&#39;: [&#39;重要なデータはバックアップをとり保管する(携帯)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(携帯)&#39;],
+        &#39;スマートフォン&#39;: [&#39;重要なデータはバックアップをとり保管する(スマホ)&#39;, &#39;破損や電源が入らないなど異常はないか確認する(スマホ)&#39;],
+        &#39;固定電話&#39;: [&#39;机に固定する(固定電話)&#39;],
+        &#39;衛星電話&#39;: [&#39;破損や電源が入らないなど異常はないか確認する(衛星)&#39;],
+        &#39;金庫&#39;: [&#39;飛び出し防止・転倒防止のため床に固定する&#39;, &#39;飛び出し防止・転倒防止のため壁に固定する&#39;],
+        &#39;受水槽&#39;: [&#39;倒壊の可能性有無、防護壁の設置&#39;],
+        &#39;ＬＰガス&#39;: [&#39;ＬＰガスボンベの固定の強化&#39;],
+        &#39;燃油タンク&#39;: [&#39;地面への固定アンカーの腐食の有無、金具交換&#39;],
+        &#39;太陽光発電&#39;: [&#39;太陽光発電装置の固定の強化&#39;],
+        &#39;蓄電装置&#39;: [&#39;蓄電装置の固定の強化&#39;],
+        &#39;出入口&#39;: [&#39;建物入口に止水板があるか&#39;, &#39;建物入り口に防水扉があるか&#39;, &#39;建物入り口に支障となる物品等がおいてないか&#39;],
+        &#39;施設周辺&#39;: [&#39;避難等に支障となるものはないか&#39;],
+        &#39;逆流防止&#39;: [&#39;側溝や排水溝が機能するか&#39;, &#39;風呂やトイレ等の排水溝からの逆流防止ができているか&#39;],
+        &#39;屋外重要設備&#39;: [&#39;受電・変電設備の浸水対策&#39;, &#39;受水槽の浸水対策&#39;, &#39;LPガスの浸水対策&#39;, &#39;蓄電装置の浸水対策&#39;],
+        &#39;電気&#39;: [&#39;発電機(LPガス)&#39;, &#39;発電機燃料(LPガス)&#39;, &#39;発電機オイル&#39;, &#39;電源リール&#39;, &#39;テーブルタップ&#39;],
+        &#39;ガス&#39;: [&#39;LPガス&#39;, &#39;五徳&#39;, &#39;着火ライター&#39;],
+        &#39;水道&#39;: [&#39;ポリタンク&#39;],
+        &#39;通信手段&#39;: [&#39;ラジオ&#39;, &#39;トランシーバー&#39;, &#39;携帯電話充電器&#39;, &#39;モバイルバッテリー&#39;],
+        &#39;情報機器&#39;: [&#39;パソコン&#39;, &#39;プリンター&#39;, &#39;データバックアップ・ハードディスク&#39;, &#39;ヘッドライト&#39;],
+        &#39;照明機器&#39;: [&#39;懐中電灯&#39;, &#39;投光器&#39;, &#39;ランタン&#39;, &#39;乾電池&#39;, &#39;ろうそく&#39;, &#39;マッチ&#39;, &#39;ライター&#39;],
+        &#39;冷暖房&#39;: [&#39;石油ストーブ&#39;, &#39;灯油&#39;, &#39;カイロ&#39;, &#39;湯たんぽ&#39;, &#39;保冷剤&#39;, &#39;扇風機&#39;],
+        &#39;水害対策&#39;: [&#39;土のう&#39;, &#39;ゴムボート&#39;],
+        &#39;避難用具&#39;: [&#39;ヘルメット、懐中電灯&#39;, &#39;防災頭巾&#39;, &#39;メガホン、拡声器&#39;, &#39;担架&#39;, &#39;リヤカー&#39;, &#39;車椅子&#39;, &#39;携帯用酸素吸入器&#39;, &#39;救助工具セット&#39;, &#39;大形テント&#39;, &#39;ブルーシート&#39;, &#39;ロープ&#39;, &#39;ガムテープ&#39;],
+        &#39;職員衣服&#39;: [&#39;軍手&#39;, &#39;雨合羽&#39;, &#39;防寒具&#39;],
+        &#39;交通手段&#39;: [&#39;バイク&#39;, &#39;自転車&#39;],
+        &#39;現金&#39;: [&#39;現金&#39;],
+        &#39;衛生&#39;: [&#39;紙おむつ&#39;, &#39;尿パッド&#39;, &#39;ドライシャンプー&#39;, &#39;歯ブラシ&#39;, &#39;石けん&#39;, &#39;タオル&#39;, &#39;肌着&#39;, &#39;生理用品&#39;, &#39;ビニール袋&#39;],
+        &#39;トイレ&#39;: [&#39;簡易トイレ&#39;, &#39;仮設トイレ&#39;, &#39;トイレットペーパー&#39;],
+        &#39;睡眠&#39;: [&#39;段ボールベッド&#39;, &#39;毛布&#39;, &#39;寝袋&#39;],
+        &#39;飲料&#39;: [&#39;飲料水(２リットル/本)&#39;, &#39;ジュース類(果物、野菜)&#39;, &#39;お茶&#39;],
+        &#39;食品&#39;: [&#39;保存食(アルファ化米)&#39;, &#39;米(無洗米)&#39;, &#39;レトルト粥&#39;, &#39;缶詰&#39;, &#39;経管栄養食&#39;, &#39;高カロリー食&#39;, &#39;インスタント食品&#39;, &#39;栄養ドリンク&#39;],
+        &#39;衛生用品&#39;: [&#39;紙コップ、紙皿&#39;, &#39;割り箸、使い捨てスプーン&#39;, &#39;ペーパーナプキン、ティッシュペーパー&#39;, &#39;ペーパータオル、ウェットティッシュ&#39;, &#39;ポリ袋、ゴミ袋、ラップ、ブルーシート、ポリタンク（５L）&#39;],
+        &#39;厨房関連&#39;: [&#39;カセットコンロ、カセットボンベ&#39;, &#39;ホットプレート&#39;, &#39;屋外用コンロ（かまど）&#39;, &#39;ナベ、調理器具&#39;],
+        &#39;消毒剤薬&#39;: [],
+        &#39;脱脂綿、絆創膏 &#39;: [],
+        &#39;包帯、三角巾 &#39;: [],
+        &#39;ウェットティッシュ&#39;: [],
+        &#39;ホワイトボード&#39;: [],
+        &#39;マーカー(黒、赤)&#39;: [],
+        &#39;黒板消し&#39;: [],
+        &#39;ＢＣＰマニュアル&#39;: [],
+        &#39;持ち出しファイル&#39;: [],
+        &#39;記録用紙&#39;: [],
+        &#39;筆記用具&#39;: [],
+        &#39;模造紙&#39;: [],
+        &#39;付箋紙&#39;: [],
+        &#39;養生テープ&#39;: [],
+        &#39;ガムテープ&#39;: [],
+        &#39;サインペン&#39;: [],
+        &#39;施設レイアウト図&#39;: [],
+        &#39;周辺地域地図&#39;: [],
+        &#39;推進体制図&#39;: [],
+        &#39;連絡先リスト&#39;: [],
+        &#39;マスク（不織布製マスク）&#39;: [],
+        &#39;サージカルマスク&#39;: [],
+        &#39;体温計（非接触型体温計）&#39;: [],
+        &#39;ゴム手袋（使い捨て）&#39;: [],
+        &#39;フェイスシールド&#39;: [],
+        &#39;ゴーグル&#39;: [],
+        &#39;使い捨て袖付きエプロン&#39;: [],
+        &#39;ガウン&#39;: [],
+        &#39;キャップ&#39;: [],
+        &#39;次亜塩素酸ナトリウム液&#39;: [],
+        &#39;消毒用アルコール&#39;: [],
+        &#39;ガーゼ・コットン&#39;: [],
+        &#39;トイレットペーパー&#39;: [],
+        &#39;ティッシュペーパー&#39;: [],
+        &#39;保湿ティッシュ&#39;: [],
+        &#39;石鹸・液体せっけん&#39;: [],
+        &#39;紙おむつ&#39;: [],
+        &#39;自動車&#39;: [],
+        &#39;バイク&#39;: [],
+        &#39;自転車&#39;: [],
+        &#39;電動自転車&#39;: [],
+        &#39;電気スクーター&#39;: []
+        }
+
+
+    pdf.cell(0, 10, &#39;建物関連&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+    
+    for measure in measure_building:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_building.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;什器・コンピュータ&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+    
+    for measure in measure_furniture:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_furniture.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;建物外部の施設&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+    
+    for measure in measure_external:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_external.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;水害対策関連&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_flood:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_flood.get(measure, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+
+    pdf.cell(0, 10, &#39;インフラ&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_infrastructure:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_infrastructure.get(measure, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;防災備品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_emergency:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_emergency.get(measure, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;飲料、食品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(40, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(110, 10, &#39;対策&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(40, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for measure in measure_food:
+        target = next((t for t, m in measure_target_mapping.items() if measure in m), &#39;不明&#39;)
+        pdf.cell(40, 10, target, 1)
+        pdf.cell(110, 10, measure, 1)
+        pdf.cell(40, 10, current_status_food.get(measure, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;医薬品、衛生用品、日用品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_medical:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_medical.get(target, &#39;不明&#39;), 1, 1)
+    pdf.ln(10) 
+
+    pdf.cell(0, 10, &#39;対策本部の防災備品&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_headquarters:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_headquarters.get(target, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;感染防止&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_prevention:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_prevention.get(target, &#39;不明&#39;), 1, 1)
+    pdf.ln(10)
+
+    pdf.cell(0, 10, &#39;車両&#39;, 0, 1, &#39;L&#39;)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(70, 10, &#39;対象&#39;, 1, 0, &#39;C&#39;, 1)
+    pdf.cell(120, 10, &#39;現状&#39;, 1, 1, &#39;C&#39;, 1)
+
+    for target in target_vehicle:
+        pdf.cell(70, 10, target, 1)
+        pdf.cell(120, 10, current_status_vehicle.get(target, &#39;不明&#39;), 1, 1)
+
+    pdf.ln(10)    
+    entity = session.get(&#39;entity&#39;, &#39;不明&#39;)
+    responsibility = session.get(&#39;responsibility&#39;, &#39;不明&#39;)
+    pdf.cell(200, 10, txt=f&#34;主体: {entity}&#34;, ln=True)
+    pdf.cell(200, 10, txt=f&#34;責任者: {responsibility}&#34;, ln=True)
+
+    pdf_file = &#39;output.pdf&#39;
+    pdf.output(pdf_file)
+    return send_file(pdf_file)</code></pre>
+</details>
+</dd>
+<dt id="main.home"><code class="name flex">
+<span>def <span class="ident">home</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/&#39;)
+def home():
+    session.clear()  # 新しいセッションを開始
+    return render_template(&#39;home.html&#39;)  # &#39;home.html&#39;をレンダリング</code></pre>
+</details>
+</dd>
+<dt id="main.step1"><code class="name flex">
+<span>def <span class="ident">step1</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/step1&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def step1():
+    if request.method == &#39;POST&#39;:
+        session[&#39;location&#39;] = request.form[&#39;location&#39;]
+        session[&#39;environment&#39;] = request.form[&#39;environment&#39;]
+        session[&#39;facility_type&#39;] = request.form[&#39;facility_type&#39;]
+        session[&#39;residents_number&#39;] = request.form[&#39;residents_number&#39;]
+        session[&#39;residents_status&#39;] = request.form[&#39;residents_status&#39;]
+        session[&#39;staff_number&#39;] = request.form[&#39;staff_number&#39;]
+        session[&#39;site_area&#39;] = request.form[&#39;site_area&#39;]
+        session[&#39;floor_area&#39;] = request.form[&#39;floor_area&#39;]
+        session[&#39;floors&#39;] = request.form[&#39;floors&#39;]
+        session[&#39;rooms&#39;] = request.form[&#39;rooms&#39;]
+        session[&#39;philosophy&#39;] = request.form[&#39;philosophy&#39;]
+        session[&#39;purpose_1&#39;] = request.form[&#39;purpose_1&#39;]
+        session[&#39;purpose_2&#39;] = request.form[&#39;purpose_2&#39;]
+        session[&#39;purpose_3&#39;] = request.form[&#39;purpose_3&#39;]
+        session[&#39;roles&#39;] = request.form.getlist(&#39;roles[]&#39;)
+        session[&#39;departments&#39;] = request.form.getlist(&#39;departments[]&#39;)
+        session[&#39;names&#39;] = request.form.getlist(&#39;names[]&#39;)
+        session[&#39;notes&#39;] = request.form.getlist(&#39;notes[]&#39;)
+        # 組織図の取得
+        if &#39;org_chart&#39; in request.files:
+            file = request.files[&#39;org_chart&#39;]
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(app.config[&#39;UPLOAD_FOLDER&#39;], filename)
+                file.save(filepath)
+                session[&#39;org_chart&#39;] = filepath  # ファイルのパスをセッションに保存
+        session[&#39;priority_business&#39;] = request.form.getlist(&#39;priority_business[]&#39;)
+        session[&#39;priority_tasks&#39;] = request.form.getlist(&#39;priority_tasks[]&#39;)
+        session[&#39;priority_items&#39;] = request.form.getlist(&#39;priority_items[]&#39;)
+        return redirect(url_for(&#39;step2&#39;))
+    return render_template(&#39;step1.html&#39;) </code></pre>
+</details>
+</dd>
+<dt id="main.step2"><code class="name flex">
+<span>def <span class="ident">step2</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/step2&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def step2():
+    if request.method == &#39;POST&#39;:
+        target_building = request.form.getlist(&#39;target_building[]&#39;)
+        measure_building = []
+        current_status_building = {}
+
+        for target in target_building:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_building.extend(measures)
+            for measure in measures:
+                current_status_building[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_building&#39;] = target_building
+        session[&#39;measure_building&#39;] = measure_building
+        session[&#39;current_status_building&#39;] = current_status_building
+
+        target_furniture = request.form.getlist(&#39;target_furniture[]&#39;)
+        measure_furniture = []
+        current_status_furniture = {}
+
+        for target in target_furniture:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_furniture.extend(measures)
+            for measure in measures:
+                current_status_furniture[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_furniture&#39;] = target_furniture
+        session[&#39;measure_furniture&#39;] = measure_furniture
+        session[&#39;current_status_furniture&#39;] = current_status_furniture
+
+        target_external = request.form.getlist(&#39;target_external[]&#39;)
+        measure_external = []
+        current_status_external = {}
+
+        for target in target_external:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_external.extend(measures)
+            for measure in measures:
+                current_status_external[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_external&#39;] = target_external
+        session[&#39;measure_external&#39;] = measure_external
+        session[&#39;current_status_external&#39;] = current_status_external
+
+        target_flood = request.form.getlist(&#39;target_flood[]&#39;)
+        measure_flood = []
+        current_status_flood = {}
+
+        for target in target_flood:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_flood.extend(measures)
+            for measure in measures:
+                current_status_flood[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_flood&#39;] = target_flood
+        session[&#39;measure_flood&#39;] = measure_flood
+        session[&#39;current_status_flood&#39;] = current_status_flood
+
+        target_infrastructure = request.form.getlist(&#39;target_infrastructure[]&#39;)
+        measure_infrastructure = []
+        current_status_infrastructure = {}
+
+        for target in target_infrastructure:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_infrastructure.extend(measures)
+            for measure in measures:
+                current_status_infrastructure[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_infrastructure&#39;] = target_infrastructure
+        session[&#39;measure_infrastructure&#39;] = measure_infrastructure
+        session[&#39;current_status_infrastructure&#39;] = current_status_infrastructure
+
+        target_emergency = request.form.getlist(&#39;target_emergency[]&#39;)
+        measure_emergency = []
+        current_status_emergency = {}
+
+        for target in target_emergency:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_emergency.extend(measures)
+            for measure in measures:
+                current_status_emergency[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_emergency&#39;] = target_emergency
+        session[&#39;measure_emergency&#39;] = measure_emergency
+        session[&#39;current_status_emergency&#39;] = current_status_emergency
+
+        target_food = request.form.getlist(&#39;target_food[]&#39;)
+        measure_food = []
+        current_status_food = {}
+
+        for target in target_food:
+            measures = request.form.getlist(f&#39;measure_target_{target}[]&#39;)
+            measure_food.extend(measures)
+            for measure in measures:
+                current_status_food[measure] = request.form.get(f&#39;current_status_{measure}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_food&#39;] = target_food
+        session[&#39;measure_food&#39;] = measure_food
+        session[&#39;current_status_food&#39;] = current_status_food
+
+        target_medical = request.form.getlist(&#39;target_medical[]&#39;)
+        current_status_medical = {}
+
+        for target in target_medical:
+            current_status_medical[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_medical&#39;] = target_medical
+        session[&#39;current_status_medical&#39;] = current_status_medical
+    
+        target_headquarters = request.form.getlist(&#39;target_headquarters[]&#39;)
+        current_status_headquarters = {}
+
+        for target in target_headquarters:
+            current_status_headquarters[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_headquarters&#39;] = target_headquarters
+        session[&#39;current_status_headquarters&#39;] = current_status_headquarters
+
+        target_prevention = request.form.getlist(&#39;target_prevention[]&#39;)
+        current_status_prevention = {}
+
+        for target in target_prevention:
+            current_status_prevention[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_prevention&#39;] = target_prevention
+        session[&#39;current_status_prevention&#39;] = current_status_prevention
+
+        target_vehicle = request.form.getlist(&#39;target_vehicle[]&#39;)
+        current_status_vehicle = {}
+
+        for target in target_vehicle:
+            current_status_vehicle[target] = request.form.get(f&#39;current_status_{target}&#39;, &#39;不明&#39;)
+
+        session[&#39;target_vehicle&#39;] = target_vehicle
+        session[&#39;current_status_vehicle&#39;] = current_status_vehicle
+
+        return redirect(url_for(&#39;step3&#39;))
+    return render_template(&#39;step2.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="main.step3"><code class="name flex">
+<span>def <span class="ident">step3</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/step3&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def step3():
+    if request.method == &#39;POST&#39;:
+        # フォームデータをセッションに保存
+        session[&#39;entity&#39;] = request.form[&#39;entity&#39;]
+        session[&#39;responsibility&#39;] = request.form[&#39;responsibility&#39;]
+        # PDF生成のルートへリダイレクト
+        return redirect(url_for(&#39;generate_pdf&#39;))
+    return render_template(&#39;step3.html&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="main.allowed_file" href="#main.allowed_file">allowed_file</a></code></li>
+<li><code><a title="main.generate_pdf" href="#main.generate_pdf">generate_pdf</a></code></li>
+<li><code><a title="main.home" href="#main.home">home</a></code></li>
+<li><code><a title="main.step1" href="#main.step1">step1</a></code></li>
+<li><code><a title="main.step2" href="#main.step2">step2</a></code></li>
+<li><code><a title="main.step3" href="#main.step3">step3</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
