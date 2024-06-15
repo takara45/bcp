@@ -1,3 +1,4 @@
 [submodule "bcp"]
     path = bcp
-    url = https://github.com/takara45/bcp-submodule-url
+    url = git@github.com:takara45/bcp-submodule-url.git
+
