@@ -3,6 +3,7 @@ from fpdf import FPDF
 from flask_session import Session  # セッション管理用
 import os
 import logging
+import jsonify
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -657,7 +658,14 @@ def generate_pdf():
     pdf.output(pdf_file)
     return send_file(pdf_file)
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    response = {
+        "error": str(e)
+    }
+    return jsonify(response), 500
+
 if __name__ == "__main__":
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8000)
