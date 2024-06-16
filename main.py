@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file, session, redirect,
 from fpdf import FPDF
 from flask_session import Session  # セッション管理用
 import os
+import logging
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -9,6 +10,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['UPLOAD_FOLDER'] = 'uploads'
 Session(app)
+
+logging.basicConfig(filename='error.log', level=logging.DEBUG)
 
 def allowed_file(filename):
     return '.' in filename and \
