@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -b 0.0.0.0:8000 main:app --log-level=debug
+web: gunicorn -w 4 -b 0.0.0.0:8000 app:app --log-level=debug
