@@ -9,20 +9,174 @@
 <body>
     <div class="main-container">
         <div class="content">
-            <h1>Step 3</h1>
+            <h1>備蓄品管理</h1>
             <form action="/step3" method="post">
-                <div class="form-group">
-                    <label for="entity">対応主体:</label>
-                    <input type="text" id="entity" name="entity" class="form-control"> 
+                <!-- インフラ セクション -->
+                <div class="form-section">
+                    <h2>インフラ</h2>
+                    {% for item in session.get('measure_infrastructure', []) %}
+                    <div class="form-group">
+                        <label>{{ item }}</label>
+                        <input type="hidden" name="items[]" value="{{ item }}">
+                        <label>必要量</label>
+                        <input type="text" name="quantities[]" class="form-control">
+                        <label>現備蓄量</label>
+                        <input type="text" name="stocks[]" class="form-control">
+                        <label>単位</label>
+                        <input type="text" name="units[]" class="form-control">
+                        <label>保管場所</label>
+                        <input type="text" name="locations[]" class="form-control">
+                        <label>担当者</label>
+                        <input type="text" name="persons[]" class="form-control">
+                        <label>調達先</label>
+                        <input type="text" name="suppliers[]" class="form-control">
+                        <label>日付</label>
+                        <input type="date" name="dates[]" class="form-control">
+                        <label>備考</label>
+                        <input type="text" name="notes[]" class="form-control">
+                    </div>
+                    {% endfor %}
                 </div>
-                <div class="form-group">
-                    <label for="responsibility">責任者:</label>
-                    <input type="text" id="responsibility" name="responsibility" class="form-control"> 
+
+                <!-- 防災備品 セクション -->
+                <div class="form-section">
+                    <h2>防災備品</h2>
+                    {% for item in session.get('measure_emergency', []) %}
+                    <div class="form-group">
+                        <label>{{ item }}</label>
+                        <input type="hidden" name="items[]" value="{{ item }}">
+                        <label>必要量</label>
+                        <input type="text" name="quantities[]" class="form-control">
+                        <label>現備蓄量</label>
+                        <input type="text" name="stocks[]" class="form-control">
+                        <label>単位</label>
+                        <input type="text" name="units[]" class="form-control">
+                        <label>保管場所</label>
+                        <input type="text" name="locations[]" class="form-control">
+                        <label>担当者</label>
+                        <input type="text" name="persons[]" class="form-control">
+                        <label>調達先</label>
+                        <input type="text" name="suppliers[]" class="form-control">
+                        <label>日付</label>
+                        <input type="date" name="dates[]" class="form-control">
+                        <label>備考</label>
+                        <input type="text" name="notes[]" class="form-control">
+                    </div>
+                    {% endfor %}
                 </div>
-                <input type="submit" value="PDFを生成" class="submit-button">
+
+                <!-- 飲料、食品 セクション -->
+                <div class="form-section">
+                    <h2>飲料、食品</h2>
+                    {% for item in session.get('measure_food', []) %}
+                    <div class="form-group">
+                        <label>{{ item }}</label>
+                        <input type="hidden" name="items[]" value="{{ item }}">
+                        <label>必要量</label>
+                        <input type="text" name="quantities[]" class="form-control">
+                        <label>現備蓄量</label>
+                        <input type="text" name="stocks[]" class="form-control">
+                        <label>単位</label>
+                        <input type="text" name="units[]" class="form-control">
+                        <label>保管場所</label>
+                        <input type="text" name="locations[]" class="form-control">
+                        <label>担当者</label>
+                        <input type="text" name="persons[]" class="form-control">
+                        <label>調達先</label>
+                        <input type="text" name="suppliers[]" class="form-control">
+                        <label>日付</label>
+                        <input type="date" name="dates[]" class="form-control">
+                        <label>備考</label>
+                        <input type="text" name="notes[]" class="form-control">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 医薬品、衛生用品、日用品 セクション -->
+                <div class="form-section">
+                    <h2>医薬品、衛生用品、日用品</h2>
+                    {% for item in session.get('target_medical', []) %}
+                    <div class="form-group">
+                        <label>{{ item }}</label>
+                        <input type="hidden" name="items[]" value="{{ item }}">
+                        <label>必要量</label>
+                        <input type="text" name="quantities[]" class="form-control">
+                        <label>現備蓄量</label>
+                        <input type="text" name="stocks[]" class="form-control">
+                        <label>単位</label>
+                        <input type="text" name="units[]" class="form-control">
+                        <label>保管場所</label>
+                        <input type="text" name="locations[]" class="form-control">
+                        <label>担当者</label>
+                        <input type="text" name="persons[]" class="form-control">
+                        <label>調達先</label>
+                        <input type="text" name="suppliers[]" class="form-control">
+                        <label>日付</label>
+                        <input type="date" name="dates[]" class="form-control">
+                        <label>備考</label>
+                        <input type="text" name="notes[]" class="form-control">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 対策本部の防災備品 セクション -->
+                <div class="form-section">
+                    <h2>対策本部の防災備品</h2>
+                    {% for item in session.get('target_headquarters', []) %}
+                    <div class="form-group">
+                        <label>{{ item }}</label>
+                        <input type="hidden" name="items[]" value="{{ item }}">
+                        <label>必要量</label>
+                        <input type="text" name="quantities[]" class="form-control">
+                        <label>現備蓄量</label>
+                        <input type="text" name="stocks[]" class="form-control">
+                        <label>単位</label>
+                        <input type="text" name="units[]" class="form-control">
+                        <label>保管場所</label>
+                        <input type="text" name="locations[]" class="form-control">
+                        <label>担当者</label>
+                        <input type="text" name="persons[]" class="form-control">
+                        <label>調達先</label>
+                        <input type="text" name="suppliers[]" class="form-control">
+                        <label>日付</label>
+                        <input type="date" name="dates[]" class="form-control">
+                        <label>備考</label>
+                        <input type="text" name="notes[]" class="form-control">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 感染防止 セクション -->
+                <div class="form-section">
+                    <h2>感染防止</h2>
+                    {% for item in session.get('target_prevention', []) %}
+                    <div class="form-group">
+                        <label>{{ item }}</label>
+                        <input type="hidden" name="items[]" value="{{ item }}">
+                        <label>必要量</label>
+                        <input type="text" name="quantities[]" class="form-control">
+                        <label>現備蓄量</label>
+                        <input type="text" name="stocks[]" class="form-control">
+                        <label>単位</label>
+                        <input type="text" name="units[]" class="form-control">
+                        <label>保管場所</label>
+                        <input type="text" name="locations[]" class="form-control">
+                        <label>担当者</label>
+                        <input type="text" name="persons[]" class="form-control">
+                        <label>調達先</label>
+                        <input type="text" name="suppliers[]" class="form-control">
+                        <label>日付</label>
+                        <input type="date" name="dates[]" class="form-control">
+                        <label>備考</label>
+                        <input type="text" name="notes[]" class="form-control">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <input type="submit" value="緊急時へ" class="submit-button">
+                <a href="{{ url_for('step2') }}" class="back-button">平常時に戻る</a>
             </form>
         </div>
     </div>
 </body>
 </html>
-

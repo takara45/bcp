@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Step 1</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .form-control {
+            width: 300px;
+            resize: none; /* ボックスの大きさを固定 */
+        }
+        textarea.form-control {
+            height: 100px; /* テキストエリアの高さを固定 */
+        }
+    </style>
 </head>
 <body>
     <div class="main-container">
@@ -12,60 +21,88 @@
             <h1> 総論 </h1>
             <form action="/step1" method="post" enctype="multipart/form-data">
                 <div class="form-group">
+                    <label for="corporation_name">法人名:</label>
+                    <input type="text" id="corporation_name" name="corporation_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="office_name">施設・事務所名:</label>
+                    <input type="text" id="office_name" name="office_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="representative_name">代表者名:</label>
+                    <input type="text" id="representative_name" name="representative_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="manager_name">管理者名:</label>
+                    <input type="text" id="manager_name" name="manager_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">電話番号:</label>
+                    <input type="text" id="phone_number" name="phone_number" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="creation_date">作成日:</label>
+                    <input type="date" id="creation_date" name="creation_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="revision_date">改訂日:</label>
+                    <input type="date" id="revision_date" name="revision_date" class="form-control">
+                </div>
+                <div class="form-group">
                     <label for="location">所在地:</label>
-                    <input type="text" id="location" name="location" class="form-control" required>
+                    <input type="text" id="location" name="location" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="environment">立地環境:</label>
-                    <input type="text" id="environment" name="environment" class="form-control" required>
+                    <input type="text" id="environment" name="environment" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="facility_type">施設区分:</label>
-                    <input type="text" id="facility_type" name="facility_type" class="form-control" required>
+                    <input type="text" id="facility_type" name="facility_type" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="residents_number">入所者数:</label>
-                    <input type="number" id="residents_number" name="residents_number" class="form-control" required>
+                    <input type="text" id="residents_number" name="residents_number" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="residents_status">入所者の状況:</label>
-                    <input type="text" id="residents_status" name="residents_status" class="form-control" required>
+                    <input type="text" id="residents_status" name="residents_status" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="staff_number">職員数:</label>
-                    <input type="number" id="staff_number" name="staff_number" class="form-control" required>
+                    <input type="text" id="staff_number" name="staff_number" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="site_area">敷地面積:</label>
-                    <input type="text" id="site_area" name="site_area" class="form-control" required>
+                    <input type="text" id="site_area" name="site_area" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="floor_area">延べ床面積:</label>
-                    <input type="text" id="floor_area" name="floor_area" class="form-control" required>
+                    <input type="text" id="floor_area" name="floor_area" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="floors">階数:</label>
-                    <input type="number" id="floors" name="floors" class="form-control" required>
+                    <input type="text" id="floors" name="floors" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="rooms">部屋数:</label>
-                    <input type="number" id="rooms" name="rooms" class="form-control" required>
+                    <input type="text" id="rooms" name="rooms" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="philosophy">企業理念・経営方針:</label>
-                    <textarea id="philosophy" name="philosophy" class="form-control" required></textarea>
-                </div>
+                    <textarea id="philosophy" name="philosophy" class="form-control" style="height: 300px;"></textarea>
+                </div>                
                 <div class="form-group">
                     <label for="purpose_1">BCP策定の目的1:</label>
-                    <textarea id="purpose_1" name="purpose_1" class="form-control" required></textarea>
+                    <textarea id="purpose_1" name="purpose_1" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="purpose_2">BCP策定の目的2:</label>
-                    <textarea id="purpose_2" name="purpose_2" class="form-control" required></textarea>
+                    <textarea id="purpose_2" name="purpose_2" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="purpose_3">BCP策定の目的3:</label>
-                    <textarea id="purpose_3" name="purpose_3" class="form-control" required></textarea>
+                    <textarea id="purpose_3" name="purpose_3" class="form-control"></textarea>
                 </div>
                 <div id="members-container">
                     <div class="form-group member">
@@ -87,6 +124,19 @@
                     <input type="file" id="org_chart" name="org_chart" accept=".jpeg, .jpg, .png, .pdf"><br><br>
                 </div>
 
+                <div class="form-group">
+                    <label for="earthquake_files">リスクの把握 地震:</label>
+                    <input type="file" id="earthquake_files" name="earthquake_files[]" accept=".png, .jpg, .jpeg, .pdf" multiple><br>
+                    <small>写真を添付する際には以下のサイトを参照してください：</small><br>
+                    <a href="https://disaportal.gsi.go.jp/" target="_blank">ハザードマップポータルサイト</a><br><br>
+                </div>
+                
+                <div class="form-group">
+                    <label for="flood_files">リスクの把握 水害:</label>
+                    <input type="file" id="flood_files" name="flood_files[]" accept=".png, .jpg, .jpeg, .pdf" multiple><br>
+                    <small>写真を添付する際には以下のサイトを参照してください：</small><br>
+                    <a href="https://disaportal.gsi.go.jp/" target="_blank">ハザードマップポータルサイト</a><br><br>
+                </div>
 
                 <!-- 優先する事業 第1選択肢 -->
                 <div class="form-group">
@@ -117,7 +167,7 @@
                     </div>
                 </div>
                 
-                <input type="submit" value="Step2へ" class="submit-button">
+                <input type="submit" value="平常時へ" class="submit-button">
             </form>
         </div>
     </div>
@@ -139,7 +189,6 @@
                 </div>`;
             container.insertAdjacentHTML("beforeend", memberHTML);
         }
-
 
         function showSecondaryOptions() {
             var primary = document.getElementById("priority_business");
@@ -201,5 +250,3 @@
     </script>
 </body>
 </html>
-
-

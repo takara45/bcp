@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="content">
+            <h1>緊急時</h1>
+            <form action="/step4" method="post">
+                <!-- BCP 発動基準 -->
+                <div class="form-section">
+                    <h2>BCP 発動基準</h2>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="bcp_criteria[]" value="地震">
+                            地震：本書に定める緊急時体制は、
+                            <input type="text" name="earthquake_city" class="form-control" placeholder="●●市">周辺において、震度
+                            <select name="earthquake_intensity" class="form-control">
+                                <option value="5強">5強</option>
+                                <option value="6弱">6弱</option>
+                                <option value="6強">6強</option>
+                            </select>
+                            以上の地震が発生したとき。
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="bcp_criteria[]" value="津波">
+                            津波：気象庁の津波
+                            <select name="tsunami_warning" class="form-control">
+                                <option value="津波注意報">津波注意報</option>
+                                <option value="津波警報">津波警報</option>
+                                <option value="大津波警報">大津波警報</option>
+                            </select>
+                            が発令された場合。
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="bcp_criteria[]" value="水害">
+                            水害：避難する時間も考慮して考える。
+                            <br>
+                            ・施設所在地の都道府県で大型台風の直撃が見込まれる場合。
+                            <br>
+                            ・気象庁の警戒レベル
+                            <select name="flood_warning" class="form-control">
+                                <option value="2">2（大雨、洪水等注意報）</option>
+                                <option value="3">3（大雨、洪水等高齢者等避難）</option>
+                            </select>
+                            が発令された場合。
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="bcp_criteria[]" value="雪害">
+                            雪害：気象庁の大雪注意報当、気象庁の大雪警報等がが発令された場合。
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="bcp_criteria[]" value="高潮">
+                            高潮：気象庁の高潮注意報、気象庁の高潮警報が発令された場合。
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>参集基準</h2>
+                
+                    <!-- 地震 -->
+                    <div class="form-group">
+                        <label>参集基準はBCP発動基準に準拠</label>
+                    </div>
+                
+                    <!-- 昼間 -->
+                    <div class="form-group">
+                        <label for="day_staff">対象職員：昼間:</label>
+                        <div id="day_staff" class="checkbox-group">
+                            <label><input type="checkbox" name="day_staff[]" value="施設長"> 施設長</label>
+                            <label><input type="checkbox" name="day_staff[]" value="対策本部長"> 対策本部長</label>
+                            <label><input type="checkbox" name="day_staff[]" value="事務局長"> 事務局長</label>
+                            <label><input type="checkbox" name="day_staff[]" value="事務局メンバー"> 事務局メンバー</label>
+                            <label><input type="checkbox" name="day_staff[]" value="現場責任者"> 現場責任者</label>
+                            <label><input type="checkbox" name="day_staff[]" value="広報・情報班"> 広報・情報班</label>
+                            <label><input type="checkbox" name="day_staff[]" value="設備班"> 設備班</label>
+                            <label><input type="checkbox" name="day_staff[]" value="調達班"> 調達班</label>
+                            <label><input type="checkbox" name="day_staff[]" value="介護班"> 介護班</label>
+                            <label><input type="checkbox" name="day_staff[]" value="医療・看護班"> 医療・看護班</label>
+                            <label><input type="checkbox" name="day_staff[]" value="給食班"> 給食班</label>
+                            <label><input type="checkbox" name="day_staff[]" value="その他"> その他</label>
+                            <input type="text" name="other_day_staff" placeholder="その他の場合は記入">
+                        </div>
+                    </div>
+                
+                    <!-- 夜間 -->
+                    <div class="form-group">
+                        <label for="night_staff">対象職員：夜間:</label>
+                        <div id="night_staff" class="checkbox-group">
+                            <label><input type="checkbox" name="night_staff[]" value="施設長"> 施設長</label>
+                            <label><input type="checkbox" name="night_staff[]" value="対策本部長"> 対策本部長</label>
+                            <label><input type="checkbox" name="night_staff[]" value="事務局長"> 事務局長</label>
+                            <label><input type="checkbox" name="night_staff[]" value="事務局メンバー"> 事務局メンバー</label>
+                            <label><input type="checkbox" name="night_staff[]" value="現場責任者"> 現場責任者</label>
+                            <label><input type="checkbox" name="night_staff[]" value="広報・情報班"> 広報・情報班</label>
+                            <label><input type="checkbox" name="night_staff[]" value="設備班"> 設備班</label>
+                            <label><input type="checkbox" name="night_staff[]" value="調達班"> 調達班</label>
+                            <label><input type="checkbox" name="night_staff[]" value="介護班"> 介護班</label>
+                            <label><input type="checkbox" name="night_staff[]" value="医療・看護班"> 医療・看護班</label>
+                            <label><input type="checkbox" name="night_staff[]" value="給食班"> 給食班</label>
+                            <label><input type="checkbox" name="night_staff[]" value="その他"> その他</label>
+                            <input type="text" name="other_night_staff" placeholder="その他の場合は記入">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>対応拠点</h2>
+                    <div class="form-group">
+                        <label for="earthquake_first_base">地震 - 第一拠点:</label>
+                        <input type="text" id="earthquake_first_base" name="earthquake_first_base">
+                    </div>
+                    <div class="form-group">
+                        <label for="earthquake_second_base">地震 - 第二拠点:</label>
+                        <input type="text" id="earthquake_second_base" name="earthquake_second_base">
+                    </div>
+                    <div class="form-group">
+                        <label for="flood_first_base">水害 - 第一拠点:</label>
+                        <input type="text" id="flood_first_base" name="flood_first_base">
+                    </div>
+                    <div class="form-group">
+                        <label for="flood_second_base">水害 - 第二拠点:</label>
+                        <input type="text" id="flood_second_base" name="flood_second_base">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>職員の安否確認</h2>
+                    <p>●職員の安否確認を速やかに行う。</p>
+                    <p>●速やかに安否確認結果を記録できるよう安否確認シートを準備しておく。</p>
+                
+                    <p>＜施設内＞</p>
+                    <p>・職員の安否確認は、利用者の安否確認とあわせて各エリアでエリアリーダーが点呼を行い、管理者に報告する。</p>
+                    
+                    <p>＜施設外・自宅等＞</p>
+                    <p>・施設外・自宅等で被災した場合は、以下の方法で施設に自身の安否情報を報告する。</p>
+                    <div class="form-group">
+                        <label >報告方法:</label><br>
+                        <label><input type="checkbox" name="report_methods[]" value="電話">①電話</label><br>
+                        <label><input type="checkbox" name="report_methods[]" value="携帯メール">②携帯メール</label><br>
+                        <label><input type="checkbox" name="report_methods[]" value="災害用伝言ダイヤル">③災害用伝言ダイヤル</label><br>
+                        <label><input type="checkbox" name="report_methods[]" value="安否確認システム・アプリ">④安否確認システム・アプリ</label><br>
+                        <label >⑤その他:</label><br>
+                        <input type="text" name="other_report_method" placeholder="その他の報告方法を記入">
+                    </div>
+                    
+                    <div class="form-group" class="checkbox-group">
+                        <label>報告内容:</label><br>
+                        <label><input type="checkbox" name="report_content[]" value="自身・家族の状況確認">自身・家族の状況確認</label><br>
+                        <label><input type="checkbox" name="report_content[]" value="施設への出勤可能性の確認">施設への出勤可能性の確認</label>
+                    </div>
+                    
+                </div>
+
+                <!-- 入居者・利用者の安否確認 セクション -->
+                <div class="form-section">
+                    <h2>入居者・利用者の安否確認</h2>
+                    <p>●入居者・利用者の安否確認を速やかに行う。</p>
+                    <p>●速やかに安否確認結果を記録できるよう安否確認シートを準備しておく。</p>
+                    <p>＜施設内＞</p>
+                    <p>・安否確認は、利用者の安否確認とあわせて各エリアでエリアリーダーが点呼を行い、管理者に報告する。</p>
+                </div>
+                
+                <!-- 対応体制の追加 -->
+                <div class="form-section">
+                    <h2>対応体制</h2>
+                    <div id="response-structure-container">
+                        <div class="form-group">
+                            <label for="position_1">役職:</label>
+                            <select name="positions[]" id="position_1">
+                                <option value="対策本部長">対策本部長</option>
+                                <option value="事務局長">事務局長</option>
+                                <option value="事務局メンバー">事務局メンバー</option>
+                                <option value="広報・情報班">広報・情報班</option>
+                                <option value="設備・調達班">設備・調達班</option>
+                                <option value="現場責任者">現場責任者</option>
+                                <option value="医療・看護班">医療・看護班</option>
+                                <option value="介護班">介護班</option>
+                                <option value="給食班">給食班</option>
+                            </select>
+                            <label for="name_1">名前:</label>
+                            <input type="text" name="names[]" id="name_1">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" onclick="addResponseStructure()">追加</button>
+
+                <div class="form-section">
+                    <h2>施設内の避難場所</h2>
+                    <div class="form-group">
+                        <label for="internal_evacuation_site_1">第1避難場所:</label>
+                        <input type="text" name="internal_evacuation_site_1" id="internal_evacuation_site_1">
+                    </div>
+                    <div class="form-group">
+                        <label for="internal_evacuation_site_2">第2避難場所:</label>
+                        <input type="text" name="internal_evacuation_site_2" id="internal_evacuation_site_2">
+                    </div>
+                </div>
+
+                <div class="form-section">              
+                    <h2>施設外の避難場所</h2>
+                    <div class="form-group">
+                        <label for="external_evacuation_site_1">第1避難場所:</label>
+                        <input type="text" name="external_evacuation_site_1" id="external_evacuation_site_1">
+                    </div>
+                    <div class="form-group">
+                        <label for="external_evacuation_site_2">第2避難場所:</label>
+                        <input type="text" name="external_evacuation_site_2" id="external_evacuation_site_2">
+                    </div>
+                </div>
+
+                <div class="form-section">
+
+                        <h2>重要業務の継続:業務基準</h2>
+                        <div class="form-group">
+                            <label for="business_criteria_night">夜間:</label>
+                            <select name="business_criteria_night" id="business_criteria_night">
+                                <option value="職員・入所者の安全確認のみ">職員・入所者の安全確認のみ</option>
+                                <option value="安全と生命を守るための必要最低限">安全と生命を守るための必要最低限</option>
+                                <option value="食事、排泄中心その他は休止もしくは減">食事、排泄中心その他は休止もしくは減</option>
+                                <option value="一部休止、減とするが、ほぼ通常に近づける">一部休止、減とするが、ほぼ通常に近づける</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="business_criteria_6h">発災後6時間:</label>
+                            <select name="business_criteria_6h" id="business_criteria_6h">
+                                <option value="職員・入所者の安全確認のみ">職員・入所者の安全確認のみ</option>
+                                <option value="安全と生命を守るための必要最低限">安全と生命を守るための必要最低限</option>
+                                <option value="食事、排泄中心その他は休止もしくは減">食事、排泄中心その他は休止もしくは減</option>
+                                <option value="一部休止、減とするが、ほぼ通常に近づける">一部休止、減とするが、ほぼ通常に近づける</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="business_criteria_1d">発災後1日:</label>
+                            <select name="business_criteria_1d" id="business_criteria_1d">
+                                <option value="職員・入所者の安全確認のみ">職員・入所者の安全確認のみ</option>
+                                <option value="安全と生命を守るための必要最低限">安全と生命を守るための必要最低限</option>
+                                <option value="食事、排泄中心その他は休止もしくは減">食事、排泄中心その他は休止もしくは減</option>
+                                <option value="一部休止、減とするが、ほぼ通常に近づける">一部休止、減とするが、ほぼ通常に近づける</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="business_criteria_3d">発災後3日:</label>
+                            <select name="business_criteria_3d" id="business_criteria_3d">
+                                <option value="職員・入所者の安全確認のみ">職員・入所者の安全確認のみ</option>
+                                <option value="安全と生命を守るための必要最低限">安全と生命を守るための必要最低限</option>
+                                <option value="食事、排泄中心その他は休止もしくは減">食事、排泄中心その他は休止もしくは減</option>
+                                <option value="一部休止、減とするが、ほぼ通常に近づける">一部休止、減とするが、ほぼ通常に近づける</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="business_criteria_7d">発災後7日:</label>
+                            <select name="business_criteria_7d" id="business_criteria_7d">
+                                <option value="職員・入所者の安全確認のみ">職員・入所者の安全確認のみ</option>
+                                <option value="安全と生命を守るための必要最低限">安全と生命を守るための必要最低限</option>
+                                <option value="食事、排泄中心その他は休止もしくは減">食事、排泄中心その他は休止もしくは減</option>
+                                <option value="一部休止、減とするが、ほぼ通常に近づける">一部休止、減とするが、ほぼ通常に近づける</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+            
+                        <h2>重要業務の継続:給食</h2>
+                        <div class="form-group">
+                            <label for="meal_service_night">夜間:</label>
+                            <select name="meal_service_night" id="meal_service_night">
+                                <option value="休止">休止</option>
+                                <option value="必要最低限のメニューの準備">必要最低限のメニューの準備</option>
+                                <option value="飲用水、栄養補給食品、簡易食品、炊き出し">飲用水、栄養補給食品、簡易食品、炊き出し</option>
+                                <option value="炊き出し、光熱水復旧の簡易で調理開始">炊き出し、光熱水復旧の簡易で調理開始</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_service_6h">発災後6時間:</label>
+                            <select name="meal_service_6h" id="meal_service_6h">
+                                <option value="休止">休止</option>
+                                <option value="必要最低限のメニューの準備">必要最低限のメニューの準備</option>
+                                <option value="飲用水、栄養補給食品、簡易食品、炊き出し">飲用水、栄養補給食品、簡易食品、炊き出し</option>
+                                <option value="炊き出し、光熱水復旧の簡易で調理開始">炊き出し、光熱水復旧の簡易で調理開始</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_service_1d">発災後1日:</label>
+                            <select name="meal_service_1d" id="meal_service_1d">
+                                <option value="休止">休止</option>
+                                <option value="必要最低限のメニューの準備">必要最低限のメニューの準備</option>
+                                <option value="飲用水、栄養補給食品、簡易食品、炊き出し">飲用水、栄養補給食品、簡易食品、炊き出し</option>
+                                <option value="炊き出し、光熱水復旧の簡易で調理開始">炊き出し、光熱水復旧の簡易で調理開始</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_service_3d">発災後3日:</label>
+                            <select name="meal_service_3d" id="meal_service_3d">
+                                <option value="休止">休止</option>
+                                <option value="必要最低限のメニューの準備">必要最低限のメニューの準備</option>
+                                <option value="飲用水、栄養補給食品、簡易食品、炊き出し">飲用水、栄養補給食品、簡易食品、炊き出し</option>
+                                <option value="炊き出し、光熱水復旧の簡易で調理開始">炊き出し、光熱水復旧の簡易で調理開始</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_service_7d">発災後7日:</label>
+                            <select name="meal_service_7d" id="meal_service_7d">
+                                <option value="休止">休止</option>
+                                <option value="必要最低限のメニューの準備">必要最低限のメニューの準備</option>
+                                <option value="飲用水、栄養補給食品、簡易食品、炊き出し">飲用水、栄養補給食品、簡易食品、炊き出し</option>
+                                <option value="炊き出し、光熱水復旧の簡易で調理開始">炊き出し、光熱水復旧の簡易で調理開始</option>
+                            </select>
+                        </div>
+            
+                        <h2>重要業務の継続:食事介助</h2>
+                        <div class="form-group">
+                            <label for="meal_assistance_night">夜間:</label>
+                            <select name="meal_assistance_night" id="meal_assistance_night">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし、必要な利用者に介助">応援体制が整うまでなし、必要な利用者に介助</option>
+                                <option value="必要な利用者に介助">必要な利用者に介助</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_assistance_6h">発災後6時間:</label>
+                            <select name="meal_assistance_6h" id="meal_assistance_6h">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし、必要な利用者に介助">応援体制が整うまでなし、必要な利用者に介助</option>
+                                <option value="必要な利用者に介助">必要な利用者に介助</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_assistance_1d">発災後1日:</label>
+                            <select name="meal_assistance_1d" id="meal_assistance_1d">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし、必要な利用者に介助">応援体制が整うまでなし、必要な利用者に介助</option>
+                                <option value="必要な利用者に介助">必要な利用者に介助</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_assistance_3d">発災後3日:</label>
+                            <select name="meal_assistance_3d" id="meal_assistance_3d">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし、必要な利用者に介助">応援体制が整うまでなし、必要な利用者に介助</option>
+                                <option value="必要な利用者に介助">必要な利用者に介助</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_assistance_7d">発災後7日:</label>
+                            <select name="meal_assistance_7d" id="meal_assistance_7d">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし、必要な利用者に介助">応援体制が整うまでなし、必要な利用者に介助</option>
+                                <option value="必要な利用者に介助">必要な利用者に介助</option>
+                            </select>
+                        </div>
+
+
+                        <h2>重要業務の継続:口腔ケア</h2>
+                        <div class="form-group">
+                            <label for="oral_care_night">夜間:</label>
+                            <select name="oral_care_night" id="oral_care_night">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="適宜介助">適宜介助</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="oral_care_6h">発災後6時間:</label>
+                            <select name="oral_care_6h" id="oral_care_6h">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="適宜介助">適宜介助</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="oral_care_1d">発災後1日:</label>
+                            <select name="oral_care_1d" id="oral_care_1d">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="適宜介助">適宜介助</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="oral_care_3d">発災後3日:</label>
+                            <select name="oral_care_3d" id="oral_care_3d">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="適宜介助">適宜介助</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="oral_care_7d">発災後7日:</label>
+                            <select name="oral_care_7d" id="oral_care_7d">
+                                <option value="休止">休止</option>
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="適宜介助">適宜介助</option>
+                                <option value="ほぼ通常通り">ほぼ通常通り</option>
+                            </select>
+                        </div>
+            
+                        <h2>重要業務の継続:水分補給</h2>
+                        <div class="form-group">
+                            <label for="hydration_night">夜間:</label>
+                            <select name="hydration_night" id="hydration_night">
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="飲用水準備必要な利用者に介助">飲用水準備必要な利用者に介助</option>
+                                <option value="飲用水準備ほぼ通常通り">飲用水準備ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hydration_6h">発災後6時間:</label>
+                            <select name="hydration_6h" id="hydration_6h">
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="飲用水準備必要な利用者に介助">飲用水準備必要な利用者に介助</option>
+                                <option value="飲用水準備ほぼ通常通り">飲用水準備ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hydration_1d">発災後1日:</label>
+                            <select name="hydration_1d" id="hydration_1d">
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="飲用水準備必要な利用者に介助">飲用水準備必要な利用者に介助</option>
+                                <option value="飲用水準備ほぼ通常通り">飲用水準備ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hydration_3d">発災後3日:</label>
+                            <select name="hydration_3d" id="hydration_3d">
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="飲用水準備必要な利用者に介助">飲用水準備必要な利用者に介助</option>
+                                <option value="飲用水準備ほぼ通常通り">飲用水準備ほぼ通常通り</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hydration_7d">発災後7日:</label>
+                            <select name="hydration_7d" id="hydration_7d">
+                                <option value="応援体制が整うまでなし">応援体制が整うまでなし</option>
+                                <option value="飲用水準備必要な利用者に介助">飲用水準備必要な利用者に介助</option>
+                                <option value="飲用水準備ほぼ通常通り">飲用水準備ほぼ通常通り</option>
+                            </select>
+                        </div>
+            
+                        <h2>重要業務の継続:入浴介助</h2>
+                        <div class="form-group">
+                            <label for="bathing_assistance_night">夜間:</label>
+                            <select name="bathing_assistance_night" id="bathing_assistance_night">
+                                <option value="失禁等ある利用者は清拭">失禁等ある利用者は清拭</option>
+                                <option value="適宜清拭">適宜清拭</option>
+                                <option value="光熱水が復旧しだい入浴">光熱水が復旧しだい入浴</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bathing_assistance_6h">発災後6時間:</label>
+                            <select name="bathing_assistance_6h" id="bathing_assistance_6h">
+                                <option value="失禁等ある利用者は清拭">失禁等ある利用者は清拭</option>
+                                <option value="適宜清拭">適宜清拭</option>
+                                <option value="光熱水が復旧しだい入浴">光熱水が復旧しだい入浴</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bathing_assistance_1d">発災後1日:</label>
+                            <select name="bathing_assistance_1d" id="bathing_assistance_1d">
+                                <option value="失禁等ある利用者は清拭">失禁等ある利用者は清拭</option>
+                                <option value="適宜清拭">適宜清拭</option>
+                                <option value="光熱水が復旧しだい入浴">光熱水が復旧しだい入浴</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bathing_assistance_3d">発災後3日:</label>
+                            <select name="bathing_assistance_3d" id="bathing_assistance_3d">
+                                <option value="失禁等ある利用者は清拭">失禁等ある利用者は清拭</option>
+                                <option value="適宜清拭">適宜清拭</option>
+                                <option value="光熱水が復旧しだい入浴">光熱水が復旧しだい入浴</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bathing_assistance_7d">発災後7日:</label>
+                            <select name="bathing_assistance_7d" id="bathing_assistance_7d">
+                                <option value="失禁等ある利用者は清拭">失禁等ある利用者は清拭</option>
+                                <option value="適宜清拭">適宜清拭</option>
+                                <option value="光熱水が復旧しだい入浴">光熱水が復旧しだい入浴</option>
+                            </select>
+                        </div>
+
+                </div>
+
+
+
+                <!-- 職員の休憩、宿泊場所 -->
+                <div class="form-section">
+                    <h2>職員の休憩、宿泊場所</h2>
+                    <div class="form-group">
+                        <label for="rest_location_priority1">休憩場所 第1優先:</label>
+                        <input type="text" id="rest_location_priority1" name="rest_location_priority1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="rest_location_priority2">休憩場所 第2優先:</label>
+                        <input type="text" id="rest_location_priority2" name="rest_location_priority2" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="rest_location_external">休憩場所 施設外:</label>
+                        <input type="text" id="rest_location_external" name="rest_location_external" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="accommodation_priority1">宿泊場所 第1優先:</label>
+                        <input type="text" id="accommodation_priority1" name="accommodation_priority1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="accommodation_priority2">宿泊場所 第2優先:</label>
+                        <input type="text" id="accommodation_priority2" name="accommodation_priority2" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="accommodation_external">宿泊場所 施設外:</label>
+                        <input type="text" id="accommodation_external" name="accommodation_external" class="form-control">
+                    </div>
+                </div>
+
+                <!-- 復旧対応 破損個所の確認表の整備 -->
+                <div class="form-section">
+                    <h2>復旧対応 破損個所の確認表の整備</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="target_recovery_res">
+                            <label><input type="checkbox" name="target_recovery_res[]" value="躯体(柱、壁、床)_res">躯体(柱、壁、床)</label>
+                            <div id="measures_躯体(柱、壁、床)_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="天井_res">天井</label>
+                            <div id="measures_天井_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="窓_res">窓</label>
+                            <div id="measures_窓_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="ドア_res">ドア</label>
+                            <div id="measures_ドア_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="事務所の什器_res">事務所の什器</label>
+                            <div id="measures_事務所の什器_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="食堂の什器_res">食堂の什器</label>
+                            <div id="measures_食堂の什器_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="風呂場の什器_res">風呂場の什器</label>
+                            <div id="measures_風呂場の什器_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="ロビー・集会所・会議室の什器_res">ロビー・集会所・会議室の什器</label>
+                            <div id="measures_ロビー・集会所・会議室の什器_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="利用者居室の什器_res">利用者居室の什器</label>
+                            <div id="measures_利用者居室の什器_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="ノートパソコン_res">ノートパソコン</label>
+                            <div id="measures_ノートパソコン_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="デスクトップパソコン_res">デスクトップパソコン</label>
+                            <div id="measures_デスクトップパソコン_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="ディスプレイ_res">ディスプレイ</label>
+                            <div id="measures_ディスプレイ_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="タブレット(iPad)_res">タブレット(iPad)</label>
+                            <div id="measures_タブレット(iPad)_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="タブレット(Android)_res">タブレット(Android)</label>
+                            <div id="measures_タブレット(Android)_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="携帯電話_res">携帯電話</label>
+                            <div id="measures_携帯電話_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="スマートフォン_res">スマートフォン</label>
+                            <div id="measures_スマートフォン_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="固定電話_res">固定電話</label>
+                            <div id="measures_固定電話_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="衛星電話_res">衛星電話</label>
+                            <div id="measures_衛星電話_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="金庫_res">金庫</label>
+                            <div id="measures_金庫_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="受水槽_res">受水槽</label>
+                            <div id="measures_受水槽_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="ＬＰガス_res">ＬＰガス</label>
+                            <div id="measures_ＬＰガス_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="燃油タンク_res">燃油タンク</label>
+                            <div id="measures_燃油タンク_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="太陽光発電_res">太陽光発電</label>
+                            <div id="measures_太陽光発電_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="蓄電装置_res">蓄電装置</label>
+                            <div id="measures_蓄電装置_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="建物入口止水板_res">建物入口止水板</label>
+                            <div id="measures_建物入口止水板_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="建物入り口防水扉_res">建物入り口防水扉</label>
+                            <div id="measures_建物入り口防水扉_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="側溝や排水溝_res">側溝や排水溝</label>
+                            <div id="measures_側溝や排水溝_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="風呂やトイレ等の排水溝からの逆流_res">風呂やトイレ等の排水溝からの逆流</label>
+                            <div id="measures_風呂やトイレ等の排水溝からの逆流_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="受電・変電設備_res">受電・変電設備</label>
+                            <div id="measures_受電・変電設備_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="電気_res">電気</label>
+                            <div id="measures_電気_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="ガス_res">ガス</label>
+                            <div id="measures_ガス_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="水道_res">水道</label>
+                            <div id="measures_水道_res" class="hidden measures-group"></div>
+                            <label><input type="checkbox" name="target_recovery_res[]" value="照明機器_res">照明機器</label>
+                            <div id="measures_照明機器_res" class="hidden measures-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>復旧対応 情報発信の整備</h2>
+                    <div class="form-group">
+                        <h3>公表内容</h3>
+                        <div class="checkbox-group" id="public_content_group">
+                            <label><input type="checkbox" name="public_content[]" value="事業休止の連絡">事業休止の連絡</label>
+                            <label><input type="checkbox" name="public_content[]" value="ボランティア募集">ボランティア募集</label>
+                            <label><input type="checkbox" name="public_content[]" value="事業復旧、受け入れ再開の連絡">事業復旧、受け入れ再開の連絡</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h3>範囲: 業者連絡先一覧から選択</h3>
+                        <div class="checkbox-group" id="public_range_group">
+                            {% for partner_name in session['partner_names'] %}
+                                <label><input type="checkbox" name="public_range[]" value="{{ partner_name }}">{{ partner_name }}</label>
+                            {% endfor %}
+                            {% for internal_partner_name in session['internal_partner_names'] %}
+                                <label><input type="checkbox" name="public_range[]" value="{{ internal_partner_name }}">{{ internal_partner_name }}</label>
+                            {% endfor %}
+                            {% for medical_partner_name in session['medical_partner_names'] %}
+                                <label><input type="checkbox" name="public_range[]" value="{{ medical_partner_name }}">{{ medical_partner_name }}</label>
+                            {% endfor %}
+                            {% for external_partner_name in session['external_partner_names'] %}
+                                <label><input type="checkbox" name="public_range[]" value="{{ external_partner_name }}">{{ external_partner_name }}</label>
+                            {% endfor %}
+                            {% for community_partner_name in session['community_partner_names'] %}
+                                <label><input type="checkbox" name="public_range[]" value="{{ community_partner_name }}">{{ community_partner_name }}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h3>方法</h3>
+                        <div class="checkbox-group" id="public_method_group">
+                            <label><input type="checkbox" name="public_method[]" value="ホームページ">ホームページ</label>
+                            <label><input type="checkbox" name="public_method[]" value="電話">電話</label>
+                            <label><input type="checkbox" name="public_method[]" value="FAX">FAX</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 地域との連携 被災時の職員の派遣 -->
+                <div class="form-section">
+                    <h2>地域との連携 被災時の職員の派遣</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="local_cooperation_dispatch">
+                            <label><input type="checkbox" name="local_cooperation_dispatch[]" value="地域の災害福祉支援ネットワークの協議内容を確認する">地域の災害福祉支援ネットワークの協議内容を確認する</label>
+                            <label><input type="checkbox" name="local_cooperation_dispatch[]" value="災害派遣福祉チームのチーム員としての登録を検討する">災害派遣福祉チームのチーム員としての登録を検討する</label>
+                            <label><input type="checkbox" name="local_cooperation_dispatch[]" value="災害派遣福祉チーム(DWAT)への登録を検討する">災害派遣福祉チーム(DWAT)への登録を検討する</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 地域との連携 福祉避難所の運営 福祉避難所の指定 -->
+                <div class="form-section">
+                    <h2>地域との連携 福祉避難所の運営 福祉避難所の指定</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="welfare_shelter">
+                            <label><input type="checkbox" name="welfare_shelter" value="福祉避難所である">福祉避難所である</label>
+                            <label><input type="checkbox" name="welfare_shelter" value="福祉避難所でない">福祉避難所でない</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 地域との連携 福祉避難所の運営 福祉避難所の事前準備 -->
+                <div class="form-section">
+                    <h2>地域との連携 福祉避難所の運営 福祉避難所の事前準備</h2>
+                    <div class="form-group">
+                        <div class="checkbox-group" id="welfare_shelter_preparation">
+                            <label><input type="checkbox" name="welfare_shelter_preparation[]" value="受入に必要な備蓄類を洗い出し整備する。">受入に必要な備蓄類を洗い出し整備する。</label>
+                            <label><input type="checkbox" name="welfare_shelter_preparation[]" value="資機材についてはレンタルを活用することも検討する。">資機材についてはレンタルを活用することも検討する。</label>
+                            <label><input type="checkbox" name="welfare_shelter_preparation[]" value="支援人材確保に向けた連携や受入方針を検討する。">支援人材確保に向けた連携や受入方針を検討する。</label>
+                            <label><input type="checkbox" name="welfare_shelter_preparation[]" value="事務手続き等について市町村の窓口に確認しておく。">事務手続き等について市町村の窓口に確認しておく。</label>
+                            <label><input type="checkbox" name="welfare_shelter_preparation[]" value="ボランティアの受入方針等について検討しておく。">ボランティアの受入方針等について検討しておく。</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <input type="submit" value="PDFを生成" class="submit-button">
+                <a href="{{ url_for('step3') }}" class="back-button">備蓄品に戻る</a>
+            </form>
+        </div>
+    </div>
+    <script>
+        function addResponseStructure() {
+            const container = document.getElementById('response-structure-container');
+            const index = container.children.length + 1;
+    
+            const newDiv = document.createElement('div');
+            newDiv.className = 'form-group';
+            newDiv.innerHTML = `
+                <label for="position_${index}">役職:</label>
+                <select name="positions[]" id="position_${index}">
+                    <option value="対策本部長">対策本部長</option>
+                    <option value="事務局長">事務局長</option>
+                    <option value="事務局メンバー">事務局メンバー</option>
+                    <option value="広報・情報班">広報・情報班</option>
+                    <option value="設備・調達班">設備・調達班</option>
+                    <option value="現場責任者">現場責任者</option>
+                    <option value="医療・看護班">医療・看護班</option>
+                    <option value="介護班">介護班</option>
+                    <option value="給食班">給食班</option>
+                </select>
+                <label for="name_${index}">名前:</label>
+                <input type="text" name="names[]" id="name_${index}">
+            `;
+            container.appendChild(newDiv);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const measureOptions = {
+                '躯体(柱、壁、床)_res': ['柱(躯体)', '補強(躯体)', 'コンクリート欠損(躯体)', 'コンクリートひび(躯体)', 'コンクリート脱落(躯体)'],
+                '天井_res': ['石膏ボード(天井)', '照明(天井)'],
+                '窓_res': ['廊下・出入口のガラス(窓)', 'ガラスの落下・はずれ・ゆるみ・変形(窓)'],
+                'ドア_res': ['はずれ・ゆるみ・変形(ドア)'],
+                '事務所の什器_res': ['破損(事務所の什器)', '変形(事務所の什器)'],
+                '食堂の什器_res': ['破損(食堂の什器)', '変形(食堂の什器)'],
+                '風呂場の什器_res': ['破損(風呂場の什器)', '変形(風呂場の什器)'],
+                'ロビー・集会所・会議室の什器_res': ['破損(ロビー・集会所・会議室の什器)', '変形(ロビー・集会所・会議室の什器)'],
+                '利用者居室の什器_res': ['破損(利用者居室の什器)', '変形(利用者居室の什器)'],
+                'ノートパソコン_res': ['破損(ノートパソコン)', '変形(ノートパソコン)'],
+                'デスクトップパソコン_res': ['破損(デスクトップパソコン)', '変形(デスクトップパソコン)'],
+                'ディスプレイ_res': ['破損(ディスプレイ)', '変形(ディスプレイ)'],
+                'タブレット(iPad)_res': ['破損(タブレット(iPad))', '変形(タブレット(iPad))'],
+                'タブレット(Android)_res': ['破損(タブレット(Android))', '変形(タブレット(Android))'],
+                '携帯電話_res': ['破損(携帯電話)', '変形(携帯電話)'],
+                'スマートフォン_res': ['破損(スマートフォン)', '変形(スマートフォン)'],
+                '固定電話_res': ['破損(固定電話)', '変形(固定電話)'],
+                '衛星電話_res': ['破損(衛星電話)', '変形(衛星電話)'],
+                '金庫_res': ['破損(金庫)', '変形(金庫)'],
+                '受水槽_res': ['破損(受水槽)', '変形(受水槽)'],
+                'ＬＰガス_res': ['破損(ＬＰガス)', '変形(ＬＰガス)'],
+                '燃油タンク_res': ['破損(燃油タンク)', '変形(燃油タンク)'],
+                '太陽光発電_res': ['破損(太陽光発電)', '変形(太陽光発電)'],
+                '蓄電装置_res': ['破損(蓄電装置)', '変形(蓄電装置)'],
+                '建物入口止水板_res': ['破損(建物入口止水板)', '変形(建物入口止水板)'],
+                '建物入り口防水扉_res': ['破損(建物入り口防水扉)', '変形(建物入り口防水扉)'],
+                '側溝や排水溝_res': ['破損(側溝や排水溝)', '変形(側溝や排水溝)'],
+                '風呂やトイレ等の排水溝からの逆流_res': ['逆流の有無(風呂やトイレ等の排水溝からの逆流)'],
+                '受電・変電設備_res': ['破損(受電・変電設備)', '変形(受電・変電設備)'],
+                '電気_res': ['使用可能(電気)', '使用不可(電気)'],
+                'ガス_res': ['使用可能(ガス)', '使用不可(ガス)'],
+                '水道_res': ['使用可能(水道)', '使用不可(水道)'],
+                '照明機器_res': ['破損個所(照明機器)']
+
+            };
+
+            function showMeasureOptions(target, measuresContainerId) {
+                const measuresContainer = document.getElementById(measuresContainerId);
+                measuresContainer.innerHTML = '';
+                if (target.checked) {
+                    const option = target.value;
+                    if (measureOptions[option].length > 0) {
+                        measureOptions[option].forEach(measure => {
+                            const measureGroup = document.createElement('div');
+                            measureGroup.className = 'input-group';
+
+                            const measureLabel = document.createElement('label');
+                            measureLabel.innerHTML = `<input type="checkbox" name="measure_target_${target.value}[]" value="${measure}"> ${measure}`;
+                            measureGroup.appendChild(measureLabel);
+
+                            const currentStatusDiv = document.createElement('div');
+                            currentStatusDiv.className = 'hidden';
+                            currentStatusDiv.innerHTML = `
+                                <label for="current_status_${measure}">現状：</label>
+                                <textarea id="current_status_${measure}" name="current_status_${measure}" class="form-control"></textarea>
+                            `;
+                            measureGroup.appendChild(currentStatusDiv);
+
+                            measureLabel.querySelector('input').addEventListener('change', function() {
+                                if (this.checked) {
+                                    currentStatusDiv.classList.remove('hidden');
+                                } else {
+                                    currentStatusDiv.classList.add('hidden');
+                                }
+                            });
+
+                            measuresContainer.appendChild(measureGroup);
+                        });
+                        measuresContainer.classList.remove('hidden');
+                    } else {
+                        const measureGroup = document.createElement('div');
+                        measureGroup.className = 'input-group';
+                        const currentStatusDiv = document.createElement('div');
+                        currentStatusDiv.innerHTML = `
+                            <label for="current_status_${target.value}">現状と予定：</label>
+                            <textarea id="current_status_${target.value}" name="current_status_${target.value}" class="form-control"></textarea>
+                        `;
+                        measureGroup.appendChild(currentStatusDiv);
+                        measuresContainer.appendChild(measureGroup);
+                        measuresContainer.classList.remove('hidden');
+                    }
+                } else {
+                    measuresContainer.classList.add('hidden');
+                }
+            }
+
+
+            document.querySelectorAll('#target_recovery_res input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    showMeasureOptions(this, `measures_${this.value}`);
+                });
+            });
+            // フォーム送信時に measureOptions を hidden フィールドとして追加
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'measure_options';
+                hiddenField.value = JSON.stringify(measureOptions);
+                this.appendChild(hiddenField);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[name="report_content"]').forEach((radio) => {
+                radio.addEventListener('change', function() {
+                    const attendanceTimeOptions = document.getElementById('attendance_time_options');
+                    if (this.value === '出勤可能') {
+                        attendanceTimeOptions.style.display = 'block';
+                    } else {
+                        attendanceTimeOptions.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
