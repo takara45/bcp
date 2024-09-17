@@ -8,6 +8,7 @@ charset-normalizer==2.0.10
 chromedriver-binary==75.0.3770.8.0
 click==8.1.7
 cryptography==36.0.1
+fitz==0.0.1.dev2
 Flask==3.0.3
 Flask-Session==0.8.0
 fpdf==1.7.2
