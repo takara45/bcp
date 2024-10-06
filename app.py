@@ -3,7 +3,6 @@ from fpdf import FPDF
 from flask_session import Session  # セッション管理用
 import os
 import logging
-from math import ceil
 from werkzeug.utils import secure_filename
 from PIL import Image
 import fitz  # PyMuPDF
@@ -16,7 +15,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config['UPLOAD_FOLDER'] = 'uploads'
 Session(app)
 
-
+    
 logging.basicConfig(filename='error.log', level=logging.DEBUG)
 
 
@@ -91,7 +90,7 @@ def step1():
         session['priority_tasks'] = request.form.getlist('priority_tasks[]')
         session['priority_items'] = request.form.getlist('priority_items[]')
         return redirect(url_for('step2'))
-    return render_template('step1.html') 
+    return render_template('step1.html')
 
 
 @app.route('/step2', methods=['GET', 'POST'])
@@ -331,7 +330,7 @@ def step2():
 
         session['target_medical'] = target_medical
         session['current_status_medical'] = current_status_medical
-    
+
         target_headquarters = request.form.getlist('target_headquarters[]')
         current_status_headquarters = {}
 
@@ -366,7 +365,7 @@ def step2():
 
         session['target_vehicle'] = target_vehicle
         session['current_status_vehicle'] = current_status_vehicle
-        
+
         session['funding_measures'] = request.form['funding_measures']
 
 
@@ -612,43 +611,19 @@ def generate_pdf():
     try:
         pdf = FPDF()
         pdf.add_page()
-        pdf.add_font('IPAexGothic', '', 'ipaexg.ttf', uni=True)
-
-
-        def add_table_header(pdf, title):
-            pdf.cell(0, 10, title, 0, 1, 'L')
-            pdf.set_fill_color(200, 200, 200)
-            pdf.cell(30, 10, '項目', 1, 0, 'C', 1)
-            pdf.cell(15, 10, '必要量', 1, 0, 'C', 1)
-            pdf.cell(15, 10, '現備蓄量', 1, 0, 'C', 1)
-            pdf.cell(10, 10, '単位', 1, 0, 'C', 1)
-            pdf.cell(25, 10, '保管場所', 1, 0, 'C', 1)
-            pdf.cell(20, 10, '担当者', 1, 0, 'C', 1)
-            pdf.cell(20, 10, '調達先', 1, 0, 'C', 1)
-            pdf.cell(25, 10, '日付', 1, 0, 'C', 1)
-            pdf.cell(30, 10, '備考', 1, 1, 'C', 1)
-
-
-        def add_table_data(pdf, inventory):
-            add_table_header(pdf, '備蓄品管理')
-            for item in inventory:
-                pdf.cell(30, 10, item['item'], 1)
-                pdf.cell(15, 10, item['quantity'], 1)
-                pdf.cell(15, 10, item['stock'], 1)
-                pdf.cell(10, 10, item['unit'], 1)
-                pdf.cell(25, 10, item['location'], 1)
-                pdf.cell(20, 10, item['person'], 1)
-                pdf.cell(20, 10, item['supplier'], 1)
-                pdf.cell(25, 10, item['date'], 1)
-                pdf.cell(30, 10, item['note'], 1, 1)
+        pdf.add_font('NotoSansJP', '', 'NotoSansJP-Regular.ttf', uni=True)
+        pdf.add_font('NotoSansJP', 'b', 'NotoSansJP-Bold.ttf', uni=True)
 
 
         # 題名を追加
-        pdf.set_font('IPAexGothic', '', 24)  # フォントサイズを大きく設定
-        pdf.ln(50) 
-        pdf.cell(0, 20, '業務継続計画（BCP)', ln=True, align='C')
-        pdf.cell(0, 20, '自然災害編', ln=True, align='C') 
-        pdf.ln(50) 
+        pdf.set_font('NotoSansJP', '', 24)  # フォントサイズを大きく設定
+        pdf.ln(50)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('業務継続計画（BCP)')
+            row = table.row()
+            row.cell('自然災害編')
+        pdf.ln(50)
 
 
         # セッションからデータを取得してPDFに追加
@@ -722,93 +697,140 @@ def generate_pdf():
         current_status_hygiene = session.get('current_status_hygiene', {})
         measure_hygiene = session.get('measure_hygiene', [])
 
+        effective_page_width = pdf.w - 2*pdf.l_margin
+        pdf.set_font('NotoSansJP', '', 12)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('法人名')
+            row.cell(corporation_name)
+            row = table.row()
+            row.cell('施設・事務所名')
+            row.cell(office_name)
+            row = table.row()
+            row.cell('代表者名')
+            row.cell(representative_name)
+            row = table.row()
+            row.cell('管理者名')
+            row.cell(manager_name)
+            row = table.row()
+            row.cell('電話番号')
+            row.cell(phone_number)
+            row = table.row()
+            row.cell('作成日')
+            row.cell(creation_date)
+            row = table.row()
+            row.cell('改訂日')
+            row.cell(revision_date)
 
-        pdf.set_font('IPAexGothic', '', 12)
-        pdf.cell(40, 10, '法人名', 1)
-        pdf.cell(150, 10, corporation_name, 1, 1)
-        pdf.cell(40, 10, '施設・事務所名', 1)
-        pdf.cell(150, 10, office_name, 1, 1)
-        pdf.cell(40, 10, '代表者名', 1)
-        pdf.cell(150, 10, representative_name, 1, 1)
-        pdf.cell(40, 10, '管理者名', 1)
-        pdf.cell(150, 10, manager_name, 1, 1)
-        pdf.cell(40, 10, '電話番号', 1)
-        pdf.cell(150, 10, phone_number, 1, 1)
-        pdf.cell(40, 10, '作成日', 1)
-        pdf.cell(150, 10, creation_date, 1, 1)
-        pdf.cell(40, 10, '改訂日', 1)
-        pdf.cell(150, 10, revision_date, 1, 1)
         pdf.ln(100)
 
 
-        pdf.set_font('IPAexGothic', '', 16)
-        pdf.cell(0, 10, '総論', 0, 1, 'L') 
-        pdf.set_font('IPAexGothic', '', 10.5)
+        pdf.set_font('NotoSansJP', '', 16)
+        pdf.cell(0, 10, '総論', 0, 1, 'L')
+        pdf.set_font('NotoSansJP', '', 10.5)
 
 
-        pdf.cell(0, 10, '当施設の概要', 0, 1, 'L') 
-        pdf.cell(40, 10, '法人名', 1)
-        pdf.cell(150, 10, corporation_name, 1, 1)
-        pdf.cell(40, 10, '施設・事務所名', 1)
-        pdf.cell(150, 10, office_name, 1, 1)
-        pdf.cell(40, 10, '代表者名', 1)
-        pdf.cell(150, 10, representative_name, 1, 1)
-        pdf.cell(40, 10, '管理者名', 1)
-        pdf.cell(150, 10, manager_name, 1, 1)
-        pdf.cell(40, 10, '電話番号', 1)
-        pdf.cell(150, 10, phone_number, 1, 1) 
-        pdf.cell(40, 10, '所在地', 1)
-        pdf.cell(150, 10, location, 1, 1)
-        pdf.cell(40, 10, '立地環境', 1)
-        pdf.cell(150, 10, environment, 1, 1)
-        pdf.cell(40, 10, '施設区分', 1)
-        pdf.cell(150, 10, facility_type, 1, 1)
-        pdf.cell(40, 10, '入所者数', 1)
-        pdf.cell(150, 10, residents_number, 1, 1)
-        pdf.cell(40, 10, '入所者の状況', 1)
-        pdf.cell(150, 10, residents_status, 1, 1)
-        pdf.cell(40, 10, '職員数', 1)
-        pdf.cell(150, 10, staff_number, 1, 1)
-        pdf.cell(40, 10, '敷地面積', 1)
-        pdf.cell(150, 10, site_area, 1, 1)
-        pdf.cell(40, 10, '延べ床面積', 1)
-        pdf.cell(150, 10, floor_area, 1, 1)
-        pdf.cell(40, 10, '階数', 1)
-        pdf.cell(150, 10, floors, 1, 1)
-        pdf.cell(40, 10, '部屋数', 1)
-        pdf.cell(150, 10, rooms, 1, 1)
+        pdf.cell(0, 10, '当施設の概要', 0, 1, 'L')
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('法人名')
+            row.cell(corporation_name)
+            row = table.row()
+            row.cell('施設・事務所名')
+            row.cell(office_name)
+            row = table.row()
+            row.cell('代表者名')
+            row.cell(representative_name)
+            row = table.row()
+            row.cell('管理者名')
+            row.cell(manager_name)
+            row = table.row()
+            row.cell('電話番号')
+            row.cell(phone_number)
+            row = table.row()
+            row.cell('所在地')
+            row.cell(location)
+            row = table.row()
+            row.cell('立地環境')
+            row.cell(environment)
+            row = table.row()
+            row.cell('施設区分')
+            row.cell(facility_type)
+            row = table.row()
+            row.cell('入所者数')
+            row.cell(residents_number)
+            row = table.row()
+            row.cell('入所者の状況')
+            row.cell(residents_status)
+            row = table.row()
+            row.cell('職員数')
+            row.cell(staff_number)
+            row = table.row()
+            row.cell('敷地面積')
+            row.cell(site_area)
+            row = table.row()
+            row.cell('延べ床面積')
+            row.cell(floor_area)
+            row = table.row()
+            row.cell('階数')
+            row.cell(floors)
+            row = table.row()
+            row.cell('部屋数')
+            row.cell(rooms)
+
         pdf.ln(10)
 
 
-        pdf.cell(60, 20, '企業理念・経営方針', 1)
-        pdf.multi_cell(130, 20, philosophy, 1)
-        pdf.cell(60, 20, 'BCP策定の目的1', 1)
-        pdf.multi_cell(130, 20, purpose_1, 1)
-        pdf.cell(60, 20, 'BCP策定の目的2', 1)
-        pdf.multi_cell(130, 20, purpose_2, 1)
-        pdf.cell(60, 20, 'BCP策定の目的3', 1)
-        pdf.multi_cell(130, 20, purpose_3, 1)
+        with  pdf.table() as table:
+            row = table.row()
+            row.cell('企業理念・経営方針')
+            row.cell(philosophy)
+            row = table.row()
+            row.cell('BCP策定の目的1')
+            row.cell(purpose_1)
+            row = table.row()
+            row.cell('BCP策定の目的2')
+            row.cell(purpose_2)
+            row = table.row()
+            row.cell('BCP策定の目的3')
+            row.cell(purpose_3)
         pdf.ln(60)
 
 
-        # メンバー情報をテーブル形式で追加
-        pdf.set_fill_color(220, 220, 220)
         pdf.cell(0, 10, '推進体制', 0, 1, 'L')
-        pdf.cell(40, 10, '主な役割', 1)
-        pdf.cell(40, 10, '部署・役職', 1)
-        pdf.cell(40, 10, '氏名', 1)
-        pdf.cell(70, 10, '補足', 1, 1)
-        
-        roles = session.get('roles', [])
-        departments = session.get('departments', [])
-        names = session.get('names', [])
-        notes = session.get('notes', [])
-        
-        for role, department, name, note in zip(roles, departments, names, notes):
-            pdf.cell(40, 10, role, 1)
-            pdf.cell(40, 10, department, 1)
-            pdf.cell(40, 10, name, 1)
-            pdf.cell(70, 10, note, 1, 1)
+        roles = ['主な役割'] + session.get('roles', [])
+        departments = ['部署・役職'] + session.get('departments', [])
+        names = ['氏名'] + session.get('names', [])
+        notes = ['補足'] + session.get('notes', [])
+
+        with pdf.table() as table:
+            for data_row in zip(roles, departments, names, notes):
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, role, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, department, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, name, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(70, 10, note, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
         pdf.ln(10)
 
 
@@ -860,48 +882,56 @@ def generate_pdf():
         pdf.cell(0, 10, '優先する事業', 0, 1, 'L')
         start_x = pdf.get_x()
         start_y = pdf.get_y()
-        for business in priority_business:
-            pdf.cell(0, 10, business, 0, 1, 'L')
+        with pdf.table() as table:
+            for business in priority_business:
+                row = table.row()
+                row.cell(business)
         end_y = pdf.get_y()
-        pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先する事業を囲む黒い枠を追加
+        # pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先する事業を囲む黒い枠を追加
         pdf.ln(10)
-        
+
         pdf.cell(0, 10, '優先業務', 0, 1, 'L')
         start_x = pdf.get_x()
         start_y = pdf.get_y()
-        for task in priority_tasks:
-            pdf.cell(0, 10, task, 0, 1, 'L')
+        with pdf.table() as table:
+
+            for task in priority_tasks:
+                row = table.row()
+                row.cell(task)
         end_y = pdf.get_y()
-        pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先業務を囲む黒い枠を追加
+        # pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先業務を囲む黒い枠を追加
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '優先される物品', 0, 1, 'L')
         start_x = pdf.get_x()
         start_y = pdf.get_y()
-        for item in priority_items:
-            pdf.cell(0, 10, item, 0, 1, 'L')
+        with pdf.table() as table:
+
+            for item in priority_items:
+                row = table.row()
+                row.cell(item)
         end_y = pdf.get_y()
-        pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先される物品を囲む黒い枠を追加
+        # pdf.rect(start_x - 2, start_y, 200, end_y - start_y)  # 優先される物品を囲む黒い枠を追加
         pdf.ln(10)
-    
-        pdf.set_font('IPAexGothic', '', 16)
-        pdf.cell(0, 10, '平常時', 0, 1, 'L') 
-        pdf.set_font('IPAexGothic', '', 10.5)
+
+        pdf.set_font('NotoSansJP', '', 16)
+        pdf.cell(0, 10, '平常時', 0, 1, 'L')
+        pdf.set_font('NotoSansJP', '', 10.5)
         pdf.ln(10)
 
 
         # 耐震措置の現状
         current_status_seismic = session.get('current_status_seismic', '不明')
         pdf.cell(0, 10, '耐震措置の現状', 0, 1, 'L')
-        pdf.multi_cell(0, 10, current_status_seismic, 1)
+        pdf.multi_cell(effective_page_width, 10, current_status_seismic, 1)
         pdf.ln(10)
 
 
         # 水害対策の現状
         current_status_flood_measures = session.get('current_status_flood_measures', '不明')
         pdf.cell(0, 10, '水害対策の現状', 0, 1, 'L')
-        pdf.multi_cell(0, 10, current_status_flood_measures, 1)
+        pdf.multi_cell(effective_page_width, 10, current_status_flood_measures, 1)
         pdf.ln(10)
 
 
@@ -1008,7 +1038,7 @@ def generate_pdf():
             '調理器具': ['カセットコンロ', 'ホットプレート', 'ＬＰガスボンベ＋五徳コンロ'],
             '給湯設備': ['入浴は中止し清拭'],
             'その他、代替の熱源': ['都市ガスをＬＰガスに替える'],
-            
+
             '飲料': ['1人が1日に3L必要なため充分量の備蓄をする（食事分を含む）'],
             '食事': ['非常食に用いる'],
             '口腔ケア': ['職員数に応じてサービス提供する必要分を備蓄する'],
@@ -1018,320 +1048,750 @@ def generate_pdf():
             '清拭_new': ['代替えウエットティッシュを使う（清拭）'],
             '入浴_new': ['当面休止し清拭を行う'],
             '清掃・消毒_new': ['代替えウエットティッシュを使う（清掃・消毒）'],
-            
+
             'スマートフォン_new': ['発電機で充電'],
             'MCA無線機': ['無線機用の乾電池を備蓄'],
-            
+
             'パソコン': ['発電機で電源を供給（パソコン）'],
             'プリンター': ['発電機で電源を供給（プリンター）'],
             'Wi-Fi': ['発電機で電源を供給（Wi-Fi）'],
-            
+
             '水洗トイレ': ['必要な水を確保する'],
             '仮設トイレ': ['レンタル先を確認する'],
             '簡易トイレ': ['備蓄する（簡易トイレ）'],
             'オムツ': ['備蓄する（オムツ）'],
         }
-        
+
         pdf.cell(0, 10, '建物・設備の安全対策（地震、水害）', 0, 1, 'L')
         pdf.cell(0, 10, '建物関連', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
-        
-        for measure in measure_building:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_building.get(measure, '不明'), 1, 1)
-
+        # # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_building:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_building.get(measure, '不明'))
 
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '什器・コンピュータ', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_furniture:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_furniture.get(measure, '不明'), 1, 1)
-
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_furniture:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_furniture.get(measure, '不明'))
+            # target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, target, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 110
+            # pdf.multi_cell(110, 10, measure, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, current_status_furniture.get(measure, '不明'), 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
 
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '建物外部の施設', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
-        
-        for measure in measure_external:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_external.get(measure, '不明'), 1, 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_external:
+                row = table.row()
+                target = next((t for t, m in current_status_external.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_external.get(measure, '不明'))
+            # target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, target, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 110
+            # pdf.multi_cell(110, 10, measure, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, current_status_external.get(measure, '不明'), 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
 
 
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '水害対策関連', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_flood:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_flood.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_flood:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_flood.get(measure, '不明'))
+        # for measure in measure_flood:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_flood.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # 電気
         pdf.cell(0, 10, '稼働させるべき設備及び必要な備品', 0, 1, 'L')
         pdf.cell(0, 10, '電気', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_electricity:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_electricity.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_electricity:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_electricity.get(measure, '不明'))
+        # for measure in measure_electricity:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_electricity.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # ガス
         pdf.cell(0, 10, 'ガス', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_gas:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_gas.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_gas:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_gas.get(measure, '不明'))
+        # for measure in measure_gas:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_gas.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # 飲料水
         pdf.cell(0, 10, '飲料水', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_drinking_water:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_drinking_water.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_drinking_water:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_drinking_water.get(measure, '不明'))
+        # for measure in measure_drinking_water:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_drinking_water.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # 生活用水
         pdf.cell(0, 10, '生活用水', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_life_water_new:
-            # "_new" を削除して target を生成
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明').replace('_new', '')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_life_water_new.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_life_water_new:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_life_water_new.get(measure, '不明'))
+        # for measure in measure_life_water_new:
+        #     # "_new" を削除して target を生成
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明').replace('_new', '')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_life_water_new.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # 通信
         pdf.cell(0, 10, '通信', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_communication:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明').replace('_new', '')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_communication.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_communication:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_communication.get(measure, '不明'))
+        # for measure in measure_communication:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明').replace('_new', '')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_communication.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # 情報システムのPDF出力
         pdf.cell(0, 10, '情報システム', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_info_system:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_info_system.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_info_system:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_info_system.get(measure, '不明'))
+        # for measure in measure_info_system:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_info_system.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         # 衛生面
         pdf.cell(0, 10, '衛生面', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '設備', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '代替え案', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_hygiene:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_hygiene.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('設備')
+            row.cell('代替え案')
+            row.cell('現状')
+            for measure in measure_hygiene:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_hygiene.get(measure, '不明'))
+        # for measure in measure_hygiene:
+            # target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, target, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 110
+            # pdf.multi_cell(110, 10, measure, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 40
+            # pdf.multi_cell(40, 10, current_status_hygiene.get(measure, '不明'), 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
         pdf.ln(10)
 
 
         pdf.cell(0, 10, 'インフラ', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_infrastructure:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_infrastructure.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_infrastructure:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_infrastructure.get(measure, '不明'))
+        # for measure in measure_infrastructure:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_infrastructure.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '防災備品', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_emergency:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_emergency.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_emergency:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_emergency.get(measure, '不明'))
+        # for measure in measure_emergency:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_emergency.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
+        pdf.ln(10)
 
 
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '飲料、食品', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '現状', 1, 1, 'C', 1)
 
 
-        for measure in measure_food:
-            target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
-            pdf.cell(40, 10, target, 1)
-            pdf.cell(110, 10, measure, 1)
-            pdf.cell(40, 10, current_status_food.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('現状')
+            for measure in measure_food:
+                row = table.row()
+                target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+                row.cell(target)
+                row.cell(measure)
+                row.cell(current_status_food.get(measure, '不明'))
+        # for measure in measure_food:
+        #     target = next((t for t, m in measure_target_mapping.items() if measure in m), '不明')
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 110
+        #     pdf.multi_cell(110, 10, measure, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 40
+        #     pdf.multi_cell(40, 10, current_status_food.get(measure, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '医薬品、衛生用品、日用品', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
 
 
-        for target in target_medical:
-            pdf.cell(70, 10, target, 1)
-            pdf.cell(120, 10, current_status_medical.get(target, '不明'), 1, 1)
-        pdf.ln(10) 
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('現状')
+            for target in target_medical:
+                row = table.row()
+                row.cell(target)
+                row.cell(current_status_medical.get(target, '不明'))
+        # for target in target_medical:
+        #     top = pdf.y
+        #     offset = pdf.x + 70
+        #     pdf.multi_cell(70, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 120
+        #     pdf.multi_cell(120, 10, current_status_medical.get(target, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
+        pdf.ln(10)
 
 
         pdf.cell(0, 10, '対策本部の防災備品', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
 
 
-        for target in target_headquarters:
-            pdf.cell(70, 10, target, 1)
-            pdf.cell(120, 10, current_status_headquarters.get(target, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('現状')
+            for target in target_headquarters:
+                row = table.row()
+                row.cell(target)
+                row.cell(current_status_headquarters.get(target, '不明'))
+        # for target in target_headquarters:
+        #     top = pdf.y
+        #     offset = pdf.x + 70
+        #     pdf.multi_cell(70, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 120
+        #     pdf.multi_cell(120, 10, current_status_headquarters.get(target, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '感染防止', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
 
 
-        for target in target_prevention:
-            pdf.cell(70, 10, target, 1)
-            pdf.cell(120, 10, current_status_prevention.get(target, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('現状')
+            for target in target_prevention:
+                row = table.row()
+                row.cell(target)
+                row.cell(current_status_electricity.get(target, '不明'))
+        # for target in target_prevention:
+        #     top = pdf.y
+        #     offset = pdf.x + 70
+        #     pdf.multi_cell(70, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 120
+        #     pdf.multi_cell(120, 10, current_status_prevention.get(target, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '車両', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(70, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(120, 10, '現状', 1, 1, 'C', 1)
 
 
-        for target in target_vehicle:
-            pdf.cell(70, 10, target, 1)
-            pdf.cell(120, 10, current_status_vehicle.get(target, '不明'), 1, 1)
-        pdf.ln(10)    
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('現状')
+            for target in target_vehicle:
+                row = table.row()
+                row.cell(target)
+                row.cell(current_status_vehicle.get(target, '不明'))
+        # for target in target_vehicle:
+        #     top = pdf.y
+        #     offset = pdf.x + 70
+        #     pdf.multi_cell(70, 10, target, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 120
+        #     pdf.multi_cell(120, 10, current_status_vehicle.get(target, '不明'), 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
+        pdf.ln(10)
 
 
         pdf.cell(0, 10, '資金手当', 0, 1, 'L')
-        pdf.multi_cell(0, 10, funding_measures, 1)
+        pdf.multi_cell(effective_page_width, 10, funding_measures, 1)
         pdf.ln(10)
 
 
         # 他施設・地域との連携内容をPDFに追加
         pdf.cell(0, 10, '他施設・地域との連携', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
-        
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
+
         partner_names = session.get('partner_names', [])
         partner_addresses = session.get('partner_addresses', [])
         partner_phones = session.get('partner_phones', [])
         partner_persons = session.get('partner_persons', [])
         partner_contents = session.get('partner_contents', [])
-        
-        for name, address, phone, person, content in zip(partner_names, partner_addresses, partner_phones, partner_persons, partner_contents):
-            pdf.cell(30, 10, name, 1)
-            pdf.cell(50, 10, address, 1)
-            pdf.cell(30, 10, phone, 1)
-            pdf.cell(30, 10, person, 1)
-            pdf.cell(50, 10, content, 1, 1)
+
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('名称')
+            row.cell('住所')
+            row.cell('電話')
+            row.cell('担当者')
+            row.cell('連携内容')
+            for data_row in zip(partner_names, partner_addresses, partner_phones, partner_persons, partner_contents):
+
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
+            # top = pdf.y
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, name, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 50
+            # pdf.multi_cell(50, 10, address, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, phone, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, person, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # top = pdf.y
+            # offset = pdf.x + 50
+            # pdf.multi_cell(50, 10, content, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
 
 
         pdf.ln(10)
@@ -1339,25 +1799,56 @@ def generate_pdf():
 
         # 同一法人内の他施設との連携内容をPDFに追加
         pdf.cell(0, 10, '同一法人内の他施設との連携', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
-        
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
+
         internal_partner_names = session.get('internal_partner_names', [])
         internal_partner_addresses = session.get('internal_partner_addresses', [])
         internal_partner_phones = session.get('internal_partner_phones', [])
         internal_partner_persons = session.get('internal_partner_persons', [])
         internal_partner_contents = session.get('internal_partner_contents', [])
-        
-        for name, address, phone, person, content in zip(internal_partner_names, internal_partner_addresses, internal_partner_phones, internal_partner_persons, internal_partner_contents):
-            pdf.cell(30, 10, name, 1)
-            pdf.cell(50, 10, address, 1)
-            pdf.cell(30, 10, phone, 1)
-            pdf.cell(30, 10, person, 1)
-            pdf.cell(50, 10, content, 1, 1)
+
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('名称')
+            row.cell('住所')
+            row.cell('電話')
+            row.cell('担当者')
+            row.cell('連携内容')
+            for data_row in zip(internal_partner_names, internal_partner_addresses, internal_partner_phones, internal_partner_persons, internal_partner_contents):
+
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
+            # top = pdf.y
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, name, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 50
+            # pdf.multi_cell(50, 10, address, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, phone, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, person, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 50
+            # pdf.multi_cell(50, 10, content, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
 
 
         pdf.ln(10)
@@ -1365,25 +1856,55 @@ def generate_pdf():
 
         # 協力医療機関リスト内容をPDFに追加
         pdf.cell(0, 10, '協力医療機関リスト', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
-        
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
+
         medical_partner_names = session.get('medical_partner_names', [])
         medical_partner_addresses = session.get('medical_partner_addresses', [])
         medical_partner_phones = session.get('medical_partner_phones', [])
         medical_partner_persons = session.get('medical_partner_persons', [])
         medical_partner_contents = session.get('medical_partner_contents', [])
-        
-        for name, address, phone, person, content in zip(medical_partner_names, medical_partner_addresses, medical_partner_phones, medical_partner_persons, medical_partner_contents):
-            pdf.cell(30, 10, name, 1)
-            pdf.cell(50, 10, address, 1)
-            pdf.cell(30, 10, phone, 1)
-            pdf.cell(30, 10, person, 1)
-            pdf.cell(50, 10, content, 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('名称')
+            row.cell('住所')
+            row.cell('電話')
+            row.cell('担当者')
+            row.cell('連携内容')
+            for data_row in zip(medical_partner_names, medical_partner_addresses, medical_partner_phones, medical_partner_persons, medical_partner_contents):
+
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
+            # top = pdf.y
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, name, 1)
+            # next_top = pdf.y
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 50
+            # pdf.multi_cell(50, 10, address, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, phone, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 30
+            # pdf.multi_cell(30, 10, person, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = top
+            # pdf.x = offset
+            # offset = pdf.x + 50
+            # pdf.multi_cell(50, 10, content, 1)
+            # next_top = max(next_top, pdf.y)
+            # pdf.y = next_top
 
 
         pdf.ln(10)
@@ -1391,25 +1912,61 @@ def generate_pdf():
 
         # 協力医療機関以外の関係協力機関内容をPDFに追加
         pdf.cell(0, 10, '協力医療機関以外の関係協力機関', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
-        
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
+
         external_partner_names = session.get('external_partner_names', [])
         external_partner_addresses = session.get('external_partner_addresses', [])
         external_partner_phones = session.get('external_partner_phones', [])
         external_partner_persons = session.get('external_partner_persons', [])
         external_partner_contents = session.get('external_partner_contents', [])
-        
-        for name, address, phone, person, content in zip(external_partner_names, external_partner_addresses, external_partner_phones, external_partner_persons, external_partner_contents):
-            pdf.cell(30, 10, name, 1)
-            pdf.cell(50, 10, address, 1)
-            pdf.cell(30, 10, phone, 1)
-            pdf.cell(30, 10, person, 1)
-            pdf.cell(50, 10, content, 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('名称')
+            row.cell('住所')
+            row.cell('電話')
+            row.cell('担当者')
+            row.cell('連携内容')
+            for data_row in zip(external_partner_names, external_partner_addresses, external_partner_phones, external_partner_persons, external_partner_contents):
+
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
+
+        # for name, address, phone, person, content
+        #     top = pdf.y
+        #     offset = pdf.x + 30
+        #     pdf.multi_cell(30, 10, name, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 50
+        #     pdf.multi_cell(50, 10, address, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 30
+        #     pdf.multi_cell(30, 10, phone, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 30
+        #     pdf.multi_cell(30, 10, person, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 50
+        #     pdf.multi_cell(50, 10, content, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
 
 
         pdf.ln(10)
@@ -1417,25 +1974,60 @@ def generate_pdf():
 
         # 区市町村担当部署、地域包括支援センター、福祉避難所、管轄消防、自治会、建築指導、保健所等内容をPDFに追加
         pdf.cell(0, 10, '区市町村担当部署、地域包括支援センター、福祉避難所、管轄消防、自治会、建築指導、保健所等', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
-        
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
+
         community_partner_names = session.get('community_partner_names', [])
         community_partner_addresses = session.get('community_partner_addresses', [])
         community_partner_phones = session.get('community_partner_phones', [])
         community_partner_persons = session.get('community_partner_persons', [])
         community_partner_contents = session.get('community_partner_contents', [])
-        
-        for name, address, phone, person, content in zip(community_partner_names, community_partner_addresses, community_partner_phones, community_partner_persons, community_partner_contents):
-            pdf.cell(30, 10, name, 1)
-            pdf.cell(50, 10, address, 1)
-            pdf.cell(30, 10, phone, 1)
-            pdf.cell(30, 10, person, 1)
-            pdf.cell(50, 10, content, 1, 1)
+
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('名称')
+            row.cell('住所')
+            row.cell('電話')
+            row.cell('担当者')
+            row.cell('連携内容')
+            for data_row in zip(community_partner_names, community_partner_addresses, community_partner_phones, community_partner_persons, community_partner_contents):
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
+        # for name, address, phone, person, content
+        #     top = pdf.y
+        #     offset = pdf.x + 30
+        #     pdf.multi_cell(30, 10, name, 1)
+        #     next_top = pdf.y
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 50
+        #     pdf.multi_cell(50, 10, address, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 30
+        #     pdf.multi_cell(30, 10, phone, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 30
+        #     pdf.multi_cell(30, 10, person, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = top
+        #     pdf.x = offset
+        #     top = pdf.y
+        #     offset = pdf.x + 50
+        #     pdf.multi_cell(50, 10, content, 1)
+        #     next_top = max(next_top, pdf.y)
+        #     pdf.y = next_top
 
 
         pdf.ln(10)
@@ -1447,7 +2039,7 @@ def generate_pdf():
         if bcp_training:
             pdf.set_fill_color(240, 240, 240)  # ボックスの色
             training_text = "\n".join(bcp_training)
-            pdf.multi_cell(0, 10, training_text, 1, 'L', 1)
+            pdf.multi_cell(effective_page_width, 10, training_text, 1, 'L')
         pdf.ln(10)
 
 
@@ -1460,41 +2052,110 @@ def generate_pdf():
             review_text = "\n".join(bcp_review)
             if "毎年２回に管理者が理事会に報告する。" in bcp_review:
                 review_text += "\n報告月: " + " ".join(report_months)
-            pdf.multi_cell(0, 10, review_text, 1, 'L', 1)
+            pdf.multi_cell(effective_page_width, 10, review_text, 1, 'L')
+        pdf.ln(10)
+
+        inventory = [{'item': '項目', 'quantity': '必要量', 'stock':'現備蓄量', 'unit': '単位', 'location': '保管場所', 'person': '担当者', 'supplier': '調達先', 'date': '日付', 'note': '備考'}] + session.get('inventory', [])
+        pdf.cell(0, 10, '備蓄品管理', 0, 1, 'L')
+        # # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '項目', 1, 0, 'C', 1)
+        # pdf.cell(15, 10, '必要量', 1, 0, 'C', 1)
+        # pdf.cell(15, 10, '現備蓄量', 1, 0, 'C', 1)
+        # pdf.cell(10, 10, '単位', 1, 0, 'C', 1)
+        # pdf.cell(25, 10, '保管場所', 1, 0, 'C', 1)
+        # pdf.cell(20, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(20, 10, '調達先', 1, 0, 'C', 1)
+        # pdf.cell(25, 10, '日付', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '備考', 1, 1, 'C', 1)
+        with pdf.table() as table:
+
+            for item in inventory:
+                row = table.row()
+                for datum in item.values():
+                    row.cell(datum)
+                # for datum in item.values:
+                #     row.cell(datum)
+            #     top = pdf.y
+            #     offset = pdf.x + 30
+            #     pdf.multi_cell(30, 10, item['item'], 1)
+            #     if top + 10 > pdf.page_break_trigger:
+            #         next_top = pdf.y
+
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 15
+            #     pdf.multi_cell(15, 10, item['quantity'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 15
+            #     pdf.multi_cell(15, 10, item['stock'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 10
+            #     pdf.multi_cell(10, 10, item['unit'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 25
+            #     pdf.multi_cell(25, 10, item['location'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 20
+            #     pdf.multi_cell(20, 10, item['person'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 20
+            #     pdf.multi_cell(20, 10, item['supplier'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 25
+            #     pdf.multi_cell(25, 10, item['date'], 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = top
+            #     pdf.x = offset
+            #     offset = pdf.x + 30
+            #     pdf.multi_cell(30, 10, item['note'], 1, 1)
+            #     next_top = max(next_top, pdf.y)
+            #     pdf.y = next_top
         pdf.ln(10)
 
 
-
-
-        inventory = session.get('inventory', [])
-        add_table_data(pdf, inventory)
-        pdf.ln(10)
-
-
-        pdf.set_font('IPAexGothic', '', 16)
-        pdf.cell(0, 10, '緊急時', 0, 1, 'L') 
-        pdf.set_font('IPAexGothic', '', 10.5)
+        pdf.set_font('NotoSansJP', '', 16)
+        pdf.cell(0, 10, '緊急時', 0, 1, 'L')
+        pdf.set_font('NotoSansJP', '', 10.5)
         pdf.ln(10)
 
 
         # BCP発動基準の追加
         pdf.cell(0, 10, 'BCP 発動基準', 0, 1, 'L')
+        pdf.ln()
         bcp_criteria = session.get('bcp_criteria', [])
-        
-        if '地震' in bcp_criteria:
-            earthquake_city = session.get('earthquake_city', '不明')
-            earthquake_intensity = session.get('earthquake_intensity', '不明')
-            pdf.multi_cell(0, 10, f"地震：本書に定める緊急時体制は、{earthquake_city}市周辺において、震度{earthquake_intensity}以上の地震が発生したとき。", 1, 'L', 1)
-        if '津波' in bcp_criteria:
-            tsunami_warning = session.get('tsunami_warning', '不明')
-            pdf.multi_cell(0, 10, f"津波：気象庁の津波{tsunami_warning}が発令された場合。", 1, 'L', 1)
-        if '水害' in bcp_criteria:
-            flood_warning = session.get('flood_warning', '不明')
-            pdf.multi_cell(0, 10, f"水害：避難する時間も考慮して考える。施設所在地の都道府県で大型台風の直撃が見込まれる場合。気象庁の警戒レベル{flood_warning}が発令された場合。", 1, 'L', 1)
-        if '雪害' in bcp_criteria:
-            pdf.multi_cell(0, 10, "雪害：気象庁の大雪注意報等、気象庁の大雪警報等がが発令された場合。", 1, 'L', 1)
-        if '高潮' in bcp_criteria:
-            pdf.multi_cell(0, 10, "高潮：気象庁の高潮注意報、気象庁の高潮警報が発令された場合。", 1, 'L', 1)
+        with pdf.table() as table:
+            if '地震' in bcp_criteria:
+                row = table.row()
+                earthquake_city = session.get('earthquake_city', '不明')
+                earthquake_intensity = session.get('earthquake_intensity', '不明')
+                row.cell(f"地震：本書に定める緊急時体制は、{earthquake_city}市周辺において、震度{earthquake_intensity}以上の地震が発生したとき。")
+            if '津波' in bcp_criteria:
+                row = table.row()
+                tsunami_warning = session.get('tsunami_warning', '不明')
+                row.cell(f"津波：気象庁の津波{tsunami_warning}が発令された場合。")
+
+            if '水害' in bcp_criteria:
+                row = table.row()
+                flood_warning = session.get('flood_warning', '不明')
+                row.cell(f"水害：避難する時間も考慮して考える。施設所在地の都道府県で大型台風の直撃が見込まれる場合。気象庁の警戒レベル{flood_warning}が発令された場合。")
+            if '雪害' in bcp_criteria:
+                row = table.row()
+                row.cell("雪害：気象庁の大雪注意報等、気象庁の大雪警報等がが発令された場合。")
+            if '高潮' in bcp_criteria:
+                row = table.row()
+                row.cell("高潮：気象庁の高潮注意報、気象庁の高潮警報が発令された場合。")
         pdf.ln(10)
 
 
@@ -1522,33 +2183,34 @@ def generate_pdf():
 
 
         pdf.cell(0, 10, '対象職員：昼間:', 0, 1, 'L')
-        pdf.cell(0, 10, ', '.join(day_staff), 0, 1, 'L')
+        pdf.multi_cell(effective_page_width, 10, ', '.join(day_staff), 0, 'L')
         if other_day_staff:
-            pdf.cell(0, 10, f'その他 - {other_day_staff}', 0, 1, 'L')
+            pdf.multi_cell(effective_page_width, 10, f'その他 - {other_day_staff}', 'L')
+        pdf.ln()
 
 
         pdf.cell(0, 10, '対象職員：夜間:', 0, 1, 'L')
-        pdf.cell(0, 10, ', '.join(night_staff), 0, 1, 'L')
+        pdf.multi_cell(effective_page_width, 10, ', '.join(night_staff), 'L')
         if other_night_staff:
-            pdf.cell(0, 10, f'その他 - {other_night_staff}', 0, 1, 'L')
+            pdf.multi_cell(effective_page_width, 10, f'その他 - {other_night_staff}', 'L')
+        pdf.ln()
+
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '対応拠点:', 0, 1, 'L')
-        pdf.cell(0, 10, f'地震 - 第一拠点: {session.get("earthquake_first_base", "")}', 0, 1, 'L')
-        pdf.cell(0, 10, f'地震 - 第二拠点: {session.get("earthquake_second_base", "")}', 0, 1, 'L')
-        pdf.cell(0, 10, f'水害 - 第一拠点: {session.get("flood_first_base", "")}', 0, 1, 'L')
-        pdf.cell(0, 10, f'水害 - 第二拠点: {session.get("flood_second_base", "")}', 0, 1, 'L')
+        pdf.multi_cell(effective_page_width, 10, f'地震 - 第一拠点: {session.get("earthquake_first_base", "")}',  'L')
+        pdf.ln()
+        pdf.multi_cell(effective_page_width, 10, f'地震 - 第二拠点: {session.get("earthquake_second_base", "")}', 'L')
+        pdf.ln()
+        pdf.multi_cell(effective_page_width, 10, f'水害 - 第一拠点: {session.get("flood_first_base", "")}', 'L')
+        pdf.ln()
+        pdf.multi_cell(effective_page_width, 10, f'水害 - 第二拠点: {session.get("flood_second_base", "")}', 'L')
         pdf.ln(10)
 
 
         # 対応体制の追加
         pdf.cell(0, 10, '対応体制', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '役職', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '名前', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策本部における職務', 1, 1, 'C', 1)
-
 
         response_positions = session.get('response_positions', [])
         response_names = session.get('response_names', [])
@@ -1565,18 +2227,25 @@ def generate_pdf():
         }
 
 
-        for position, name in zip(response_positions, response_names):
-            duty = position_duties.get(position, '不明')
-            pdf.cell(40, 10, position, 1)
-            pdf.cell(40, 10, name, 1)
-            pdf.cell(110, 10, duty, 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('役職')
+            row.cell('名前')
+            row.cell('対策本部における職務')
+            for data_row in zip(response_positions, response_names):
+                row = table.row()
+                for datum in data_row:
+                    row.cell(datum)
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '職員の安否確認:', 0, 1, 'L')
-        pdf.multi_cell(0, 10, '-職員の安否確認を速やかに行う。\n-速やかに安否確認結果を記録できるよう安否確認シートを準備しておく。')
-        pdf.multi_cell(0, 10, '＜施設内＞\n・職員の安否確認は、利用者の安否確認とあわせて各エリアでエリアリーダーが点呼を行い管理者に報告する。')
-        pdf.multi_cell(0, 10, '＜施設外・自宅等＞\n・施設外・自宅等で被災した場合は、以下の方法で施設に自身の安否情報を報告する。')
+        pdf.multi_cell(effective_page_width, 10, '-職員の安否確認を速やかに行う。\n-速やかに安否確認結果を記録できるよう安否確認シートを準備しておく。')
+        pdf.ln()
+        pdf.multi_cell(effective_page_width, 10, '＜施設内＞\n・職員の安否確認は、利用者の安否確認とあわせて各エリアでエリアリーダーが点呼を行い管理者に報告する。')
+        pdf.ln()
+        pdf.multi_cell(effective_page_width, 10, '＜施設外・自宅等＞\n・施設外・自宅等で被災した場合は、以下の方法で施設に自身の安否情報を報告する。')
+        pdf.ln()
 
 
         # 報告方法
@@ -1601,12 +2270,12 @@ def generate_pdf():
 
         # 入居者・利用者の安否確認の追加
         pdf.cell(0, 10, '入居者・利用者の安否確認:', 0, 1, 'L')
-        pdf.multi_cell(0, 10, '●入居者・利用者の安否確認を速やかに行う。\n'
+        pdf.multi_cell(effective_page_width, 10, '●入居者・利用者の安否確認を速やかに行う。\n'
                             '●速やかに安否確認結果を記録できるよう安否確認シートを準備しておく。\n'
                             '＜施設内＞\n'
                             '・安否確認は、利用者の安否確認とあわせて各エリアでエリアリーダーが点呼を行い、管理者に報告する。\n')
         pdf.ln(10)
-    
+
         # 施設内の避難場所
         internal_evacuation_site_1 = session.get('internal_evacuation_site_1', '不明')
         internal_evacuation_site_2 = session.get('internal_evacuation_site_2', '不明')
@@ -1627,80 +2296,93 @@ def generate_pdf():
 
         pdf.cell(0, 10, '重要業務の継続', 0, 1, 'L')
         # テーブルのヘッダー
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(24, 10, '経過 目安', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '夜間 職員のみ', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '発災後 6時間', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '発災後 1日', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '発災後 3日', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '発災後 7日', 1, 1, 'C', 1)
-
-
-        # 出勤率
-        pdf.set_fill_color(240, 240, 240)
-        pdf.cell(24, 10, '出勤率', 1, 0, 'L', 1)
-        pdf.cell(33.3, 10, '出勤率3％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '出勤率30％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '出勤率50％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '出勤率70％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '出勤率90％', 1, 1, 'C', 1)
-
-
-        # 在庫量
-        pdf.set_fill_color(240, 240, 240)
-        pdf.cell(24, 10, '在庫量', 1, 0, 'L', 1)
-        pdf.cell(33.3, 10, '在庫100％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '在庫90％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '在庫70％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '在庫20％', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '在庫正常', 1, 1, 'C', 1)
-
-
-        # ライフライン
-        pdf.set_fill_color(240, 240, 240)
-        pdf.cell(24, 10, 'ライフライン', 1, 0, 'L', 1)
-        pdf.cell(33.3, 10, '停電、断水', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '停電、断水', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '停電、断水', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '断水', 1, 0, 'C', 1)
-        pdf.cell(33.3, 10, '復旧', 1, 1, 'C', 1)
-
-
-        # データをセッションから取得してテーブルに追加
-        def add_criteria_row(pdf, criteria_name, criteria):
-            pdf.cell(24, 10, criteria_name, 1)
-            pdf.cell(33.3, 10, criteria.get('night', '未選択'), 1)
-            pdf.cell(33.3, 10, criteria.get('6h', '未選択'), 1)
-            pdf.cell(33.3, 10, criteria.get('1d', '未選択'), 1)
-            pdf.cell(33.3, 10, criteria.get('3d', '未選択'), 1)
-            pdf.cell(33.3, 10, criteria.get('7d', '未選択'), 1)
-            pdf.ln(10)
-
-
-        business_criteria = session.get('business_criteria', {})
-        meal_service = session.get('meal_service', {})
-        meal_assistance = session.get('meal_assistance', {})
-        oral_care = session.get('oral_care', {})
-        hydration = session.get('hydration', {})
-        bathing_assistance = session.get('bathing_assistance', {})
-
-        pdf.set_font('IPAexGothic', '', 4.5)
-        add_criteria_row(pdf, '業務基準', business_criteria)
-        add_criteria_row(pdf, '給食', meal_service)
-        add_criteria_row(pdf, '食事介助', meal_assistance)
-        add_criteria_row(pdf, '口腔ケア', oral_care)
-        add_criteria_row(pdf, '水分補給', hydration)
-        add_criteria_row(pdf, '入浴介助', bathing_assistance)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('経過 目安')
+            row.cell('夜間 職員のみ')
+            row.cell('発災後 6時間')
+            row.cell('発災後 1日')
+            row.cell('発災後 3日')
+            row.cell('発災後 7日')
+            row= table.row()
+            row.cell('出勤率')
+            row.cell('出勤率3％')
+            row.cell('出勤率30％')
+            row.cell('出勤率50％')
+            row.cell('出勤率70％')
+            row.cell('出勤率90％')
+            row = table.row()
+            row.cell('在庫量')
+            row.cell('在庫100％')
+            row.cell('在庫90％')
+            row.cell('在庫70％')
+            row.cell('在庫20％')
+            row.cell('在庫正常')
+            row = table.row()
+            row.cell('ライフライン')
+            row.cell('停電、断水')
+            row.cell('停電、断水')
+            row.cell('停電、断水')
+            row.cell('断水')
+            row.cell('復旧')
+            business_criteria = session.get('business_criteria', {})
+            meal_service = session.get('meal_service', {})
+            meal_assistance = session.get('meal_assistance', {})
+            oral_care = session.get('oral_care', {})
+            hydration = session.get('hydration', {})
+            bathing_assistance = session.get('bathing_assistance', {})
+            row = table.row()
+            row.cell('業務基準')
+            row.cell(business_criteria.get('night', '未選択'))
+            row.cell(business_criteria.get('6h', '未選択'))
+            row.cell(business_criteria.get('1d', '未選択'))
+            row.cell(business_criteria.get('3d', '未選択'))
+            row.cell(business_criteria.get('7d', '未選択'))
+            row = table.row()
+            row.cell('給食')
+            row.cell(meal_service.get('night', '未選択'))
+            row.cell(meal_service.get('6h', '未選択'))
+            row.cell(meal_service.get('1d', '未選択'))
+            row.cell(meal_service.get('3d', '未選択'))
+            row.cell(meal_service.get('7d', '未選択'))
+            row = table.row()
+            row.cell('食事介助')
+            row.cell(meal_assistance.get('night', '未選択'))
+            row.cell(meal_assistance.get('6h', '未選択'))
+            row.cell(meal_assistance.get('1d', '未選択'))
+            row.cell(meal_assistance.get('3d', '未選択'))
+            row.cell(meal_assistance.get('7d', '未選択'))
+            row = table.row()
+            row.cell('口腔ケア')
+            row.cell(oral_care.get('night', '未選択'))
+            row.cell(oral_care.get('6h', '未選択'))
+            row.cell(oral_care.get('1d', '未選択'))
+            row.cell(oral_care.get('3d', '未選択'))
+            row.cell(oral_care.get('7d', '未選択'))
+            row = table.row()
+            row.cell('水分補給')
+            row.cell(hydration.get('night', '未選択'))
+            row.cell(hydration.get('6h', '未選択'))
+            row.cell(hydration.get('1d', '未選択'))
+            row.cell(hydration.get('3d', '未選択'))
+            row.cell(hydration.get('7d', '未選択'))
+            row = table.row()
+            row.cell('入浴介助')
+            row.cell(bathing_assistance.get('night', '未選択'))
+            row.cell(bathing_assistance.get('6h', '未選択'))
+            row.cell(bathing_assistance.get('1d', '未選択'))
+            row.cell(bathing_assistance.get('3d', '未選択'))
+            row.cell(bathing_assistance.get('7d', '未選択'))
         pdf.ln(10)
-        pdf.set_font('IPAexGothic', '', 10.5)
+        pdf.set_font('NotoSansJP', '', 10.5)
 
         pdf.ln(10)
         # タイトル
         pdf.cell(0, 10, '重要業務の継続:夜間職員のみ', 0, 1, 'L')
         # テーブルの行
         def add_row(pdf, label, value):
-            pdf.cell(30, 10, label, 1, 0, 'L', 1)
-            pdf.cell(150, 10, value, 1, 1, 'C', 1)
+            pdf.cell(30, 10, label, 1, 0, 'L')
+            pdf.cell(150, 10, value, 1, 1, 'C')
 
         # テーブルのデータをセッションから取得して追加
         business_criteria = session.get('business_criteria', {}).get('night', '未選択')
@@ -1725,8 +2407,8 @@ def generate_pdf():
         pdf.cell(0, 10, '重要業務の継続:発災後6時間', 0, 1, 'L')
         # テーブルの行
         def add_row(pdf, label, value):
-            pdf.cell(30, 10, label, 1, 0, 'L', 1)
-            pdf.cell(150, 10, value, 1, 1, 'C', 1)
+            pdf.cell(30, 10, label, 1, 0, 'L')
+            pdf.cell(150, 10, value, 1, 1, 'C')
 
         # テーブルのデータをセッションから取得して追加
         business_criteria = session.get('business_criteria', {}).get('6h', '未選択')
@@ -1751,8 +2433,8 @@ def generate_pdf():
         pdf.cell(0, 10, '重要業務の継続:発災後1日', 0, 1, 'L')
         # テーブルの行
         def add_row(pdf, label, value):
-            pdf.cell(30, 10, label, 1, 0, 'L', 1)
-            pdf.cell(150, 10, value, 1, 1, 'C', 1)
+            pdf.cell(30, 10, label, 1, 0, 'L')
+            pdf.cell(150, 10, value, 1, 1, 'C')
 
         # テーブルのデータをセッションから取得して追加
         business_criteria = session.get('business_criteria', {}).get('1d', '未選択')
@@ -1777,8 +2459,8 @@ def generate_pdf():
         pdf.cell(0, 10, '重要業務の継続:発災後3日', 0, 1, 'L')
         # テーブルの行
         def add_row(pdf, label, value):
-            pdf.cell(30, 10, label, 1, 0, 'L', 1)
-            pdf.cell(150, 10, value, 1, 1, 'C', 1)
+            pdf.cell(30, 10, label, 1, 0, 'L')
+            pdf.cell(150, 10, value, 1, 1, 'C')
 
         # テーブルのデータをセッションから取得して追加
         business_criteria = session.get('business_criteria', {}).get('3d', '未選択')
@@ -1803,8 +2485,8 @@ def generate_pdf():
         pdf.cell(0, 10, '重要業務の継続:発災後7日', 0, 1, 'L')
         # テーブルの行
         def add_row(pdf, label, value):
-            pdf.cell(30, 10, label, 1, 0, 'L', 1)
-            pdf.cell(150, 10, value, 1, 1, 'C', 1)
+            pdf.cell(30, 10, label, 1, 0, 'L')
+            pdf.cell(150, 10, value, 1, 1, 'C')
 
         # テーブルのデータをセッションから取得して追加
         business_criteria = session.get('business_criteria', {}).get('7d', '未選択')
@@ -1847,10 +2529,10 @@ def generate_pdf():
         measure_options = session.get('measure_options', {})
         # 復旧対応 破損個所の確認表の整備のセクションを追加
         pdf.cell(0, 10, '復旧対応 破損個所の確認表の整備', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
-        pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
-        pdf.cell(40, 10, '破損状況', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(40, 10, '対象', 1, 0, 'C', 1)
+        # pdf.cell(110, 10, '対策', 1, 0, 'C', 1)
+        # pdf.cell(40, 10, '破損状況', 1, 1, 'C', 1)
 
 
         target_recovery_res = session.get('target_recovery_res', [])
@@ -1858,23 +2540,47 @@ def generate_pdf():
         current_status_recovery_res = session.get('current_status_recovery_res', {})
 
 
-        for target in target_recovery_res:
-            for measure in measure_options.get(target, []):
-                pdf.cell(40, 10, target.replace('_res', ''), 1)
-                pdf.cell(110, 10, measure, 1)
-                pdf.cell(40, 10, current_status_recovery_res.get(measure, '不明'), 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('対象')
+            row.cell('対策')
+            row.cell('破損状況')
+            for target in target_recovery_res:
+                for measure in measure_options.get(target, []):
+                    row = table.row()
+                    row.cell(target.replace('_res', ''))
+                    row.cell(measure)
+                    row.cell(current_status_recovery_res.get(measure, '不明'))
+
+                # top = pdf.y
+                # offset = pdf.x + 40
+                # pdf.multi_cell(40, 10, target.replace('_res', ''), 1)
+                # next_top = pdf.y
+                # pdf.y = top
+                # pdf.x = offset
+                # top = pdf.y
+                # offset = pdf.x + 110
+                # pdf.multi_cell(110, 10, measure, 1)
+                # next_top = max(next_top, pdf.y)
+                # pdf.y = top
+                # pdf.x = offset
+                # top = pdf.y
+                # offset = pdf.x + 40
+                # pdf.multi_cell(40, 10, current_status_recovery_res.get(measure, '不明'), 1)
+                # next_top = max(next_top, pdf.y)
+                # pdf.y = next_top
 
 
         pdf.ln(10)
-        
+
         # 他施設・地域との連携、同一法人内の他施設との連携、協力医療機関リスト、協力医療機関以外の関係協力機関、区市町村担当部署等の連携内容をPDFに追加
         pdf.cell(0, 10, '復旧対応 業者連絡先一覧の整備', 0, 1, 'L')
-        pdf.set_fill_color(200, 200, 200)
-        pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
-        pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
-        pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
+        # pdf.set_fill_color(200, 200, 200)
+        # pdf.cell(30, 10, '名称', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '住所', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '電話', 1, 0, 'C', 1)
+        # pdf.cell(30, 10, '担当者', 1, 0, 'C', 1)
+        # pdf.cell(50, 10, '連携内容', 1, 1, 'C', 1)
 
 
         # データの取得と統合
@@ -1888,13 +2594,46 @@ def generate_pdf():
 
 
         # 各連携内容のデータをPDFに追加
-        for section_title, names, addresses, phones, persons, contents in partner_data:
-            for name, address, phone, person, content in zip(names, addresses, phones, persons, contents):
-                pdf.cell(30, 10, name, 1)
-                pdf.cell(50, 10, address, 1)
-                pdf.cell(30, 10, phone, 1)
-                pdf.cell(30, 10, person, 1)
-                pdf.cell(50, 10, content, 1, 1)
+        with pdf.table() as table:
+            row = table.row()
+            row.cell('名称')
+            row.cell('住所')
+            row.cell('電話')
+            row.cell('担当者')
+            row.cell('連携内容')
+            for section_title, names, addresses, phones, persons, contents in partner_data:
+                for data_row in zip(names, addresses, phones, persons, contents):
+                    row = table.row()
+                    for datum in data_row:
+                        row.cell(datum)
+                #              top = pdf.y
+                # offset = pdf.x + 30
+                # pdf.multi_cell(30, 10, name, 1)
+                # next_top = pdf.y
+                # pdf.y = top
+                # pdf.x = offset
+                # offset = pdf.x + 50
+                # pdf.multi_cell(50, 10, address, 1)
+                # next_top = max(next_top, pdf.y)
+                # pdf.y = top
+                # pdf.x = offset
+                # top = pdf.y
+                # offset = pdf.x + 30
+                # pdf.multi_cell(30, 10, phone, 1)
+                # next_top = max(next_top, pdf.y)
+                # pdf.y = top
+                # pdf.x = offset
+                # top = pdf.y
+                # offset = pdf.x + 30
+                # pdf.multi_cell(30, 10, person, 1)
+                # next_top = max(next_top, pdf.y)
+                # pdf.y = top
+                # pdf.x = offset
+                # top = pdf.y
+                # offset = pdf.x + 50
+                # pdf.multi_cell(50, 10, content, 1)
+                # next_top = max(next_top, pdf.y)
+                # pdf.y = next_top
 
 
         pdf.ln(10)
@@ -1902,7 +2641,7 @@ def generate_pdf():
 
         # 復旧対応 情報発信の整備のセクションを追加
         pdf.cell(0, 10, '復旧対応 情報発信の整備', 0, 1, 'L')
-        pdf.multi_cell(0, 10, '''●公表のタイミング、範囲、内容、方法についてあらかじめ方針を定めておく。
+        pdf.multi_cell(effective_page_width, 10, '''●公表のタイミング、範囲、内容、方法についてあらかじめ方針を定めておく。
         風評被害を招く恐れもあるため、広報・情報班が、一元的に丁寧な対応や説明を行う。
         ''')
 
@@ -1911,18 +2650,23 @@ def generate_pdf():
         public_range = session.get('public_range', [])
         public_method = session.get('public_method', [])
 
+        pdf.ln(0)
 
         pdf.cell(0, 10, '公表内容:', 0, 1, 'L')
+        pdf.ln(0)
         for content in public_content:
             pdf.cell(0, 10, f'- {content}', 0, 1, 'L')
-        
+            pdf.ln(10)
+
         pdf.cell(0, 10, '範囲:', 0, 1, 'L')
         for range_item in public_range:
             pdf.cell(0, 10, f'- {range_item}', 0, 1, 'L')
-        
+            pdf.ln(10)
+
         pdf.cell(0, 10, '方法:', 0, 1, 'L')
         for method in public_method:
             pdf.cell(0, 10, f'- {method}', 0, 1, 'L')
+            pdf.ln(10)
         pdf.ln(10)
 
 
@@ -1950,10 +2694,11 @@ def generate_pdf():
         ]
         for line in lines:
             pdf.cell(0, 10, line, 0, 1, 'L')
+            pdf.ln(10)
 
 
         pdf.ln(10)
-        
+
         pdf.cell(0, 10, '連携対応', 0, 1, 'L')
         lines = [
             "①事前準備",
@@ -1971,6 +2716,7 @@ def generate_pdf():
         ]
         for line in lines:
             pdf.cell(0, 10, line, 0, 1, 'L')
+            pdf.ln(10)
 
 
         pdf.ln(10)
@@ -1982,36 +2728,38 @@ def generate_pdf():
         if local_cooperation_dispatch:
             for item in local_cooperation_dispatch:
                 pdf.cell(0, 10, f'- {item}', 0, 1, 'L')
+                pdf.ln(10)
         else:
             pdf.cell(0, 10, '', 0, 1, 'L')
         pdf.ln(10)
 
 
         pdf.cell(0, 10, '地域との連携 福祉避難所の運営 福祉避難所の事前準備', 0, 1, 'L')
-        pdf.multi_cell(0, 10, "③福祉避難所開設の事前準備\n福祉避難所として運営できるように事前に必要な物資の確保や施設整備などを進める。\nまた、受入にあたっては支援人材の確保が重要であり、自施設の職員だけでなく、専門人材の支援が受けられるよう社会福祉協議会などの関係団体や支援団体等と支援体制について協議し、ボランティアの受入方針等について検討しておく。\n＜主な準備事項例＞")
-
+        pdf.multi_cell(effective_page_width, 10, "③福祉避難所開設の事前準備\n福祉避難所として運営できるように事前に必要な物資の確保や施設整備などを進める。\nまた、受入にあたっては支援人材の確保が重要であり、自施設の職員だけでなく、専門人材の支援が受けられるよう社会福祉協議会などの関係団体や支援団体等と支援体制について協議し、ボランティアの受入方針等について検討しておく。\n＜主な準備事項例＞")
+        pdf.ln()
 
         welfare_shelter_preparation = session.get('welfare_shelter_preparation', [])
         for item in welfare_shelter_preparation:
             pdf.cell(0, 10, f'・{item}', 0, 1, 'L')
+            pdf.ln(10)
         pdf.ln(10)
-        
+
 
 
         # 地域との連携 福祉避難所の運営 福祉避難所の指定のセクションを追加
         pdf.cell(0, 10, '地域との連携 福祉避難所の運営 福祉避難所の指定', 0, 1, 'L')
         welfare_shelter = session.get('welfare_shelter', '')
         if welfare_shelter == '福祉避難所である':
-            pdf.multi_cell(0, 10, "①福祉避難所の指定\n福祉避難所の指定を受けた場合は、自治体との協定書を添付するとともに、受入可能人数、受入場所、受入期間、受入条件など諸条件を整理して記載する。")
+            pdf.multi_cell(effective_page_width, 10, "①福祉避難所の指定\n福祉避難所の指定を受けた場合は、自治体との協定書を添付するとともに、受入可能人数、受入場所、受入期間、受入条件など諸条件を整理して記載する。")
         elif welfare_shelter == '福祉避難所でない':
-            pdf.multi_cell(0, 10, "②福祉避難所の指定がない場合\n社会福祉施設の公共性を鑑みれば、可能な限り福祉避難所の指定を受けることが望ましいが仮に指定を受けない場合でも被災時に外部から要援護者や近隣住民等の受入の要望に沿うことができるよう上記のとおり諸条件を整理しておく。\nその際、想定を超える人数の要援護者や近隣住民等が、施設・事業所へ支援を求めて来る場合も想定し、対応の仕方等を事前に検討しておく。")
+            pdf.multi_cell(effective_page_width, 10, "②福祉避難所の指定がない場合\n社会福祉施設の公共性を鑑みれば、可能な限り福祉避難所の指定を受けることが望ましいが仮に指定を受けない場合でも被災時に外部から要援護者や近隣住民等の受入の要望に沿うことができるよう上記のとおり諸条件を整理しておく。\nその際、想定を超える人数の要援護者や近隣住民等が、施設・事業所へ支援を求めて来る場合も想定し、対応の仕方等を事前に検討しておく。")
         else:
-            pdf.cell(0, 10, '選択された項目はありません', 0, 1, 'L')
+            pdf.cell(effective_page_width, 10, '選択された項目はありません', 0, 1, 'L')
         pdf.ln(10)
 
         pdf.cell(0, 10, '通所サービス固有', 0, 1, 'L')
         if '通所(デイサービス)' in priority_business:
-            pdf.multi_cell(0, 10, """（２）災害が予想される場合の対応
+            pdf.multi_cell(effective_page_width, 10, """（２）災害が予想される場合の対応
     ●台風などで甚大な被害が予想される場合などにおいては、サービスの休止・縮小を余儀なくされることを想定し、あらかじめその基準を定めておくとともに、居宅介護支援事業所にも情報共有の上、利用者やその家族にも説明する。
     ●その上で、必要に応じ、サービスの前倒し等も検討する。
     （３）災害発生時の対応
@@ -2020,11 +2768,11 @@ def generate_pdf():
     ●利用者の安全確保や家族への連絡状況を踏まえ、順次利用者の帰宅を支援する。
     その際、送迎車の利用が困難な場合も考慮して、手段を検討する。
     ●帰宅にあたって、可能であれば利用者家族の協力も得る。関係機関とも連携しながら事業所での宿泊や近くの避難所への移送等で対応する。""")
-            
+
         pdf.ln(10)
         pdf.cell(0, 10, '訪問サービス固有', 0, 1, 'L')
         if '訪問(与薬、食事)' in priority_business or '訪問(入浴)' in priority_business:
-            pdf.multi_cell(0, 10, """（２）災害が予想される場合の対応
+            pdf.multi_cell(effective_page_width, 10, """（２）災害が予想される場合の対応
     ●台風などで甚大な被害が予想される場合などにおいては、サービスの休止・縮小を余儀なくされることを想定し、あらかじめその基準を定めておくとともに、居宅介護支援事業所にも情報共有の上、利用者やその家族にも説明する。
     ●その上で、必要に応じ、サービスの前倒し等も検討する。
     （３）災害発生時の対応
@@ -2035,7 +2783,7 @@ def generate_pdf():
 
         pdf.cell(0, 10, '居宅介護支援サービス固有', 0, 1, 'L')
         if '居宅支援(ケアマネージャー)' in priority_business:
-            pdf.multi_cell(0, 10, """（２）災害が予想される場合の対応
+            pdf.multi_cell(effective_page_width, 10, """（２）災害が予想される場合の対応
     ●訪問サービスや通所サービスについて、「台風などで甚大な被害が予想される場合などにおいては、サービスの休止・縮小を余儀なくされることを想定し、あらかじめその基準を定めておく」とされており、利用者が利用する各事業所が定める基準について、事前に情報共有し、把握しておくこと。その上で、必要に応じ、サービスの前倒し等も検討する。
     ●また、自サービスについても、台風などで甚大な被害が予想される場合などにおいては、休止・縮小を余儀なくされることを想定し、その際の対応方法を定めておくとともに、他の居宅介護支援事業所、居宅サービス事業所、地域の関係機関に共有の上、利用者やその家族にも説明する。
     （３）災害発生時の対応
@@ -2050,15 +2798,16 @@ def generate_pdf():
 
 
     except Exception as e:
-        logging.error(f"Error generating PDF: {e}")
-        return str(e), 500
-    
+        logging.error(f"Error generating PDF: {e}") 
+        return str(e), 500  
+
+
+
+# @title
+# Start the Flask server in a new thread
 if __name__ == "__main__":
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    app.run(host='0.0.0.0', port=5001)
-
-
-
+    app.run(app.run(host='0.0.0.0', port=5001))
 
 
